@@ -171,7 +171,7 @@ export class Player extends GameObject {
             for (let animatedPath of point.triggersAnimationOn) {
                 let path = [...animatedPath]
                 //console.log(path)
-                console.log(path)
+                //console.log(path)
                 let joint = this.attachedObjects[path[0]].propagateObject(path)
 
                 joint.tickMyAnimation()

@@ -27,7 +27,7 @@ export class Collider {
     collisionHandler(object1, object2) {
         if (this.collisionCheck(object1, object2) == true) {
             let transferConstant = 0.3;
-            console.log()
+            //console.log()
             if (Object.getPrototypeOf(object1.constructor).name == 'Projectile' || Object.getPrototypeOf(object2.constructor).name == 'Projectile') {
                 transferConstant = 0.05;
             }

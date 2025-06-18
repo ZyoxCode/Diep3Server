@@ -10,16 +10,16 @@
                         3,
                         0,
                         0,
-                        [],
-                        "inherets",
-                        [
-                            {
-                                "bindsTo": [
-                                    "distanceMultiplier"
-                                ]
-                            }
-                        ]
+                        []
                     ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
                 ]
             ]
         ],
@@ -41,7 +41,6 @@
                 "baseDmg": 2,
                 "triggersAnimationOn": [
                     [
-                        0,
                         0
                     ]
                 ]

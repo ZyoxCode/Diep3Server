@@ -14,7 +14,7 @@ export class AnimationKeyFrame {
 }
 
 export class Animation {
-    constructor(maxT, frames = [new AnimationKeyFrame(0, [1]), new AnimationKeyFrame(0.3, [0]), new AnimationKeyFrame(1, [1])]) {
+    constructor(maxT, frames = [new AnimationKeyFrame(0, [1]), new AnimationKeyFrame(0.3, [0.8]), new AnimationKeyFrame(1, [1])]) {
         this.currentT = -1;
         this.maxT = maxT;
         this.frames = frames
@@ -70,9 +70,7 @@ export class Joint {
         this.perpendicularDistance = perpendicularDistance;
         this.animationBehaviour = animationBehaviour;
 
-        console.log(this.animationBehaviour)
-
-        this.animationMaxTimer = 100;
+        this.animationMaxTimer = 20;
         this.distanceToNextMultiplier = 1;
 
         this.animation = new Animation(this.animationMaxTimer);
@@ -130,7 +128,17 @@ export class Joint {
         }
     }
     tickMyAnimation() {
-        let values = this.animation.tick([1])
-        this.distanceToNextMultiplier = values[0]
+
+        this.animationValues = this.animation.tick([1]) // 1 is temporary
+
+        for (let i in this.animationBehaviour) {
+            //console.log(this.animationBehaviour[i].bindsTo)
+            if (this.animationBehaviour[i].bindsTo.includes('distanceMultiplier')) {
+                this.distanceToNextMultiplier = this.animationValues[i]
+                //console.log('triggered')
+            }
+        }
+
+        //console.log(this.distanceToNextMultiplier)
     }
 }
