@@ -1,0 +1,21 @@
+{
+  "name": "diep3server",
+  "version": "1.0.0",
+  "description": "diep io 3",
+  "homepage": "https://github.com/ZyoxCode/Arras-Clone#readme",
+  "bugs": {
+    "url": "https://github.com/ZyoxCode/Arras-Clone/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZyoxCode/Arras-Clone.git"
+  },
+  "license": "ISC",
+  "author": "ZyoxCode",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  }
+}

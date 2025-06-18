@@ -1,0 +1,283 @@
+{
+    "Normal Square": {
+        "shapes": [
+            [
+                [
+                    0,
+                    0
+                ],
+                2.5,
+                0,
+                4
+            ]
+        ],
+        "stats": {
+            "score": 10,
+            "maxHp": 25,
+            "size": 2.5,
+            "damagePerTick": 1
+        },
+        "color": "squareYellow"
+    },
+    "Beta Square": {
+        "shapes": [
+            [
+                [
+                    0,
+                    0
+                ],
+                3.5,
+                0,
+                4
+            ],
+            [
+                [
+                    0,
+                    0
+                ],
+                2.1875,
+                45,
+                4
+            ]
+        ],
+        "stats": {
+            "score": 100,
+            "maxHp": 80,
+            "size": 3.5,
+            "damagePerTick": 1
+        },
+        "color": "squareYellow"
+    },
+    "Alpha Square": {
+        "shapes": [
+            [
+                [
+                    0,
+                    0
+                ],
+                5,
+                0,
+                4
+            ],
+            [
+                [
+                    0,
+                    0
+                ],
+                3.125,
+                45,
+                4
+            ],
+            [
+                [
+                    0,
+                    0
+                ],
+                1.953125,
+                0,
+                4
+            ]
+        ],
+        "stats": {
+            "score": 500,
+            "maxHp": 150,
+            "size": 5,
+            "damagePerTick": 1
+        },
+        "color": "squareYellow"
+    },
+    "Normal Triangle": {
+        "shapes": [
+            [
+                [
+                    0,
+                    0
+                ],
+                2.5,
+                0,
+                3
+            ]
+        ],
+        "stats": {
+            "score": 100,
+            "maxHp": 225,
+            "size": 2.5,
+            "damagePerTick": 1
+        },
+        "color": "triangleRed"
+    },
+    "Beta Triangle": {
+        "shapes": [
+            [
+                [
+                    0,
+                    0
+                ],
+                3.5,
+                0,
+                3
+            ],
+            [
+                [
+                    0,
+                    0
+                ],
+                1.273,
+                180,
+                3
+            ]
+        ],
+        "stats": {
+            "score": 250,
+            "maxHp": 75,
+            "size": 3.5,
+            "damagePerTick": 1
+        },
+        "color": "triangleRed"
+    },
+    "Alpha Triangle": {
+        "shapes": [
+            [
+                [
+                    0,
+                    0
+                ],
+                5,
+                0,
+                3
+            ],
+            [
+                [
+                    0,
+                    0
+                ],
+                1.82,
+                180,
+                3
+            ],
+            [
+                [
+                    0,
+                    0
+                ],
+                0.3125,
+                0,
+                3
+            ]
+        ],
+        "stats": {
+            "score": 1000,
+            "maxHp": 200,
+            "size": 5,
+            "damagePerTick": 1
+        },
+        "color": "triangleRed"
+    },
+    "Normal Pentagon": {
+        "shapes": [
+            [
+                [
+                    0,
+                    0
+                ],
+                4,
+                0,
+                5
+            ]
+        ],
+        "stats": {
+            "score": 500,
+            "maxHp": 75,
+            "size": 4,
+            "damagePerTick": 1
+        },
+        "color": "pentagonBlue"
+    },
+    "Beta Pentagon": {
+        "shapes": [
+            [
+                [
+                    0,
+                    0
+                ],
+                5,
+                0,
+                5
+            ],
+            [
+                [
+                    0,
+                    0
+                ],
+                3.5714,
+                36,
+                5
+            ]
+        ],
+        "stats": {
+            "score": 1000,
+            "maxHp": 150,
+            "size": 5,
+            "damagePerTick": 1
+        },
+        "color": "pentagonBlue"
+    },
+    "Alpha Pentagon": {
+        "shapes": [
+            [
+                [
+                    0,
+                    0
+                ],
+                6,
+                0,
+                5
+            ],
+            [
+                [
+                    0,
+                    0
+                ],
+                4.2857,
+                36,
+                5
+            ],
+            [
+                [
+                    0,
+                    0
+                ],
+                3.0612,
+                0,
+                5
+            ]
+        ],
+        "stats": {
+            "score": 5000,
+            "maxHp": 500,
+            "size": 6,
+            "damagePerTick": 1
+        },
+        "color": "pentagonBlue"
+    },
+    "Normal Hexagon": {
+        "shapes": [
+            [
+                [
+                    0,
+                    0
+                ],
+                4.5,
+                0,
+                6
+            ]
+        ],
+        "stats": {
+            "score": 750,
+            "maxHp": 100,
+            "size": 4.5,
+            "damagePerTick": 1
+        },
+        "color": "hexagonBlue"
+    }
+}

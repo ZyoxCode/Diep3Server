@@ -1,0 +1,22 @@
+{
+    "normalCell1": [
+        {
+            "name": "triangle",
+            "spawnChance": 0.3
+        },
+        {
+            "name": "square",
+            "spawnChance": 0.7
+        }
+    ],
+    "nest1": [
+        {
+            "name": "pentagon",
+            "spawnChance": 0.85
+        },
+        {
+            "name": "hexagon",
+            "spawnChance": 0.15
+        }
+    ]
+}
