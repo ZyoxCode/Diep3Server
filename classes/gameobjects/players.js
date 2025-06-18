@@ -7,6 +7,7 @@ import { Joint } from "./joints.js";
 import * as shapes from '../shapes.js';
 import * as vectors from '../../utils/vectors.js'
 import { Bullet } from "./projectiles.js";
+import { roundToDecimalPlaces } from "../../utils/utils.js";
 
 const tanks = JSON.parse(
     await readFile(
@@ -107,12 +108,10 @@ export class Player extends GameObject {
             this.firingPoints = [];
 
             for (let joint of wireframes[this.tankType].joints) {
-                //console.log(joint)
+
                 this.attachedObjects.push(new Joint(...joint))
             }
-            // for (let barrel of preset) {
-            //     this.attachedObjects.push(new Attachment(barrel.x, barrel.y, barrel.r, { ...barrel.barrelStats }, { ...barrel.spawnStats }, barrel.rendering));
-            // }
+
             this.upgradePreset = this.tankType;
             if (!(this.tankType in this.upgradeCurves)) {
                 this.upgradePreset = 'default';
@@ -120,13 +119,33 @@ export class Player extends GameObject {
 
             for (let firingPoint of this.firingInfo) {
                 let newPoint = { ...firingPoint }
+                if ('baseDelay' in newPoint) {
+                    newPoint['delay'] = newPoint.baseDelay;
+                }
+
+                if ('baseDmg' in newPoint) {
+                    newPoint['dmg'] = newPoint.baseDmg;
+                }
+
+                if ('baseHp' in newPoint) {
+                    newPoint['hp'] = newPoint.baseHp;
+                }
+
+                if ('baseSpeed' in newPoint) {
+                    newPoint['speed'] = newPoint.baseSpeed;
+                }
+                if ('baseLifespan' in newPoint) {
+                    newPoint['lifespan'] = newPoint.baseLifespan;
+                }
+
                 newPoint['cooldown'] = 0;
                 this.firingPoints.push(newPoint)
 
             }
 
 
-            //this.updateStatsOnUpgrade()
+            this.updateStatsOnUpgrade()
+            console.log(this.firingPoints)
 
             return true;
         }
@@ -142,15 +161,12 @@ export class Player extends GameObject {
         this.hp = this.hp * (newMaxHp / this.maxHp);
         this.maxHp = newMaxHp;
 
-        for (let attachment of this.attachedObjects) {
-            //console.log(attachment)
-            attachment.updateMyStats(
-                {
-                    'speed': this.upgradeCurves[this.upgradePreset]['Bullet Speed'][this.upgrades['Bullet Speed'].level],
-                    'dmg': this.upgradeCurves[this.upgradePreset]['Bullet Damage'][this.upgrades['Bullet Damage'].level],
-                    'reload': this.upgradeCurves[this.upgradePreset]['Reload Speed'][this.upgrades['Reload Speed'].level]
-                }
-            )
+        for (let firingPoint of this.firingPoints) {
+
+            firingPoint.speed = roundToDecimalPlaces(firingPoint.baseSpeed * this.upgradeCurves[this.upgradePreset]['Bullet Speed'][this.upgrades['Bullet Speed'].level], 2)
+            firingPoint.dmg = roundToDecimalPlaces(firingPoint.baseDmg * this.upgradeCurves[this.upgradePreset]['Bullet Damage'][this.upgrades['Bullet Damage'].level], 0)
+            firingPoint.delay = roundToDecimalPlaces(firingPoint.baseDelay * this.upgradeCurves[this.upgradePreset]['Reload Speed'][this.upgrades['Reload Speed'].level], 0)
+
         }
     }
     upgradeTank(newType) {
@@ -180,8 +196,8 @@ export class Player extends GameObject {
 
         }
         if (this.moveReq == true) {
-            this.velocity.x += Math.cos(this.moveReqAngle) * 0.03
-            this.velocity.y += Math.sin(this.moveReqAngle) * 0.03
+            this.velocity.x += Math.cos(this.moveReqAngle) * 0.02
+            this.velocity.y += Math.sin(this.moveReqAngle) * 0.02
         }
 
         this.velocity.x = this.velocity.x * 0.95
@@ -233,9 +249,9 @@ export class Player extends GameObject {
                     this.firingPoints[index].baseSpeed,
                     this.firingPoints[index].baseSize * (this.size / this.attachmentReferenceSize),
                     {
-                        'dmg': this.firingPoints[index].baseDmg,
-                        'hp': this.firingPoints[index].baseHp,
-                        'lifespan': this.firingPoints[index].baseLifespan,
+                        'dmg': this.firingPoints[index].dmg,
+                        'hp': this.firingPoints[index].hp,
+                        'lifespan': this.firingPoints[index].lifespan,
                         'behaviour': this.firingPoints[index].behaviour,
                         'shape': this.firingPoints[index].shape,
                     }

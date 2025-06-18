@@ -71,8 +71,11 @@ io.on('connection', (socket) => {
 
         if (Game.playerDict[socket.id].autofire == true) {
             Game.playerDict[socket.id].autofire = false;
+            socket.emit('addBroadcast', { 'text': "Autofire Off" })
+
         } else {
             Game.playerDict[socket.id].autofire = true;
+            socket.emit('addBroadcast', { 'text': "Autofire On" })
         }
 
     });

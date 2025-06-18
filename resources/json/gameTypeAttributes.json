@@ -90,7 +90,7 @@
             ]
         },
         "constants": {
-            "startScore": 100,
+            "startScore": 600,
             "startSize": 4,
             "attachmentReferenceSize": 5,
             "scoreTransfer": 0.5,
