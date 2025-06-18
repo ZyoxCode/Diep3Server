@@ -71,6 +71,11 @@ export class Joint {
         this.animationBehaviour = animationBehaviour;
 
         this.animationMaxTimer = 20;
+
+        if ('time' in this.animationBehaviour) {
+            this.animationMaxTimer = this.animationBehaviour.time;
+        }
+
         this.distanceToNextMultiplier = 1;
 
         this.animation = new Animation(this.animationMaxTimer);

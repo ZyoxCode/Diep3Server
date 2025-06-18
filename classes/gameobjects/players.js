@@ -145,7 +145,6 @@ export class Player extends GameObject {
 
 
             this.updateStatsOnUpgrade()
-            console.log(this.firingPoints)
 
             return true;
         }
@@ -223,6 +222,12 @@ export class Player extends GameObject {
     }
     fireScheduler() {
 
+        // let recoil = new vectors.Vector(0, 1)
+        // recoil.rotateAround(-player.rotation - this.rotation + Math.PI)
+        // recoil.makeUnit()
+        // recoil.scalarMultiply((this.barrelStats.spawnStartSpeed + (Math.random() - 0.5) * this.barrelStats.speedVar) * speedLambda * 0.05)
+        // player.velocity = vectors.vectorAddition(recoil, player.velocity)
+
         if (this.positionInFireOrder == this.fireOrder.length) {
             this.positionInFireOrder = 0
         }
@@ -239,14 +244,16 @@ export class Player extends GameObject {
                 let pointData = this.attachedObjects[path[0]].propagate(path, this.position, this.rotation, this.size / this.attachmentReferenceSize) // add in sizemultiplier to thing
                 let point = pointData[0]
                 let direction = pointData[1]
+                let speedVar = (Math.random() - 0.5) * this.firingPoints[index].speedVar
+                let directionVar = (Math.random() - 0.5) * this.firingPoints[index].spread
 
                 newProjectiles.push(new Bullet( // change to fit others soon
                     point.x,
                     point.y,
-                    direction,
-                    direction,
+                    direction + directionVar,
+                    direction + directionVar,
                     this.id,
-                    this.firingPoints[index].baseSpeed,
+                    this.firingPoints[index].baseSpeed + speedVar,
                     this.firingPoints[index].baseSize * (this.size / this.attachmentReferenceSize),
                     {
                         'dmg': this.firingPoints[index].dmg,
@@ -256,6 +263,16 @@ export class Player extends GameObject {
                         'shape': this.firingPoints[index].shape,
                     }
                 ))
+
+                let recoilVector = new vectors.Vector(0, 1)
+                if ('recoilMultiplier' in this.firingPoints[index]) {
+                    recoilVector.scalarMultiply(this.firingPoints[index].recoilMultiplier)
+                }
+
+                recoilVector.rotateAround((-direction + directionVar) + Math.PI)
+                recoilVector.makeUnit()
+                recoilVector.scalarMultiply((this.firingPoints[index].baseSpeed + speedVar) * 0.1)
+                this.velocity = vectors.vectorAddition(this.velocity, recoilVector)
 
                 if (this.positionInFireOrder >= this.fireOrder.length - 1) {
                     for (let j in this.fireOrder[0]) {

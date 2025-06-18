@@ -159,11 +159,7 @@
         ],
         "tier": 2,
         "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder"
+            "Triple Shot"
         ]
     },
     "Sniper": {
@@ -219,6 +215,339 @@
             ]
         ],
         "tier": 2,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder"
+        ]
+    },
+    "Machine Gun": {
+        "joints": [
+            [
+                4.4,
+                0,
+                0,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "firingInfo": [
+            {
+                "jointPath": [
+                    0,
+                    0
+                ],
+                "behaviour": "bullet",
+                "shape": "circle",
+                "spread": 0.6,
+                "speedVar": 0.2,
+                "baseDelay": 20,
+                "baseSpeed": 0.5,
+                "baseSize": 1.6,
+                "baseLifespan": 70,
+                "baseHp": 5,
+                "baseDmg": 2,
+                "triggersAnimationOn": [
+                    [
+                        0
+                    ]
+                ]
+            }
+        ],
+        "firingOrder": [
+            [
+                0
+            ]
+        ],
+        "tier": 2,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder"
+        ]
+    },
+    "Pounder": {
+        "joints": [
+            [
+                4,
+                0,
+                0,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "firingInfo": [
+            {
+                "jointPath": [
+                    0,
+                    0
+                ],
+                "behaviour": "bullet",
+                "shape": "circle",
+                "spread": 0.05,
+                "speedVar": 0.07,
+                "baseDelay": 60,
+                "baseSpeed": 0.5,
+                "baseSize": 2.7,
+                "baseLifespan": 70,
+                "baseHp": 8,
+                "baseDmg": 2.5,
+                "triggersAnimationOn": [
+                    [
+                        0
+                    ]
+                ]
+            }
+        ],
+        "firingOrder": [
+            [
+                0
+            ]
+        ],
+        "tier": 2,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder"
+        ]
+    },
+    "Triple Shot": {
+        "joints": [
+            [
+                4,
+                0,
+                0,
+                [
+                    [
+                        4.5,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                1,
+                15,
+                [
+                    [
+                        3.5,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                -1,
+                -15,
+                [
+                    [
+                        3.5,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "firingInfo": [
+            {
+                "jointPath": [
+                    0,
+                    0
+                ],
+                "behaviour": "bullet",
+                "shape": "circle",
+                "spread": 0.05,
+                "speedVar": 0.07,
+                "baseDelay": 30,
+                "baseSpeed": 0.5,
+                "baseSize": 1.7,
+                "baseLifespan": 70,
+                "baseHp": 5,
+                "baseDmg": 2,
+                "triggersAnimationOn": [
+                    [
+                        0
+                    ]
+                ]
+            },
+            {
+                "jointPath": [
+                    1,
+                    0
+                ],
+                "behaviour": "bullet",
+                "shape": "circle",
+                "spread": 0.05,
+                "speedVar": 0.07,
+                "baseDelay": 30,
+                "baseSpeed": 0.5,
+                "baseSize": 1.7,
+                "baseLifespan": 70,
+                "baseHp": 5,
+                "baseDmg": 2,
+                "triggersAnimationOn": [
+                    [
+                        1
+                    ]
+                ]
+            },
+            {
+                "jointPath": [
+                    2,
+                    0
+                ],
+                "behaviour": "bullet",
+                "shape": "circle",
+                "spread": 0.05,
+                "speedVar": 0.07,
+                "baseDelay": 30,
+                "baseSpeed": 0.5,
+                "baseSize": 1.7,
+                "baseLifespan": 70,
+                "baseHp": 5,
+                "baseDmg": 2,
+                "triggersAnimationOn": [
+                    [
+                        2
+                    ]
+                ]
+            }
+        ],
+        "firingOrder": [
+            [
+                0
+            ],
+            [
+                1,
+                2
+            ]
+        ],
+        "tier": 3,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder"
+        ]
+    },
+    "Finger": {
+        "joints": [
+            [
+                4,
+                0,
+                0,
+                [
+                    [
+                        6,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ],
+                        "time": 10
+                    }
+                ]
+            ]
+        ],
+        "firingInfo": [
+            {
+                "jointPath": [
+                    0,
+                    0
+                ],
+                "behaviour": "bullet",
+                "shape": "circle",
+                "spread": 0.02,
+                "speedVar": 0.07,
+                "baseDelay": 200,
+                "baseSpeed": 1.5,
+                "baseSize": 0.7,
+                "baseLifespan": 100,
+                "baseHp": 5,
+                "baseDmg": 10,
+                "triggersAnimationOn": [
+                    [
+                        0
+                    ]
+                ]
+            }
+        ],
+        "firingOrder": [
+            [
+                0
+            ]
+        ],
+        "tier": 1,
         "upgradesTo": [
             "Twin",
             "Machine Gun",

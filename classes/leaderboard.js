@@ -6,7 +6,7 @@ export class LeaderboardEntry {
         this.name = name;
         this.score = score;
         this.tank = tank;
-        this.mockup = new MockupPlayer(0.8, tank);
+        //this.mockup = new MockupPlayer(0.8, tank);
     }
 }
 export class Leaderboard {
