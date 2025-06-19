@@ -1,13 +1,14 @@
 import { GameObject } from "./gameobject.js";
-import { Attachment } from "./attachments.js";
 import { MockupAttachment } from "./attachments.js";
 import { readFile } from 'fs/promises';
 import { Joint } from "./joints.js";
 
+
 import * as shapes from '../shapes.js';
 import * as vectors from '../../utils/vectors.js'
-import { Bullet } from "./projectiles.js";
+import { Bullet, Trap, Construct } from "./projectiles.js";
 import { roundToDecimalPlaces } from "../../utils/utils.js";
+import { AutoTurret } from "./autoturret.js";
 
 const tanks = JSON.parse(
     await readFile(
@@ -106,6 +107,7 @@ export class Player extends GameObject {
             this.positionInFireOrder = 0;
 
             this.firingPoints = [];
+            this.autoTurrets = [];
 
             for (let joint of wireframes[this.tankType].joints) {
 
@@ -139,8 +141,15 @@ export class Player extends GameObject {
                 }
 
                 newPoint['cooldown'] = 0;
+
                 this.firingPoints.push(newPoint)
 
+            }
+
+            if ('autoTurrets' in wireframes[this.tankType]) {
+                for (let auto of wireframes[this.tankType].autoTurrets) {
+                    this.autoTurrets.push(new AutoTurret(auto))
+                }
             }
 
 
@@ -220,84 +229,175 @@ export class Player extends GameObject {
         }
 
     }
-    fireScheduler() {
-
-        // let recoil = new vectors.Vector(0, 1)
-        // recoil.rotateAround(-player.rotation - this.rotation + Math.PI)
-        // recoil.makeUnit()
-        // recoil.scalarMultiply((this.barrelStats.spawnStartSpeed + (Math.random() - 0.5) * this.barrelStats.speedVar) * speedLambda * 0.05)
-        // player.velocity = vectors.vectorAddition(recoil, player.velocity)
-
-        if (this.positionInFireOrder == this.fireOrder.length) {
-            this.positionInFireOrder = 0
+    summonProjectile(firingData) {
+        let path = [...firingData.jointPath]
+        let pointData = this.attachedObjects[path[0]].propagate(path, this.position, this.rotation, this.size / this.attachmentReferenceSize)
+        let point = pointData[0]
+        let direction = pointData[1]
+        let speedVar = (Math.random() - 0.5) * firingData.speedVar
+        let directionVar = (Math.random() - 0.5) * firingData.spread
+        let rv = 0;
+        if (Object.keys(firingData).includes('spawnRV')) {
+            rv = firingData.spawnRV
         }
 
-        let newProjectiles = []
 
-        if (this.firingPoints[this.fireOrder[this.positionInFireOrder][0]].cooldown == 0) {
-            for (let i in this.fireOrder[this.positionInFireOrder]) {
-                let index = this.fireOrder[this.positionInFireOrder][i]
-                //console.log(this.firingPoints[this.fireOrder[this.positionInFireOrder][i]].jointPath)
-                let path = [...this.firingPoints[index].jointPath]
-                //console.log(path, this.position, this.rotation, this.size / this.attachmentReferenceSize)
+        let extraStats = { 'toPos': { 'x': 0, 'y': 0 } }
+        let speedLambda = 1;
 
-                let pointData = this.attachedObjects[path[0]].propagate(path, this.position, this.rotation, this.size / this.attachmentReferenceSize) // add in sizemultiplier to thing
-                let point = pointData[0]
-                let direction = pointData[1]
-                let speedVar = (Math.random() - 0.5) * this.firingPoints[index].speedVar
-                let directionVar = (Math.random() - 0.5) * this.firingPoints[index].spread
+        if (firingData.behaviour == 'construct') {
+            extraStats['toPos'].x = this.mousePos.x;
+            extraStats['toPos'].y = this.mousePos.y;
+            if (vectors.getVectorFromTo(extraStats.toPos, point).modulus() < 20) {
+                speedLambda = (vectors.getVectorFromTo(extraStats.toPos, point).modulus() / 20)
+            }
+        }
 
-                newProjectiles.push(new Bullet( // change to fit others soon
-                    point.x,
-                    point.y,
-                    direction + directionVar,
-                    direction + directionVar,
-                    this.id,
-                    this.firingPoints[index].baseSpeed + speedVar,
-                    this.firingPoints[index].baseSize * (this.size / this.attachmentReferenceSize),
-                    {
-                        'dmg': this.firingPoints[index].dmg,
-                        'hp': this.firingPoints[index].hp,
-                        'lifespan': this.firingPoints[index].lifespan,
-                        'behaviour': this.firingPoints[index].behaviour,
-                        'shape': this.firingPoints[index].shape,
-                    }
-                ))
+        let recoilVector = new vectors.Vector(0, 1)
+        if (Object.keys(firingData).includes('recoilMultiplier')) {
+            recoilVector.scalarMultiply(firingData.recoilMultiplier)
+        }
 
-                let recoilVector = new vectors.Vector(0, 1)
-                if ('recoilMultiplier' in this.firingPoints[index]) {
-                    recoilVector.scalarMultiply(this.firingPoints[index].recoilMultiplier)
+        recoilVector.rotateAround((-direction + directionVar) + Math.PI)
+
+        recoilVector.scalarMultiply((firingData.baseSpeed + speedVar) * 0.1)
+        this.velocity = vectors.vectorAddition(this.velocity, recoilVector)
+
+
+        for (let animatedPath of firingData.triggersAnimationOn) {
+
+            let path = [...animatedPath]
+            //console.log(path)
+            let joint = this.attachedObjects[path[0]].propagateObject(path)
+            joint.animation.currentT = 0;
+
+        }
+
+        return variableProjectileType(
+            firingData.behaviour,
+            [
+                point.x,
+                point.y,
+                direction + directionVar,
+                direction + directionVar,
+                this.id,
+                (firingData.speed + speedVar) * speedLambda,
+                firingData.baseSize * (this.size / this.attachmentReferenceSize),
+                {
+                    'dmg': firingData.dmg,
+                    'hp': firingData.hp,
+                    'lifespan': firingData.lifespan,
+                    'behaviour': firingData.behaviour,
+                    'shape': firingData.shape,
+                },
+                rv,
+                extraStats
+            ]
+        )
+
+    }
+    autoTurretBehaviourTick(players, polygons) {
+        for (let auto of this.autoTurrets) {
+            let path = [...auto.centerJointPath]
+            let pointData = this.attachedObjects[path[0]].propagate(path, this.position, this.rotation, this.size / this.attachmentReferenceSize)
+            path = [...auto.centerJointPath]
+            let baseAngle = this.attachedObjects[path[0]].propagateObject(path).baseAngleFromLast * (Math.PI / 180)
+            //console.log(baseAngle)
+            //console.log(pointData[1])
+            let controlJointTargetAngle = auto.targeting(pointData[0], players, polygons, pointData[1], baseAngle)
+
+
+
+            for (let jointPath of auto.controlJointPaths) {
+                let path = [...jointPath]
+                let point = this.attachedObjects[path[0]].propagateObject(path)
+
+                let targetDifference;
+                if (auto.withRotation) {
+                    targetDifference = controlJointTargetAngle - point.angleFromLast - pointData[1]
+                } else {
+                    targetDifference = controlJointTargetAngle - point.angleFromLast
                 }
 
-                recoilVector.rotateAround((-direction + directionVar) + Math.PI)
-                recoilVector.makeUnit()
-                recoilVector.scalarMultiply((this.firingPoints[index].baseSpeed + speedVar) * 0.1)
-                this.velocity = vectors.vectorAddition(this.velocity, recoilVector)
+
+                if (targetDifference >= Math.PI) {
+                    targetDifference = -2 * Math.PI + targetDifference
+                } else if (targetDifference <= -Math.PI) {
+                    targetDifference = 2 * Math.PI + targetDifference
+                }
+
+                auto.dr = auto.maxDr * Math.tanh(targetDifference / auto.movementDivision);
+                point.angleFromLast += auto.dr
+
+            }
+        }
+    }
+    autoTurretFireScheduler() {
+
+
+        let newProjectiles = [];
+        for (let auto of this.autoTurrets) {
+            if (auto.positionInFireOrder == auto.fireOrder.length) {
+                auto.positionInFireOrder = 0
+            }
+            if (auto.firing) {
+                if (this.firingPoints[auto.firingPointIndexes[auto.fireOrder[auto.positionInFireOrder][0]]].cooldown == 0) {
+                    let firingData;
+                    for (let i in auto.fireOrder[auto.positionInFireOrder]) {
+                        firingData = this.firingPoints[auto.firingPointIndexes[auto.fireOrder[auto.positionInFireOrder][i]]]
+                        newProjectiles.push(this.summonProjectile(firingData))
+                    }
+
+
+                    if (auto.positionInFireOrder >= auto.fireOrder.length - 1) {
+                        for (let j in auto.fireOrder[0]) {
+                            this.firingPoints[auto.firingPointIndexes[auto.fireOrder[0][j]]].cooldown = firingData.delay;
+                        }
+
+                    } else {
+                        for (let j in auto.fireOrder[auto.positionInFireOrder + 1]) {
+                            this.firingPoints[auto.firingPointIndexes[auto.fireOrder[auto.positionInFireOrder + 1][j]]].cooldown = firingData.delay;
+                        }
+                    }
+                    auto.positionInFireOrder += 1;
+                }
+            }
+
+
+        }
+        return newProjectiles
+    }
+
+    fireScheduler() {
+        let newProjectiles = []
+        if (this.fireOrder.length > 0) {
+            if (this.positionInFireOrder == this.fireOrder.length) {
+                this.positionInFireOrder = 0
+            }
+
+            if (this.firingPoints[this.fireOrder[this.positionInFireOrder][0]].cooldown == 0) {
+                let firingData;
+                for (let i in this.fireOrder[this.positionInFireOrder]) {
+                    firingData = this.firingPoints[this.fireOrder[this.positionInFireOrder][i]]
+                    newProjectiles.push(this.summonProjectile(firingData))
+                }
 
                 if (this.positionInFireOrder >= this.fireOrder.length - 1) {
                     for (let j in this.fireOrder[0]) {
-                        this.firingPoints[this.fireOrder[0][j]].cooldown = this.firingPoints[index].delay
+                        this.firingPoints[this.fireOrder[0][j]].cooldown = firingData.delay;
                     }
 
                 } else {
                     for (let j in this.fireOrder[this.positionInFireOrder + 1]) {
-                        this.firingPoints[this.fireOrder[this.positionInFireOrder + 1][j]].cooldown = this.firingPoints[index].delay
+                        this.firingPoints[this.fireOrder[this.positionInFireOrder + 1][j]].cooldown = firingData.delay;
                     }
                 }
-
-                for (let animatedPath of this.firingPoints[index].triggersAnimationOn) {
-
-                    let path = [...animatedPath]
-                    //console.log(path)
-                    let joint = this.attachedObjects[path[0]].propagateObject(path)
-                    joint.animation.currentT = 0;
-
-                }
+                this.positionInFireOrder += 1
             }
-            this.positionInFireOrder += 1
         }
         return newProjectiles
     }
+
 }
 
 export class MockupPlayer extends GameObject {
@@ -318,5 +418,16 @@ export class MockupPlayer extends GameObject {
         for (let barrel of preset) {
             this.attachedObjects.push(new MockupAttachment(barrel.x, barrel.y, barrel.r, barrel.barrelStats.shapes, barrel.rendering));
         }
+    }
+}
+
+
+function variableProjectileType(type, args) {
+    if (type == 'bullet') {
+        return new Bullet(...args);
+    } else if (type == 'trap') {
+        return new Trap(...args);
+    } else if (type == 'construct') {
+        return new Construct(...args);
     }
 }

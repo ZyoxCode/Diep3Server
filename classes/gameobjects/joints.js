@@ -66,6 +66,7 @@ export class Joint {
         this.baseDistanceFromLast = distanceFromLast;
 
         this.angleFromLast = angleFromLast * (Math.PI / 180);
+        this.baseAngleFromLast = angleFromLast
         this.rotationBehaviour = rotationBehaviour
         this.perpendicularDistance = perpendicularDistance;
         this.animationBehaviour = animationBehaviour;
@@ -111,9 +112,9 @@ export class Joint {
         //console.log("NV:", nV)
         let newRotation;
         if (this.rotationBehaviour == 'inherets') {
-            newRotation = this.angleFromLast + lastRotation;
+            newRotation = (this.angleFromLast + lastRotation) % (Math.PI * 2);
         } else {
-            newRotation = this.angleFromLast;
+            newRotation = this.angleFromLast % (Math.PI * 2);
         }
         let rV = rotateVertice(nV, lastCenter, newRotation);
 

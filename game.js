@@ -103,6 +103,14 @@ export class Game { // Might actually extend this class for different game types
                     this.projectileList.push(projectile)
                 }
             }
+            if (player.autoTurrets.length > 0) {
+                player.autoTurretBehaviourTick(this.playerDict, this.polygonList)
+                let newProjectiles = player.autoTurretFireScheduler()
+                for (let projectile of newProjectiles) {
+
+                    this.projectileList.push(projectile)
+                }
+            }
             this.immovableCollision(player);
             this.playerPolyCollision(player);
             this.playerProjectileCollision(player);

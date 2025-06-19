@@ -143,10 +143,10 @@ io.on('connection', (socket) => {
     });
 });
 
-let last = Date.now()
+// let last = Date.now()
 tickWorker.on('message', (now) => {
     //console.log(Date.now() - last)
-    last = Date.now()
+    // last = Date.now()
     Game.messagesToBroadcast = [];
     Game.emissions = [];
     Game.sectorLoop()
