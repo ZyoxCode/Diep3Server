@@ -73,14 +73,14 @@ export class Collider {
         return false
     }
     immovableCollision(object1, object2) {
-        if ((object1.type != 'square' && this.collisionCheck(object1, object2) == true) || (object1.type == 'square' && this.squareNonSquareCollision(object1, object2) == true)) {
+        if ((object1.sides != 4 && this.collisionCheck(object1, object2) == true) || (object1.sides == 4 && this.squareNonSquareCollision(object1, object2) == true)) {
             let collisionSpeed = vectors.vectorAddition(object1.velocity, object2.velocity).modulus()
 
             let normalVector = vectors.getVectorFromTo(object2.position, object1.position)
             let normalVectorModulus = utils.roundToDecimalPlaces(normalVector.modulus(), 8)
             normalVector.scalarMultiply((1 / (normalVectorModulus + 0.0001)) * (object1.hitBoxRadius + object2.hitBoxRadius))
 
-            if (object1.type == 'square') { // DOES NOT ACCOUNT FOR ROTATED SQUARES
+            if (object1.sides == 4) { // DOES NOT ACCOUNT FOR ROTATED SQUARES
                 if (Math.abs(normalVector.x) > Math.abs(normalVector.y)) {
 
                     object2.position = vectors.vectorAddition(new vectors.Vector((object1.hitBoxRadius + object2.hitBoxRadius) * (normalVector.x / Math.abs(normalVector.x)), 0), new vectors.Vector(object1.position.x, object2.position.y))

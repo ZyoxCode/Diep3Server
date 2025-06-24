@@ -54,7 +54,7 @@ export class Game { // Might actually extend this class for different game types
         this.messagesToBroadcast = [];
 
         this.immovableObjectList.push(new ImmovableObject(50, 50, 0, 10, 8))
-        this.immovableObjectList.push(new ImmovableObject(0, 50, 0, 10, 'square'))
+        this.immovableObjectList.push(new ImmovableObject(0, 50, 45, 10, 4))
 
     }
 
@@ -81,7 +81,7 @@ export class Game { // Might actually extend this class for different game types
                 let polygon = new Polygon(i, ...spawnResult)
                 let collided = false;
                 for (let immovable of this.immovableObjectList) {
-                    if ((immovable.type != 'square' && this.collisionEngine.collisionCheck(immovable, polygon) == true) || (immovable.type == 'square' && this.collisionEngine.squareNonSquareCollision(immovable, polygon) == true)) {
+                    if ((immovable.sides != 4 && this.collisionEngine.collisionCheck(immovable, polygon) == true) || (immovable.sides == 4 && this.collisionEngine.squareNonSquareCollision(immovable, polygon) == true)) {
                         collided = true;
                     }
                 }
