@@ -1,10 +1,10 @@
 import { GameObject } from "./gameobject.js";
-import { MockupAttachment } from "./attachments.js";
+//import { MockupAttachment } from "./attachments.js";
 import { readFile } from 'fs/promises';
 import { Joint } from "./joints.js";
 
 
-import * as shapes from '../shapes.js';
+//import * as shapes from '../shapes.js';
 import * as vectors from '../../utils/vectors.js'
 import { Bullet, Trap, Construct } from "./projectiles.js";
 import { roundToDecimalPlaces } from "../../utils/utils.js";
@@ -303,28 +303,42 @@ export class Player extends GameObject {
             path = [...auto.centerJointPath]
             let baseAngle = this.attachedObjects[path[0]].propagateObject(path).baseAngleFromLast * (Math.PI / 180)
             //console.log(baseAngle)
-            //console.log(pointData[1])
+            // console.log(pointData[1])
             let controlJointTargetAngle = auto.targeting(pointData[0], players, polygons, pointData[1], baseAngle)
+
 
 
 
             for (let jointPath of auto.controlJointPaths) {
                 let path = [...jointPath]
                 let point = this.attachedObjects[path[0]].propagateObject(path)
+                point.angleFromLast = point.angleFromLast % (Math.PI * 2)
+                if (point.angleFromLast <= 0) {
+                    point.angleFromLast = 2 * Math.PI - point.angleFromLast;
+                }
 
                 let targetDifference;
+                //console.log(controlJointTargetAngle)
+
                 if (auto.withRotation) {
                     targetDifference = controlJointTargetAngle - point.angleFromLast - pointData[1]
                 } else {
                     targetDifference = controlJointTargetAngle - point.angleFromLast
                 }
 
+                //console.log(targetDifference)
 
                 if (targetDifference >= Math.PI) {
                     targetDifference = -2 * Math.PI + targetDifference
+
                 } else if (targetDifference <= -Math.PI) {
                     targetDifference = 2 * Math.PI + targetDifference
+
                 }
+
+
+
+
 
                 auto.dr = auto.maxDr * Math.tanh(targetDifference / auto.movementDivision);
                 point.angleFromLast += auto.dr
@@ -400,26 +414,26 @@ export class Player extends GameObject {
 
 }
 
-export class MockupPlayer extends GameObject {
-    constructor(size, type) {
-        super(0, 0, 0)
-        this.color = 'playerBlue'
-        this.size = size;
-        this.type = type;
+// export class MockupPlayer extends GameObject {
+//     constructor(size, type) {
+//         super(0, 0, 0)
+//         this.color = 'playerBlue'
+//         this.size = size;
+//         this.type = type;
 
-        this.shapes = []
-        this.shapes.push(new shapes.Circle(new vectors.Vector(0, 0), 5, 0)) // MAGIC NUMBER ALERT
+//         this.shapes = []
+//         this.shapes.push(new shapes.Circle(new vectors.Vector(0, 0), 5, 0)) // MAGIC NUMBER ALERT
 
-        this.attachedObjects = [];
+//         this.attachedObjects = [];
 
-        let preset = tanks[this.type].attachments;
-        this.attachedObjects = [];
+//         let preset = tanks[this.type].attachments;
+//         this.attachedObjects = [];
 
-        for (let barrel of preset) {
-            this.attachedObjects.push(new MockupAttachment(barrel.x, barrel.y, barrel.r, barrel.barrelStats.shapes, barrel.rendering));
-        }
-    }
-}
+//         for (let barrel of preset) {
+//             this.attachedObjects.push(new MockupAttachment(barrel.x, barrel.y, barrel.r, barrel.barrelStats.shapes, barrel.rendering));
+//         }
+//     }
+// }
 
 
 function variableProjectileType(type, args) {

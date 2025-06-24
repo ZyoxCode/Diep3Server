@@ -11,6 +11,8 @@ export class Projectile extends GameObject {
         this.extraStats = extraStats
         this.rotationalVelocity = startingRV;
 
+        this.shapeType = this.stats.shape
+
         this.superType = 'projectile'
 
         this.velocity.x = startSpeed * Math.sin(direction);
@@ -19,13 +21,14 @@ export class Projectile extends GameObject {
         this.belongsId = belongsId;
         this.size = size;
 
-        this.shapes = makeProjectileShapes(this.size, this.stats.shape);
+        //this.shapes = makeProjectileShapes(this.size, this.stats.shape);
 
 
         if (this.stats.shape == 'circle') {
             this.hitBoxRadius = this.size
         } else {
-            this.hitBoxRadius = vectors.getApothem(this.shapes[0])
+            this.hitBoxRadius = this.size // FIX THIS LATER
+            //this.hitBoxRadius = vectors.getApothem(this.shapes[0])
         }
 
         this.hasHitBox = true;

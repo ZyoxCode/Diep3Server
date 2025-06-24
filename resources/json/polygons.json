@@ -1,5 +1,6 @@
 {
     "Normal Square": {
+        "sides": 4,
         "shapes": [
             [
                 [
@@ -20,6 +21,7 @@
         "color": "squareYellow"
     },
     "Beta Square": {
+        "sides": 4,
         "shapes": [
             [
                 [
@@ -49,6 +51,7 @@
         "color": "squareYellow"
     },
     "Alpha Square": {
+        "sides": 4,
         "shapes": [
             [
                 [
@@ -87,6 +90,7 @@
         "color": "squareYellow"
     },
     "Normal Triangle": {
+        "sides": 3,
         "shapes": [
             [
                 [
@@ -107,6 +111,7 @@
         "color": "triangleRed"
     },
     "Beta Triangle": {
+        "sides": 3,
         "shapes": [
             [
                 [
@@ -136,6 +141,7 @@
         "color": "triangleRed"
     },
     "Alpha Triangle": {
+        "sides": 3,
         "shapes": [
             [
                 [
@@ -174,6 +180,7 @@
         "color": "triangleRed"
     },
     "Normal Pentagon": {
+        "sides": 5,
         "shapes": [
             [
                 [
@@ -194,6 +201,7 @@
         "color": "pentagonBlue"
     },
     "Beta Pentagon": {
+        "sides": 5,
         "shapes": [
             [
                 [
@@ -223,6 +231,7 @@
         "color": "pentagonBlue"
     },
     "Alpha Pentagon": {
+        "sides": 5,
         "shapes": [
             [
                 [
@@ -261,6 +270,7 @@
         "color": "pentagonBlue"
     },
     "Normal Hexagon": {
+        "sides": 6,
         "shapes": [
             [
                 [

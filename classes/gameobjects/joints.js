@@ -107,6 +107,7 @@ export class Joint {
 
     propagate(path, lastCenter, lastRotation, sizeMultiplier, distanceToNextMultiplier = 1) {
         path.splice(0, 1);
+        this.angleFromLast % (Math.PI * 2)
 
         let nV = new Vector(lastCenter.x + this.perpendicularDistance * sizeMultiplier, lastCenter.y + this.distanceFromLast * sizeMultiplier * distanceToNextMultiplier)
         //console.log("NV:", nV)
@@ -126,6 +127,7 @@ export class Joint {
     }
     propagateObject(path) {
         path.splice(0, 1);
+        this.angleFromLast % (Math.PI * 2)
 
         if (path.length == 0) {
             return this;

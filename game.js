@@ -1,5 +1,5 @@
 import { ImmovableObject } from './classes/gameobjects/other.js';
-import { Player, MockupPlayer } from './classes/gameobjects/players.js';
+import { Player } from './classes/gameobjects/players.js';
 import { Polygon } from './classes/gameobjects/polygons.js';
 import * as mapFeatures from './classes/mapfeatures.js'
 import * as physics from './utils/physics.js'
@@ -311,7 +311,8 @@ export class Game { // Might actually extend this class for different game types
             if (player.level >= this.levellingInfo.tierThresholds[player.tier - 1]) { // MAGIC NUMBER ALERT, ONLY ACCOUNTING FOR TIER 1->2 UPGRADES, FIX LATER
                 let options = [];
                 for (let upgrade of player.upgradesTo) {
-                    options.push({ 'name': upgrade, 'mockup': new MockupPlayer(1, upgrade) })
+                    // options.push({ 'name': upgrade, 'mockup': new MockupPlayer(1, upgrade) })
+                    options.push({ 'name': upgrade })
                 }
                 this.emissions.push({ 'id': player.id, 'type': 'updateTankUpgrades', 'data': { 'options': options } })
                 player.allowedUpgrade = true;

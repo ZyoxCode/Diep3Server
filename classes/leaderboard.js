@@ -1,4 +1,4 @@
-import { MockupPlayer } from "./gameobjects/players.js";
+//import { MockupPlayer } from "./gameobjects/players.js";
 
 export class LeaderboardEntry {
     constructor(id, name, score, tank) {

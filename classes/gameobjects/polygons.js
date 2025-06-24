@@ -22,6 +22,7 @@ export class Polygon extends GameObject {
         this.superType = 'polygon';
 
         this.polygonType = polygonType;
+        this.sides = polyPresets[polygonType].sides
 
         if (Object.keys(statSpread).length == 0) {
             this.statSpread = polyPresets[polygonType].stats
@@ -35,17 +36,11 @@ export class Polygon extends GameObject {
         this.size = this.statSpread.size;
         this.damagePerTick = this.statSpread.damagePerTick;
 
-        this.shapes = [];
-        for (let shape of polyPresets[polygonType].shapes) {
-            this.shapes.push(new shapes.EqualConvexShape(...shape))
-        }
-
-
         this.color = polyPresets[polygonType].color
 
         this.hasHitBox = true;
-        if (this.shapes[0].type == 'non-circle') {
-            this.hitBoxRadius = vectors.getApothem(this.shapes[0])
+        if (this.polygonType != 'circle') {
+            this.hitBoxRadius = vectors.getApothem(this.size, this.sides);
         } else {
             this.hitBoxRadius = this.size;
         }

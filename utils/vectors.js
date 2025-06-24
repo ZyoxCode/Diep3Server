@@ -33,9 +33,7 @@ export class Vector {
     }
 }
 
-export function getApothem(shape) {
-    let n = shape.vertices.length
-    let R = shape.vertices[0].modulus()
+export function getApothem(R, n) {
     return R * Math.cos(Math.PI / n)
 }
 
