@@ -5,7 +5,7 @@ export class AutoTurret {
         this.centerJointPath = args.centerJointPath;
         this.controlJointPaths = args.controlJointPaths;
         this.firingPointIndexes = args.firingPointIndexes;
-        this.fireOrder = args.firingOrder;
+        this.firingOrder = args.firingOrder;
         this.restrictAngle = -1;
         this.withRotation = false;
 
@@ -19,7 +19,7 @@ export class AutoTurret {
 
         this.baseTargetingRange = args.baseTargetingRange;
 
-        this.positionInFireOrder = 0;
+        this.positionInFiringOrder = 0;
         this.firing = true;
 
         this.dr = 0;

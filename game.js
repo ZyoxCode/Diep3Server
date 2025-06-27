@@ -1,5 +1,6 @@
 import { ImmovableObject } from './classes/gameobjects/other.js';
-import { Player } from './classes/gameobjects/players.js';
+//import { Player } from './classes/gameobjects/players.js';
+import { Player } from './classes/gameobjects/objects.js'
 import { Polygon } from './classes/gameobjects/polygons.js';
 import * as mapFeatures from './classes/mapfeatures.js'
 import * as physics from './utils/physics.js'
@@ -65,7 +66,7 @@ export class Game { // Might actually extend this class for different game types
             spawnX = (Math.random() - 0.5) * (this.mapSize / 2)
             spawnY = (Math.random() - 0.5) * (this.mapSize / 2)
         }
-        this.playerDict[id] = new Player(spawnX, spawnY, 0, id, this.constants.startScore, this.constants.startSize, 'Basic', this.upgradeCurves, this.constants.attachmentReferenceSize);
+        this.playerDict[id] = new Player(id, spawnX, spawnY, 0, 'Basic', this.upgradeCurves);
     }
 
     removePlayer(id) {
@@ -94,18 +95,19 @@ export class Game { // Might actually extend this class for different game types
 
     playerLoop() {
         for (const [id, player] of Object.entries(this.playerDict)) {
-
-            player.tickCalc()
+            player.tick()
+            // player.tickCalc()
             if ((player.requestingFire == true || player.autofire == true) && player.hp > 0) {
-                let newProjectiles = player.fireScheduler()
+                let newProjectiles = player.scheduleFiring()
                 for (let projectile of newProjectiles) {
 
                     this.projectileList.push(projectile)
                 }
             }
+
             if (player.autoTurrets.length > 0) {
-                player.autoTurretBehaviourTick(this.playerDict, this.polygonList)
-                let newProjectiles = player.autoTurretFireScheduler()
+                player.tickAutoTurretBehaviour(this.playerDict, this.polygonList)
+                let newProjectiles = player.scheduleAutoTurretFiring()
                 for (let projectile of newProjectiles) {
 
                     this.projectileList.push(projectile)
@@ -164,7 +166,7 @@ export class Game { // Might actually extend this class for different game types
 
     playerProjectileCollision(player) {
         for (let proj of this.projectileList) {
-            if (player.hp > 0 && proj.lifespan > 0 && player.id != proj.belongsId) {
+            if (player.hp > 0 && proj.stats.lifespan > 0 && player.id != proj.id) {
                 let collided = this.collisionEngine.collisionHandler(player, proj)
                 player.ticksSinceLastHit = 0;
                 if (collided == true && player.hp <= 0) {
@@ -176,16 +178,26 @@ export class Game { // Might actually extend this class for different game types
 
     projectileLoop() {
         for (const [i, proj] of this.projectileList.entries()) {
-            proj.tickCalc()
+            //console.log(proj)
+            proj.tick()
             this.immovableCollision(proj);
             this.projectilePolyCollision(proj)
             this.projectileProjectileCollision(i, proj)
+
+            if (proj.autoTurrets.length > 0) {
+                proj.autoTurretBehaviourTick(this.playerDict, this.polygonList)
+                let newProjectiles = proj.autoTurretFireScheduler()
+                for (let projectile of newProjectiles) {
+
+                    this.projectileList.push(projectile)
+                }
+            }
         }
     }
 
     projectileProjectileCollision(i1, proj1) {
         for (const [i2, proj2] of this.projectileList.entries()) {
-            if (i1 != i2 && proj1.lifespan > 0 && proj2.lifespan > 0) {
+            if (i1 != i2 && proj1.stats.lifespan > 0 && proj2.stats.lifespan > 0) {
                 let collided = this.collisionEngine.collisionHandler(proj1, proj2)
             }
         }
@@ -193,10 +205,10 @@ export class Game { // Might actually extend this class for different game types
 
     projectilePolyCollision(proj) {
         for (let poly of this.polygonList) {
-            if (poly.hp > 0 && proj.lifespan > 0) {
+            if (poly.hp > 0 && proj.stats.lifespan > 0) {
                 let collided = this.collisionEngine.collisionHandler(proj, poly)
                 if (collided == true) {
-                    poly.idLastHitBy = proj.belongsId;
+                    poly.idLastHitBy = proj.id;
                     if (poly.hp <= 0) {
                         this.scoreTransfer(proj, poly)
                     }
@@ -255,7 +267,7 @@ export class Game { // Might actually extend this class for different game types
         this.messagesToBroadcast.push({ 'id': id, 'message': `You killed ${prefix} ${poly.polygonType}` })
     }
     makePlayerKillMessage(id1, id2) {
-        this.messagesToBroadcast.push({ 'id': id1, 'message': `You killed ${this.playerDict[id2].id}'s ${this.playerDict[id2].tankType}!` })
+        this.messagesToBroadcast.push({ 'id': id1, 'message': `You killed ${this.playerDict[id2].id}'s ${this.playerDict[id2].tankoidPreset}!` })
     }
     scoreTransfer(object1, object2) {
 
@@ -269,7 +281,7 @@ export class Game { // Might actually extend this class for different game types
 
 
             if (object2.score >= 500) {
-                this.makePolyKillMessage(object2, object1.belongsId)
+                this.makePolyKillMessage(object2, object1.id)
             }
 
         } else if (object1.superType == 'polygon' && object2.superType == 'polygon') {
@@ -291,8 +303,8 @@ export class Game { // Might actually extend this class for different game types
             }
         } else if (object1.superType == 'projectile' && object2.superType == 'player') {
             //this.playerDict[object1.belongsId].score += object2.score * this.constants.scoreTransfer;
-            this.addScore(this.playerDict[object1.belongsId], object2.score * this.constants.scoreTransfer)
-            this.makePlayerKillMessage(object1.belongsId, object2.id)
+            this.addScore(this.playerDict[object1.id], object2.score * this.constants.scoreTransfer)
+            this.makePlayerKillMessage(object1.id, object2.id)
         }
     }
     addScore(player, scoreToAdd) {
@@ -300,10 +312,12 @@ export class Game { // Might actually extend this class for different game types
         player.score += scoreToAdd;
 
         while (player.score > this.levellingInfo.scoreThresholds[player.level]) {
-            if (player.level in this.levellingInfo.givesSkillPoint) {
+
+            if (this.levellingInfo.givesSkillPoint.includes(player.level)) {
                 player.allocatablePoints += 1;
             }
             player.level += 1
+
         }
 
         //console.log(player.level, this.levellingInfo.tierThresholds[player.tier - 1])

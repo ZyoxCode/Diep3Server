@@ -56,17 +56,35 @@ export class Collider {
             object2.rotationalVelocity += (Math.random() - 0.5) * (collisionSpeed / carryWeightRatio) * 0.1
 
             if (Object.getPrototypeOf(object1.constructor).name == 'Projectile' && Object.getPrototypeOf(object2.constructor).name == 'Projectile') {
-                if (object1.belongsId != object2.belongsId) {
-                    object1.hp += -object2.dmg // make like a handle collision or something on the object do this instead of checking supertype
-                    object2.hp += -object1.dmg
+                if (object1.id != object2.id) {
+                    object1.hp += -object2.stats.dmg // make like a handle collision or something on the object do this instead of checking supertype
+                    object2.hp += -object1.stats.dmg
                     object1.flashTimer = 20;
                     object2.flashTimer = 20;
                 }
             } else {
-                object1.hp += -object2.dmg
-                object2.hp += -object1.dmg
-                object1.flashTimer = 20;
-                object2.flashTimer = 20;
+                if ('stats' in object1 && 'stats' in object2) {
+                    object1.hp += -object2.stats.dmg // make like a handle collision or something on the object do this instead of checking supertype
+                    object2.hp += -object1.stats.dmg
+                    object1.flashTimer = 20;
+                    object2.flashTimer = 20;
+                } else if ('stats' in object1 && !('stats' in object2)) {
+                    object1.hp += -object2.dmg
+                    object2.hp += -object1.stats.dmg
+                    object1.flashTimer = 20;
+                    object2.flashTimer = 20;
+                } else if (!('stats' in object1) && 'stats' in object2) {
+                    object1.hp += -object2.stats.dmg
+                    object2.hp += -object1.dmg
+                    object1.flashTimer = 20;
+                    object2.flashTimer = 20;
+                } else {
+                    object1.hp += -object2.dmg
+                    object2.hp += -object1.dmg
+                    object1.flashTimer = 20;
+                    object2.flashTimer = 20;
+                }
+
             }
             return true
         }

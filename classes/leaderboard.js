@@ -19,7 +19,7 @@ export class Leaderboard {
     buildLeaderboard(players) {
         this.entries = []
         for (let i in players) {
-            this.entries.push(new LeaderboardEntry(players[i].id, players[i].id, players[i].score, players[i].tankType)) // temporarily the id is the same as the name
+            this.entries.push(new LeaderboardEntry(players[i].id, players[i].id, players[i].score, players[i].tankoidPreset)) // temporarily the id is the same as the name
         }
         this.entries.sort((a, b) => b.score - a.score);
     }

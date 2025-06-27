@@ -102,31 +102,31 @@ io.on('connection', (socket) => {
     socket.on('changeTankRequest', (data) => {
 
 
-        let success = Game.playerDict[socket.id].buildTank(data.name)
-        if (success == false) {
-            socket.emit('addBroadcast', { 'text': `Invalid tank name: ${data.name}` })
-        }
+        Game.playerDict[socket.id].switchPreset(data.name)
+        // if (success == false) {
+        //     socket.emit('addBroadcast', { 'text': `Invalid tank name: ${data.name}` })
+        // }
 
     });
 
     socket.on('tankUpgradeRequest', (data) => {
-        Game.playerDict[socket.id].upgradeTank(data);
+        Game.playerDict[socket.id].switchPreset(data);
     });
 
     socket.on('upgradeRequest', (data) => {
 
-        if (data.name in Game.playerDict[socket.id].upgrades) {
+        if (data.name in Game.playerDict[socket.id].skillUpgrades) {
             let requestingLevel = data.levelRequesting;
-            let currentLevel = Game.playerDict[socket.id].upgrades[data.name].level;
+            let currentLevel = Game.playerDict[socket.id].skillUpgrades[data.name].level;
             let allocatable = Game.playerDict[socket.id].allocatablePoints;
             let diff = requestingLevel - currentLevel;
 
 
             if (allocatable - diff >= 0) {
-                Game.playerDict[socket.id].upgrades[data.name].level += diff;
+                Game.playerDict[socket.id].skillUpgrades[data.name].level += diff;
                 Game.playerDict[socket.id].allocatablePoints += -diff;
             } else {
-                Game.playerDict[socket.id].upgrades[data.name].level += allocatable;
+                Game.playerDict[socket.id].skillUpgrades[data.name].level += allocatable;
                 Game.playerDict[socket.id].allocatablePoints = 0;
             }
             Game.playerDict[socket.id].updateStatsOnUpgrade()

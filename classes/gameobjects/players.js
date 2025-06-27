@@ -136,6 +136,7 @@ export class Player extends GameObject {
                 if ('baseSpeed' in newPoint) {
                     newPoint['speed'] = newPoint.baseSpeed;
                 }
+
                 if ('baseLifespan' in newPoint) {
                     newPoint['lifespan'] = newPoint.baseLifespan;
                 }
@@ -241,7 +242,6 @@ export class Player extends GameObject {
             rv = firingData.spawnRV
         }
 
-
         let extraStats = { 'toPos': { 'x': 0, 'y': 0 } }
         let speedLambda = 1;
 
@@ -273,6 +273,10 @@ export class Player extends GameObject {
 
         }
 
+        if (!("turretPreset" in firingData)) {
+            firingData['turretPreset'] = "None";
+        }
+
         return variableProjectileType(
             firingData.behaviour,
             [
@@ -291,7 +295,8 @@ export class Player extends GameObject {
                     'shape': firingData.shape,
                 },
                 rv,
-                extraStats
+                extraStats,
+                firingData.turretPreset
             ]
         )
 
@@ -302,12 +307,7 @@ export class Player extends GameObject {
             let pointData = this.attachedObjects[path[0]].propagate(path, this.position, this.rotation, this.size / this.attachmentReferenceSize)
             path = [...auto.centerJointPath]
             let baseAngle = this.attachedObjects[path[0]].propagateObject(path).baseAngleFromLast * (Math.PI / 180)
-            //console.log(baseAngle)
-            // console.log(pointData[1])
             let controlJointTargetAngle = auto.targeting(pointData[0], players, polygons, pointData[1], baseAngle)
-
-
-
 
             for (let jointPath of auto.controlJointPaths) {
                 let path = [...jointPath]
@@ -318,15 +318,12 @@ export class Player extends GameObject {
                 }
 
                 let targetDifference;
-                //console.log(controlJointTargetAngle)
 
                 if (auto.withRotation) {
                     targetDifference = controlJointTargetAngle - point.angleFromLast - pointData[1]
                 } else {
                     targetDifference = controlJointTargetAngle - point.angleFromLast
                 }
-
-                //console.log(targetDifference)
 
                 if (targetDifference >= Math.PI) {
                     targetDifference = -2 * Math.PI + targetDifference
@@ -336,10 +333,6 @@ export class Player extends GameObject {
 
                 }
 
-
-
-
-
                 auto.dr = auto.maxDr * Math.tanh(targetDifference / auto.movementDivision);
                 point.angleFromLast += auto.dr
 
@@ -347,8 +340,6 @@ export class Player extends GameObject {
         }
     }
     autoTurretFireScheduler() {
-
-
         let newProjectiles = [];
         for (let auto of this.autoTurrets) {
             if (auto.positionInFireOrder == auto.fireOrder.length) {
@@ -361,7 +352,6 @@ export class Player extends GameObject {
                         firingData = this.firingPoints[auto.firingPointIndexes[auto.fireOrder[auto.positionInFireOrder][i]]]
                         newProjectiles.push(this.summonProjectile(firingData))
                     }
-
 
                     if (auto.positionInFireOrder >= auto.fireOrder.length - 1) {
                         for (let j in auto.fireOrder[0]) {
@@ -413,28 +403,6 @@ export class Player extends GameObject {
     }
 
 }
-
-// export class MockupPlayer extends GameObject {
-//     constructor(size, type) {
-//         super(0, 0, 0)
-//         this.color = 'playerBlue'
-//         this.size = size;
-//         this.type = type;
-
-//         this.shapes = []
-//         this.shapes.push(new shapes.Circle(new vectors.Vector(0, 0), 5, 0)) // MAGIC NUMBER ALERT
-
-//         this.attachedObjects = [];
-
-//         let preset = tanks[this.type].attachments;
-//         this.attachedObjects = [];
-
-//         for (let barrel of preset) {
-//             this.attachedObjects.push(new MockupAttachment(barrel.x, barrel.y, barrel.r, barrel.barrelStats.shapes, barrel.rendering));
-//         }
-//     }
-// }
-
 
 function variableProjectileType(type, args) {
     if (type == 'bullet') {

@@ -552,6 +552,69 @@
             "Pounder"
         ]
     },
+    "Auto Trapper": {
+        "joints": [
+            [
+                4,
+                0,
+                0,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "firingInfo": [
+            {
+                "jointPath": [
+                    0,
+                    0
+                ],
+                "behaviour": "trap",
+                "shape": "concave-triangle-turreted",
+                "turretPreset": "Single Basic",
+                "spread": 0.1,
+                "speedVar": 0.1,
+                "baseDelay": 50,
+                "baseSpeed": 1.2,
+                "baseSize": 0.8,
+                "baseLifespan": 300,
+                "baseHp": 9,
+                "baseDmg": 2,
+                "spawnRV": 0.3,
+                "triggersAnimationOn": [
+                    [
+                        0
+                    ]
+                ]
+            }
+        ],
+        "firingOrder": [
+            [
+                0
+            ]
+        ],
+        "tier": 2,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder"
+        ]
+    },
     "Builder": {
         "joints": [
             [
@@ -2016,6 +2079,69 @@
         ],
         "firingOrder": [],
         "tier": 1,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder"
+        ]
+    },
+    "Engineer": {
+        "joints": [
+            [
+                4,
+                0,
+                0,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "firingInfo": [
+            {
+                "jointPath": [
+                    0,
+                    0
+                ],
+                "behaviour": "trap",
+                "shape": "concave-square-turreted",
+                "turretPreset": "Single Basic Small",
+                "spread": 0.1,
+                "speedVar": 0.1,
+                "baseDelay": 50,
+                "baseSpeed": 1.2,
+                "baseSize": 2.5,
+                "baseLifespan": 600,
+                "baseHp": 9,
+                "baseDmg": 2,
+                "spawnRV": 0.3,
+                "triggersAnimationOn": [
+                    [
+                        0
+                    ]
+                ]
+            }
+        ],
+        "firingOrder": [
+            [
+                0
+            ]
+        ],
+        "tier": 2,
         "upgradesTo": [
             "Twin",
             "Machine Gun",

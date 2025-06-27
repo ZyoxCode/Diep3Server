@@ -71,7 +71,7 @@ export class Joint {
         this.perpendicularDistance = perpendicularDistance;
         this.animationBehaviour = animationBehaviour;
 
-        this.animationMaxTimer = 20;
+        this.animationMaxTimer = 15;
 
         if ('time' in this.animationBehaviour) {
             this.animationMaxTimer = this.animationBehaviour.time;
