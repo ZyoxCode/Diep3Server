@@ -697,6 +697,374 @@
             "Pounder"
         ]
     },
+    "Hexa-Trapper": {
+        "Base Stats": {
+            "hp": 30,
+            "dmg": 3
+        },
+        "Skill Upgrades": [
+            {
+                "Name": "Max Health",
+                "Color": "squareYellow"
+            },
+            {
+                "Name": "Bullet Damage",
+                "Color": "triangleRed"
+            },
+            {
+                "Name": "Bullet Speed",
+                "Color": "pentagonBlue"
+            },
+            {
+                "Name": "Reload Speed",
+                "Color": "green1"
+            }
+        ],
+        "Joints": [
+            [
+                4,
+                0,
+                0,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                0,
+                120,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                0,
+                240,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                0,
+                60,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                0,
+                180,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                0,
+                300,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                0,
+                0,
+                0,
+                [
+                    [
+                        2,
+                        0,
+                        0,
+                        [
+                            [
+                                2,
+                                0,
+                                0,
+                                []
+                            ]
+                        ],
+                        "non-inherets"
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "Firing Points": [
+            {
+                "Joint Path": [
+                    0,
+                    0
+                ],
+                "Summons": "Triangular Trap",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        0
+                    ]
+                ],
+                "baseDelay": 35,
+                "Extras": {
+                    "Spawn RV": 0.3
+                }
+            },
+            {
+                "Joint Path": [
+                    1,
+                    0
+                ],
+                "Summons": "Triangular Trap",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        1
+                    ]
+                ],
+                "baseDelay": 35,
+                "Extras": {
+                    "Spawn RV": 0.3
+                }
+            },
+            {
+                "Joint Path": [
+                    2,
+                    0
+                ],
+                "Summons": "Triangular Trap",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        2
+                    ]
+                ],
+                "baseDelay": 35,
+                "Extras": {
+                    "Spawn RV": 0.3
+                }
+            },
+            {
+                "Joint Path": [
+                    3,
+                    0
+                ],
+                "Summons": "Triangular Trap",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        3
+                    ]
+                ],
+                "baseDelay": 35,
+                "Extras": {
+                    "Spawn RV": 0.3
+                }
+            },
+            {
+                "Joint Path": [
+                    4,
+                    0
+                ],
+                "Summons": "Triangular Trap",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        4
+                    ]
+                ],
+                "baseDelay": 35,
+                "Extras": {
+                    "Spawn RV": 0.3
+                }
+            },
+            {
+                "Joint Path": [
+                    5,
+                    0
+                ],
+                "Summons": "Triangular Trap",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        5
+                    ]
+                ],
+                "baseDelay": 35,
+                "Extras": {
+                    "Spawn RV": 0.3
+                }
+            },
+            {
+                "Joint Path": [
+                    6,
+                    0,
+                    0
+                ],
+                "Summons": "Basic Bullet",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        6,
+                        0
+                    ]
+                ],
+                "baseDelay": 50,
+                "Recoil Multiplier": 0.1,
+                "Extras": {
+                    "Spawn RV": 0.3
+                }
+            }
+        ],
+        "Firing Order": [
+            [
+                0,
+                1,
+                2
+            ],
+            [
+                3,
+                4,
+                5
+            ]
+        ],
+        "tier": 3,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder"
+        ],
+        "Auto Turrets": [
+            {
+                "firingPointIndexes": [
+                    6
+                ],
+                "baseTargetingRange": 50,
+                "centerJointPath": [
+                    6
+                ],
+                "controlJointPaths": [
+                    [
+                        6,
+                        0
+                    ]
+                ],
+                "firingOrder": [
+                    [
+                        0
+                    ]
+                ]
+            }
+        ]
+    },
     "Builder": {
         "Base Stats": {
             "hp": 30,
@@ -3380,7 +3748,7 @@
             "hp": 9,
             "dmg": 2,
             "size": 0.8,
-            "speed": 1.2,
+            "speed": 0.6,
             "lifespan": 300
         }
     },
