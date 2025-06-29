@@ -599,7 +599,6 @@ export class Construct extends Projectile {
             let newVel = getVectorFromTo(this.extras.toPos, this.position)
             newVel.makeUnit()
 
-
             newVel.scalarMultiply(this.stats.startSpeed / this.stats.cruiseDivisor)
 
             this.velocity.x += newVel.x;

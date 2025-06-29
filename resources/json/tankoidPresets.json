@@ -885,8 +885,8 @@
                 ],
                 "Summons": "Triangular Trap",
                 "Variations": {
-                    "Speed": 0.07,
-                    "Angle": 0.03
+                    "Speed": 0.5,
+                    "Angle": 0.7
                 },
                 "Animation Joint Paths": [
                     [
@@ -894,6 +894,7 @@
                     ]
                 ],
                 "baseDelay": 35,
+                "Recoil Multiplier": 0.4,
                 "Extras": {
                     "Spawn RV": 0.3
                 }
@@ -905,8 +906,8 @@
                 ],
                 "Summons": "Triangular Trap",
                 "Variations": {
-                    "Speed": 0.07,
-                    "Angle": 0.03
+                    "Speed": 0.5,
+                    "Angle": 0.7
                 },
                 "Animation Joint Paths": [
                     [
@@ -914,6 +915,7 @@
                     ]
                 ],
                 "baseDelay": 35,
+                "Recoil Multiplier": 0.4,
                 "Extras": {
                     "Spawn RV": 0.3
                 }
@@ -925,8 +927,8 @@
                 ],
                 "Summons": "Triangular Trap",
                 "Variations": {
-                    "Speed": 0.07,
-                    "Angle": 0.03
+                    "Speed": 0.5,
+                    "Angle": 0.7
                 },
                 "Animation Joint Paths": [
                     [
@@ -934,6 +936,7 @@
                     ]
                 ],
                 "baseDelay": 35,
+                "Recoil Multiplier": 0.4,
                 "Extras": {
                     "Spawn RV": 0.3
                 }
@@ -945,8 +948,8 @@
                 ],
                 "Summons": "Triangular Trap",
                 "Variations": {
-                    "Speed": 0.07,
-                    "Angle": 0.03
+                    "Speed": 0.5,
+                    "Angle": 0.7
                 },
                 "Animation Joint Paths": [
                     [
@@ -954,6 +957,7 @@
                     ]
                 ],
                 "baseDelay": 35,
+                "Recoil Multiplier": 0.4,
                 "Extras": {
                     "Spawn RV": 0.3
                 }
@@ -965,8 +969,8 @@
                 ],
                 "Summons": "Triangular Trap",
                 "Variations": {
-                    "Speed": 0.07,
-                    "Angle": 0.03
+                    "Speed": 0.5,
+                    "Angle": 0.7
                 },
                 "Animation Joint Paths": [
                     [
@@ -974,6 +978,7 @@
                     ]
                 ],
                 "baseDelay": 35,
+                "Recoil Multiplier": 0.4,
                 "Extras": {
                     "Spawn RV": 0.3
                 }
@@ -985,8 +990,8 @@
                 ],
                 "Summons": "Triangular Trap",
                 "Variations": {
-                    "Speed": 0.07,
-                    "Angle": 0.03
+                    "Speed": 0.5,
+                    "Angle": 0.7
                 },
                 "Animation Joint Paths": [
                     [
@@ -994,6 +999,7 @@
                     ]
                 ],
                 "baseDelay": 35,
+                "Recoil Multiplier": 0.4,
                 "Extras": {
                     "Spawn RV": 0.3
                 }
@@ -1136,6 +1142,131 @@
         "Firing Order": [
             [
                 0
+            ]
+        ],
+        "tier": 3,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder"
+        ]
+    },
+    "Pen": {
+        "Base Stats": {
+            "hp": 30,
+            "dmg": 3
+        },
+        "Skill Upgrades": [
+            {
+                "Name": "Max Health",
+                "Color": "squareYellow"
+            },
+            {
+                "Name": "Bullet Damage",
+                "Color": "triangleRed"
+            },
+            {
+                "Name": "Bullet Speed",
+                "Color": "pentagonBlue"
+            },
+            {
+                "Name": "Reload Speed",
+                "Color": "green1"
+            }
+        ],
+        "Joints": [
+            [
+                4,
+                0,
+                0,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                0,
+                0,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "Firing Points": [
+            {
+                "Joint Path": [
+                    0,
+                    0
+                ],
+                "Summons": "Triangular Trap",
+                "Variations": {
+                    "Speed": 0.7,
+                    "Angle": 0.3
+                },
+                "Animation Joint Paths": [
+                    [
+                        0
+                    ]
+                ],
+                "baseDelay": 10,
+                "Recoil Multiplier": 0.3,
+                "Extras": {
+                    "Spawn RV": 0.3
+                }
+            },
+            {
+                "Joint Path": [
+                    1,
+                    0
+                ],
+                "Summons": "Basic Bullet",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        1
+                    ]
+                ],
+                "baseDelay": 40,
+                "Recoil Multiplier": 0.3
+            }
+        ],
+        "Firing Order": [
+            [
+                0
+            ],
+            [
+                1
             ]
         ],
         "tier": 3,
