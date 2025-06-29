@@ -1872,7 +1872,7 @@
             "Pounder"
         ]
     },
-    "Auto Three": {
+    "Auto-3": {
         "joints": [
             [
                 3.5,
@@ -2058,6 +2058,267 @@
             {
                 "firingPointIndexes": [
                     2
+                ],
+                "baseTargetingRange": 50,
+                "centerJointPath": [
+                    2
+                ],
+                "controlJointPaths": [
+                    [
+                        2,
+                        0
+                    ]
+                ],
+                "firingOrder": [
+                    [
+                        0
+                    ]
+                ],
+                "restrictAngle": 90
+            }
+        ],
+        "firingOrder": [],
+        "tier": 1,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder"
+        ]
+    },
+    "Auto-4": {
+        "joints": [
+            [
+                3.5,
+                0,
+                0,
+                [
+                    [
+                        2,
+                        1,
+                        0,
+                        [
+                            [
+                                2,
+                                0,
+                                0,
+                                []
+                            ]
+                        ],
+                        "non-inherets"
+                    ],
+                    [
+                        2,
+                        -1,
+                        0,
+                        [
+                            [
+                                2,
+                                0,
+                                0,
+                                []
+                            ]
+                        ],
+                        "non-inherets"
+                    ]
+                ]
+            ],
+            [
+                3.5,
+                0,
+                120,
+                [
+                    [
+                        2,
+                        0,
+                        120,
+                        [
+                            [
+                                2,
+                                0,
+                                0,
+                                []
+                            ]
+                        ],
+                        "non-inherets"
+                    ]
+                ]
+            ],
+            [
+                3.5,
+                0,
+                240,
+                [
+                    [
+                        2,
+                        0,
+                        240,
+                        [
+                            [
+                                2,
+                                0,
+                                0,
+                                []
+                            ]
+                        ],
+                        "non-inherets"
+                    ]
+                ]
+            ]
+        ],
+        "firingInfo": [
+            {
+                "jointPath": [
+                    0,
+                    0,
+                    0
+                ],
+                "behaviour": "bullet",
+                "shape": "circle",
+                "spread": 0.05,
+                "speedVar": 0.07,
+                "baseDelay": 50,
+                "baseSpeed": 0.5,
+                "baseSize": 1.4,
+                "baseLifespan": 70,
+                "baseHp": 5,
+                "baseDmg": 2,
+                "recoilMultiplier": 0.5,
+                "triggersAnimationOn": [
+                    [
+                        0,
+                        0
+                    ]
+                ]
+            },
+            {
+                "jointPath": [
+                    0,
+                    1,
+                    0
+                ],
+                "behaviour": "bullet",
+                "shape": "circle",
+                "spread": 0.05,
+                "speedVar": 0.07,
+                "baseDelay": 50,
+                "baseSpeed": 0.5,
+                "baseSize": 1.4,
+                "baseLifespan": 70,
+                "baseHp": 5,
+                "baseDmg": 2,
+                "recoilMultiplier": 0.5,
+                "triggersAnimationOn": [
+                    [
+                        0,
+                        1
+                    ]
+                ]
+            },
+            {
+                "jointPath": [
+                    1,
+                    0,
+                    0
+                ],
+                "behaviour": "bullet",
+                "shape": "circle",
+                "spread": 0.05,
+                "speedVar": 0.07,
+                "baseDelay": 50,
+                "baseSpeed": 0.5,
+                "baseSize": 1.4,
+                "baseLifespan": 70,
+                "baseHp": 5,
+                "baseDmg": 2,
+                "recoilMultiplier": 0.5,
+                "triggersAnimationOn": [
+                    [
+                        1,
+                        0
+                    ]
+                ]
+            },
+            {
+                "jointPath": [
+                    2,
+                    0,
+                    0
+                ],
+                "behaviour": "bullet",
+                "shape": "circle",
+                "spread": 0.05,
+                "speedVar": 0.07,
+                "baseDelay": 50,
+                "baseSpeed": 0.5,
+                "baseSize": 1.4,
+                "baseLifespan": 70,
+                "baseHp": 5,
+                "baseDmg": 2,
+                "recoilMultiplier": 0.5,
+                "triggersAnimationOn": [
+                    [
+                        2,
+                        0
+                    ]
+                ]
+            }
+        ],
+        "autoTurrets": [
+            {
+                "firingPointIndexes": [
+                    0,
+                    1
+                ],
+                "baseTargetingRange": 50,
+                "centerJointPath": [
+                    0
+                ],
+                "controlJointPaths": [
+                    [
+                        0,
+                        0
+                    ],
+                    [
+                        0,
+                        1
+                    ]
+                ],
+                "firingOrder": [
+                    [
+                        0
+                    ],
+                    [
+                        1
+                    ]
+                ],
+                "restrictAngle": 90
+            },
+            {
+                "firingPointIndexes": [
+                    2
+                ],
+                "baseTargetingRange": 50,
+                "centerJointPath": [
+                    1
+                ],
+                "controlJointPaths": [
+                    [
+                        1,
+                        0
+                    ]
+                ],
+                "firingOrder": [
+                    [
+                        0
+                    ]
+                ],
+                "restrictAngle": 90
+            },
+            {
+                "firingPointIndexes": [
+                    3
                 ],
                 "baseTargetingRange": 50,
                 "centerJointPath": [

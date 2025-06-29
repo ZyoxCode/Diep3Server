@@ -185,8 +185,15 @@ export class Game { // Might actually extend this class for different game types
             this.projectileProjectileCollision(i, proj)
 
             if (proj.autoTurrets.length > 0) {
-                proj.autoTurretBehaviourTick(this.playerDict, this.polygonList)
-                let newProjectiles = proj.autoTurretFireScheduler()
+                proj.tickAutoTurretBehaviour(this.playerDict, this.polygonList)
+                let newProjectiles = proj.scheduleAutoTurretFiring()
+                for (let projectile of newProjectiles) {
+
+                    this.projectileList.push(projectile)
+                }
+            }
+            if (proj.hp > 0) {
+                let newProjectiles = proj.scheduleFiring()
                 for (let projectile of newProjectiles) {
 
                     this.projectileList.push(projectile)
@@ -320,7 +327,6 @@ export class Game { // Might actually extend this class for different game types
 
         }
 
-        //console.log(player.level, this.levellingInfo.tierThresholds[player.tier - 1])
         if (player.tier - 1 <= this.levellingInfo.tierThresholds.length)
             if (player.level >= this.levellingInfo.tierThresholds[player.tier - 1]) { // MAGIC NUMBER ALERT, ONLY ACCOUNTING FOR TIER 1->2 UPGRADES, FIX LATER
                 let options = [];

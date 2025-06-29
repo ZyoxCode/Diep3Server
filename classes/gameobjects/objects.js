@@ -1,5 +1,5 @@
 import { roundToDecimalPlaces } from "../../utils/utils.js";
-import { Vector, getVectorFromTo } from "../../utils/vectors.js";
+import { Vector, getVectorFromTo, vectorAddition } from "../../utils/vectors.js";
 import { AutoTurret } from "./autoturret.js";
 import { Joint } from "./joints.js";
 import { readFile } from 'fs/promises';
@@ -11,6 +11,7 @@ const tankoids = JSON.parse(
 )
 
 const ATTACHMENT_REF_SIZE = 5;
+const FORCED_AUTOSPIN_SPEED = -0.01;
 
 export class GameObject {
     constructor(x, y, r, dx, dy, dr) {
@@ -64,6 +65,10 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
             this.joints.push(new Joint(...joint))
         }
 
+        this.hasForcedAutoSpin = false;
+        if ('Forced Auto Spin' in tankoids[tankoidPreset]) {
+            this.hasForcedAutoSpin = tankoids[tankoidPreset]['Forced Auto Spin']
+        }
 
         for (let point of tankoids[tankoidPreset]['Firing Points']) {
 
@@ -207,10 +212,18 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
         if (tankoids[firingData['Summons']]['Behaviour'] == 'construct') {
             extraStats['toPos'].x = this.mousePos.x;
             extraStats['toPos'].y = this.mousePos.y;
-            // if (getVectorFromTo(extraStats.toPos, point).modulus() < 20) {
-            //     speedLambda = (getVectorFromTo(extraStats.toPos, point).modulus() / 20)
-            // }
         }
+
+        let recoilVector = new Vector(0, 1)
+        if (Object.keys(firingData).includes('Recoil Multiplier')) {
+            recoilVector.scalarMultiply(firingData['Recoil Multiplier'])
+        }
+
+        recoilVector.rotateAround((-direction + directionVar) + Math.PI)
+
+        recoilVector.scalarMultiply(Math.sqrt(dx ** 2 + dy ** 2) * 0.1)
+
+        this.velocity = vectorAddition(this.velocity, recoilVector)
 
 
 
@@ -268,7 +281,7 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
             if (auto.positionInFiringOrder == auto.firingOrder.length) {
                 auto.positionInFiringOrder = 0
             }
-            if (auto.firing) {
+            if (auto.firing && auto.firingOrder.length > 0) {
                 if (this.firingPoints[auto.firingPointIndexes[auto.firingOrder[auto.positionInFiringOrder][0]]].cooldown == 0) {
                     let firingData;
                     for (let i in auto.firingOrder[auto.positionInFiringOrder]) {
@@ -297,8 +310,11 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
             let path = [...auto.centerJointPath]
             let pointData = this.joints[path[0]].propagate(path, this.position, this.rotation, this.size / ATTACHMENT_REF_SIZE)
             path = [...auto.centerJointPath]
-            let baseAngle = this.joints[path[0]].propagateObject(path).baseAngleFromLast * (Math.PI / 180)
-            let controlJointTargetAngle = auto.targeting(pointData[0], players, polygons, pointData[1], baseAngle)
+            let mousePos = this.position
+            if ('mousePos' in this) {
+                mousePos = this.mousePos
+            }
+            let controlJointTargetAngle = auto.targeting(pointData[0], players, polygons, pointData[1], mousePos, this.requestingFire)
 
             for (let jointPath of auto.controlJointPaths) {
                 let path = [...jointPath]
@@ -335,6 +351,7 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
 export class Player extends Tankoid {
     constructor(id, x, y, r, tankoidPreset = 'Basic', upgradeCurves = {}, score = 10000, size = 4, dx = 0, dy = 0, dr = 0) {
         super(x, y, r, dx, dy, dr, tankoidPreset);
+
 
         this.mousePos = new Vector(x, y)
         this.superType = 'player';
@@ -380,10 +397,17 @@ export class Player extends Tankoid {
         this.hasHitBox = true;
         this.hitBoxRadius = this.size; // fix for apothem
 
+
+
         this.updateStatsOnUpgrade()
+
     }
 
     tick() {
+
+        if (this.hasForcedAutoSpin == true) {
+            this.rotation += FORCED_AUTOSPIN_SPEED
+        }
 
         if (this.moveReq == true) {
             this.velocity.x += Math.cos(this.moveReqAngle) * 0.02;
@@ -461,7 +485,33 @@ export class Projectile extends Tankoid {
 
 export class Bullet extends Projectile {
     constructor(id, x, y, r, dx, dy, dr, tankoidPreset, inheretedMultipliers, extras = {}) {
+
         super(id, x, y, r, dx, dy, dr, tankoidPreset, inheretedMultipliers);
+        this.rotation = -this.velocity.getAngle() + Math.PI / 2
+
+    }
+    tick() {
+
+        this.position.x += this.velocity.x
+        this.position.y += this.velocity.y
+
+        if (this.stats.lifespan > 0) {
+            this.stats.lifespan += -1
+        }
+
+        if (this.hp <= 0 && this.stats.lifespan > 0) {
+            this.stats.lifespan = 0;
+        }
+
+        if (this.flashTimer > 0) {
+            this.flashTimer += -1
+        }
+
+        if (this.stats.lifespan == 0) {
+            this.fadeTimer += -1;
+        }
+
+        this.updateCooldowns()
     }
 }
 
@@ -507,10 +557,16 @@ export class Construct extends Projectile {
         super(id, x, y, r, dx, dy, dr, tankoidPreset, inheretedMultipliers);
         this.extras = extras;
         this.tracking = true;
+
         this.stats.speed = this.velocity.modulus();
+        this.stats.startSpeed = this.stats.speed;
+        this.stats.cruiseDivisor = 10;
+
+
     }
 
     tick() {
+        this.stats.test2 = (this.stats.maxLifespan - this.stats.lifespan)
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
         this.rotation += this.rotationalVelocity;
@@ -532,7 +588,7 @@ export class Construct extends Projectile {
         }
 
         if (!('deaccel' in this.stats)) {
-            this.stats['deaccel'] = 0.94;
+            this.stats['deaccel'] = 0.9;
         }
 
         if (this.tracking == false) {
@@ -542,13 +598,20 @@ export class Construct extends Projectile {
         } else {
             let newVel = getVectorFromTo(this.extras.toPos, this.position)
             newVel.makeUnit()
-            newVel.scalarMultiply(this.velocity.modulus())
-            this.velocity = newVel;
+
+
+            newVel.scalarMultiply(this.stats.startSpeed / this.stats.cruiseDivisor)
+
+            this.velocity.x += newVel.x;
+            this.velocity.y += newVel.y;
+
+            this.velocity.scalarMultiply(0.9)
         }
 
-        if (getVectorFromTo(this.position, this.extras.toPos).modulus() < 20) {
+        if (getVectorFromTo(this.position, this.extras.toPos).modulus() < this.stats.startSpeed * 10) {
             this.tracking = false;
-        }
+            //
+        } else { }
 
         this.updateCooldowns();
     }

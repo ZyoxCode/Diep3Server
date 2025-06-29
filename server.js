@@ -61,7 +61,9 @@ io.on('connection', (socket) => {
 
     socket.on('mouseMove', (data) => { // Add movement speeds for different tanks later
 
-        Game.playerDict[socket.id].rotation = data.angle;
+        if (Game.playerDict[socket.id].hasForcedAutoSpin == false) {
+            Game.playerDict[socket.id].rotation = data.angle;
+        }
         Game.playerDict[socket.id].mousePos.x = data.mousePos.x;
         Game.playerDict[socket.id].mousePos.y = data.mousePos.y;
 
