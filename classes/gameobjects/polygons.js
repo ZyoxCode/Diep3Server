@@ -1,5 +1,4 @@
-import { GameObject } from "./gameobject.js";
-import * as shapes from '../shapes.js';
+import { OldGameObject } from "./gameobject.js";
 import * as vectors from '../../utils/vectors.js'
 import { readFile } from 'fs/promises';
 
@@ -11,7 +10,7 @@ const polyPresets = JSON.parse(
 );
 
 
-export class Polygon extends GameObject {
+export class Polygon extends OldGameObject {
     constructor(sectorId, x, y, rotation, polygonType, statSpread = {}, startDx = 0, startDy = 0, startDr = 0) {
         super(x, y, rotation * (Math.PI / 180));
 

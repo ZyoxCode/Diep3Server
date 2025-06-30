@@ -1832,9 +1832,7 @@
                 ],
                 "baseDelay": 20,
                 "Recoil Multiplier": 0.4,
-                "Multipliers": {
-                    "size": 1.2
-                }
+                "Multipliers": {}
             },
             {
                 "Joint Path": [
@@ -1851,9 +1849,7 @@
                         1
                     ]
                 ],
-                "Multipliers": {
-                    "size": 1.2
-                },
+                "Multipliers": {},
                 "baseDelay": 20
             },
             {
@@ -1871,9 +1867,7 @@
                         2
                     ]
                 ],
-                "Multipliers": {
-                    "size": 1.2
-                },
+                "Multipliers": {},
                 "baseDelay": 20
             }
         ],
@@ -2043,9 +2037,7 @@
                 ],
                 "baseDelay": 15,
                 "Recoil Multiplier": 0.4,
-                "Multipliers": {
-                    "size": 1.2
-                }
+                "Multipliers": {}
             },
             {
                 "Joint Path": [
@@ -2062,9 +2054,7 @@
                         1
                     ]
                 ],
-                "Multipliers": {
-                    "size": 1.2
-                },
+                "Multipliers": {},
                 "baseDelay": 15
             },
             {
@@ -2082,9 +2072,7 @@
                         2
                     ]
                 ],
-                "Multipliers": {
-                    "size": 1.2
-                },
+                "Multipliers": {},
                 "baseDelay": 15
             },
             {
@@ -2102,9 +2090,7 @@
                         3
                     ]
                 ],
-                "Multipliers": {
-                    "size": 1.2
-                },
+                "Multipliers": {},
                 "baseDelay": 15
             },
             {
@@ -2122,9 +2108,7 @@
                         4
                     ]
                 ],
-                "Multipliers": {
-                    "size": 1.2
-                },
+                "Multipliers": {},
                 "baseDelay": 15
             }
         ],
@@ -2298,9 +2282,7 @@
                 ],
                 "baseDelay": 15,
                 "Recoil Multiplier": 0.4,
-                "Multipliers": {
-                    "size": 1.2
-                }
+                "Multipliers": {}
             },
             {
                 "Joint Path": [
@@ -2317,9 +2299,7 @@
                         1
                     ]
                 ],
-                "Multipliers": {
-                    "size": 1.2
-                },
+                "Multipliers": {},
                 "baseDelay": 15
             },
             {
@@ -2337,9 +2317,7 @@
                         2
                     ]
                 ],
-                "Multipliers": {
-                    "size": 1.2
-                },
+                "Multipliers": {},
                 "baseDelay": 15
             },
             {
@@ -2357,9 +2335,7 @@
                         3
                     ]
                 ],
-                "Multipliers": {
-                    "size": 1.2
-                },
+                "Multipliers": {},
                 "baseDelay": 15
             },
             {
@@ -2377,9 +2353,7 @@
                         4
                     ]
                 ],
-                "Multipliers": {
-                    "size": 1.2
-                },
+                "Multipliers": {},
                 "baseDelay": 15
             }
         ],
@@ -4835,8 +4809,8 @@
         "Base Stats": {
             "hp": 4,
             "dmg": 2,
-            "size": 1.6,
-            "speed": 0.5,
+            "size": 1.8,
+            "speed": 0.4,
             "lifespan": 100
         }
     },

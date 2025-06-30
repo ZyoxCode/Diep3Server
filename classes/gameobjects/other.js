@@ -1,8 +1,8 @@
-import { GameObject } from "./gameobject.js";
+import { OldGameObject } from "./gameobject.js";
 import * as vectors from '../../utils/vectors.js'
 //import * as shapes from '../shapes.js';
 
-export class ImmovableObject extends GameObject {
+export class ImmovableObject extends OldGameObject {
     constructor(x, y, rotation, size, sides) {
         super(x, y, rotation * (Math.PI / 180));
 

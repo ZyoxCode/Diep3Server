@@ -1,6 +1,5 @@
 import { ImmovableObject } from './classes/gameobjects/other.js';
-//import { Player } from './classes/gameobjects/players.js';
-import { Player } from './classes/gameobjects/objects.js'
+import { Player } from './classes/gameobjects/players.js'
 import { Polygon } from './classes/gameobjects/polygons.js';
 import * as mapFeatures from './classes/mapfeatures.js'
 import * as physics from './utils/physics.js'

@@ -1,4 +1,4 @@
-import { getDistance, getVectorFromTo } from "../../utils/vectors.js";
+import { getVectorFromTo } from "../../utils/vectors.js";
 
 export class AutoTurret {
     constructor(args) {
