@@ -1,6 +1,8 @@
 import { Tankoid } from "./gameobject.js";
 import { readFile } from 'fs/promises';
 import { Vector } from "../../utils/vectors.js";
+import { Joint } from "./joints.js";
+import { AutoTurret } from "./autoturret.js";
 
 
 const tankoids = JSON.parse(
@@ -61,6 +63,9 @@ export class Player extends Tankoid {
         this.hasHitBox = true;
         this.hitBoxRadius = this.size; // fix for apothem
 
+        this.reverser = false;
+
+
 
 
         this.updateStatsOnUpgrade()
@@ -94,6 +99,74 @@ export class Player extends Tankoid {
 
         this.clipProperties();
         this.updateCooldowns();
+
+    }
+    buildTankoid(tankoidPreset) {
+        this.baseStats = tankoids[tankoidPreset]['Base Stats'];
+        this.baseStats['maxHp'] = this.baseStats.hp
+        this.stats = {};
+        this.firingOrder = tankoids[tankoidPreset]['Firing Order'];
+        this.positionInFiringOrder = 0;
+        this.firingPoints = [];
+        this.autoTurrets = [];
+        this.joints = [];
+
+        this.upgradesTo = tankoids[tankoidPreset].upgradesTo
+        this.tier = tankoids[tankoidPreset].tier
+
+        this.tankoidPreset = tankoidPreset
+
+        for (const [stat, value] of Object.entries(tankoids[tankoidPreset]['Base Stats'])) {
+            this.stats[stat] = value;
+        }
+
+        this.maxDrones = 0;
+        this.currentDrones = 0;
+
+        if ('Max Drones' in this.stats) {
+            this.maxDrones = this.stats['Max Drones']
+        }
+
+
+        for (let joint of tankoids[tankoidPreset]['Joints']) {
+            this.joints.push(new Joint(...joint))
+        }
+
+        this.hasForcedAutoSpin = false;
+        if ('Forced Auto Spin' in tankoids[tankoidPreset]) {
+            this.hasForcedAutoSpin = tankoids[tankoidPreset]['Forced Auto Spin']
+        }
+
+        for (let point of tankoids[tankoidPreset]['Firing Points']) {
+
+            let newPoint = { ...point };
+            if (!('Multipliers' in newPoint)) {
+                newPoint['Multipliers'] = {};
+            }
+            if (!('Animation Joint Paths' in newPoint)) {
+                newPoint['Animation Joint Paths'] = []
+            }
+            if (!('Delay' in newPoint) && ('baseDelay' in newPoint)) {
+                newPoint.delay = newPoint['baseDelay'];
+            }
+
+            newPoint['Base Multipliers'] = { ...newPoint['Multipliers'] }
+
+            newPoint['cooldown'] = 0;
+            this.firingPoints.push(newPoint);
+
+        }
+        //console.log(Object.keys(tankoids[tankoidPreset]))
+        if (Object.keys(tankoids[tankoidPreset]).includes('Auto Turrets')) {
+            for (let auto of tankoids[tankoidPreset]['Auto Turrets']) {
+
+                this.autoTurrets.push(new AutoTurret(auto))
+            }
+        }
+
+
+        this.dmg = this.stats.dmg;
+        this.hp = this.stats.hp;
 
     }
 }

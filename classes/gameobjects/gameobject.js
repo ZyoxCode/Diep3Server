@@ -1,5 +1,5 @@
 
-import { Vector, vectorAddition } from '../../utils/vectors.js'
+import { Vector, vectorAddition, getVectorFromTo, getApothem } from '../../utils/vectors.js'
 import { roundToDecimalPlaces } from "../../utils/utils.js";
 import { AutoTurret } from "./autoturret.js";
 import { Joint } from "./joints.js";
@@ -61,6 +61,7 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
         this.flashTimer = 0;
 
         this.weightMultiplier = 1;
+
 
     }
 
@@ -214,12 +215,6 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
             }
         }
 
-        for (let animatedPath of firingData['Animation Joint Paths']) {
-            let path = [...animatedPath]
-            let joint = this.joints[path[0]].propagateObject(path)
-            joint.animation.currentT = 0;
-
-        }
         let multipliers = { ...firingData['Multipliers'] }
         if (!('size' in multipliers)) {
             multipliers.size = 1;
@@ -228,7 +223,7 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
 
         let extraStats = { 'toPos': { 'x': 0, 'y': 0 } }
 
-        if (tankoids[firingData['Summons']]['Behaviour'] == 'construct') {
+        if (tankoids[firingData['Summons']]['Behaviour'] == 'construct' || tankoids[firingData['Summons']]['Behaviour'] == 'drone') {
             extraStats['toPos'].x = this.mousePos.x;
             extraStats['toPos'].y = this.mousePos.y;
         }
@@ -239,28 +234,64 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
         }
 
         recoilVector.rotateAround((-direction + directionVar) + Math.PI)
-
         recoilVector.scalarMultiply(Math.sqrt(dx ** 2 + dy ** 2) * 0.1)
 
-        this.velocity = vectorAddition(this.velocity, recoilVector)
 
 
+        if (tankoids[firingData['Summons']]['Behaviour'] == 'drone') {
+            console.log(this.currentDrones, this.maxDrones)
+            if (this.currentDrones < this.maxDrones) {
 
-        return getProjectile(
-            tankoids[firingData['Summons']]['Behaviour'],
-            [
-                this.id,
-                point.x,
-                point.y,
-                (1 + directionVar) * direction,
-                dx,
-                dy,
-                dr,
-                firingData['Summons'],
-                multipliers,
-                extraStats
-            ]
-        )
+                for (let animatedPath of firingData['Animation Joint Paths']) {
+                    let path = [...animatedPath]
+                    let joint = this.joints[path[0]].propagateObject(path)
+                    joint.animation.currentT = 0;
+
+                }
+                this.velocity = vectorAddition(this.velocity, recoilVector)
+                this.currentDrones += 1;
+                return getProjectile(
+                    tankoids[firingData['Summons']]['Behaviour'],
+                    [
+                        this.id,
+                        point.x,
+                        point.y,
+                        (1 + directionVar) * direction,
+                        dx,
+                        dy,
+                        dr,
+                        firingData['Summons'],
+                        multipliers,
+                        extraStats
+                    ]
+                )
+            } else {
+                return 'None'
+            }
+        } else {
+            for (let animatedPath of firingData['Animation Joint Paths']) {
+                let path = [...animatedPath]
+                let joint = this.joints[path[0]].propagateObject(path)
+                joint.animation.currentT = 0;
+
+            }
+            this.velocity = vectorAddition(this.velocity, recoilVector)
+            return getProjectile(
+                tankoids[firingData['Summons']]['Behaviour'],
+                [
+                    this.id,
+                    point.x,
+                    point.y,
+                    (1 + directionVar) * direction,
+                    dx,
+                    dy,
+                    dr,
+                    firingData['Summons'],
+                    multipliers,
+                    extraStats
+                ]
+            )
+        }
     }
 
     scheduleFiring() {
@@ -381,6 +412,7 @@ export class Projectile extends Tankoid {
         }
         // SIZE
         this.size = this.stats.size;
+        this.hp = this.stats.hp
 
 
         // HITBOX
@@ -549,7 +581,97 @@ export class Construct extends Projectile {
     }
 }
 
+export class Drone extends Projectile {
+    constructor(id, x, y, r, dx, dy, dr, tankoidPreset, inheretedMultipliers, extras = {}) {
+        super(id, x, y, r, dx, dy, dr, tankoidPreset, inheretedMultipliers);
+        this.extras = extras;
 
+        this.stats.speed = this.velocity.modulus() * 1.5;
+        this.stats.startSpeed = this.stats.speed;
+        this.stats.cruiseDivisor = 40;
+
+        this.hitBoxRadius = getApothem(this.stats.size, 3)
+        this.reversed = false;
+        this.honing = false;
+
+
+    }
+
+    tick() {
+        this.stats.test2 = (this.stats.maxLifespan - this.stats.lifespan)
+        this.position.x += this.velocity.x
+        this.position.y += this.velocity.y
+        //this.rotation += this.rotationalVelocity;
+        if (this.hp > 0) {
+            this.stats.lifespan = 10;
+        }
+        if (this.stats.lifespan > 0) {
+            this.stats.lifespan += -1
+        }
+
+        if (this.hp <= 0 && this.stats.lifespan > 0) {
+            this.stats.lifespan = 0;
+        }
+
+        if (this.flashTimer > 0) {
+            this.flashTimer += -1
+        }
+
+        if (this.stats.lifespan == 0) {
+            this.fadeTimer += -1;
+        }
+
+        if (!('deaccel' in this.stats)) {
+            this.stats['deaccel'] = 0.98;
+        }
+
+
+
+        if (this.honing && !this.reversed) {
+            let newVel = getVectorFromTo(this.extras.toPos, this.position)
+            newVel.makeUnit()
+
+            newVel.scalarMultiply(this.stats.startSpeed / this.stats.cruiseDivisor)
+            this.rotation = -newVel.getAngle() + (Math.PI / 2)
+
+
+            this.velocity.x += newVel.x;
+            this.velocity.y += newVel.y;
+
+        } else if (this.reversed) {
+            let newVel = getVectorFromTo(this.extras.toPos, this.position)
+            newVel.makeUnit()
+
+            newVel.scalarMultiply(this.stats.startSpeed / this.stats.cruiseDivisor)
+            this.rotation = -newVel.getAngle() - (Math.PI / 2)
+
+            this.velocity.x -= newVel.x;
+            this.velocity.y -= newVel.y;
+
+        }
+
+        this.velocity.scalarMultiply(0.97)
+
+
+        this.updateCooldowns();
+    }
+}
+
+export class MockupTankoid extends GameObject {
+    constructor(tankoidPreset, size, r = 45) {
+        super(0, 0, r * (Math.PI / 180), 0, 0, 0)
+
+        this.tankoidPreset = tankoidPreset;
+        this.size = size;
+
+        this.fadeTimer = 20;
+        this.flashTimer = 0;
+
+        for (let joint of tankoids[tankoidPreset]['Joints']) {
+            this.joints.push(new Joint(...joint))
+        }
+    }
+}
 
 function getProjectile(type, args) {
     if (type == 'bullet') {
@@ -558,5 +680,9 @@ function getProjectile(type, args) {
         return new Trap(...args);
     } else if (type == 'construct') {
         return new Construct(...args);
+    } else if (type == 'drone') {
+        return new Drone(...args);
     }
 }
+
+

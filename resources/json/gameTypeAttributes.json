@@ -82,7 +82,8 @@
                 24000,
                 25600,
                 27400,
-                29200
+                29200,
+                31000
             ],
             "givesSkillPoint": [
                 1,
@@ -108,11 +109,12 @@
             ],
             "tierThresholds": [
                 2,
-                10
+                15,
+                30
             ]
         },
         "constants": {
-            "startScore": 600,
+            "startScore": 11000,
             "startSize": 4,
             "attachmentReferenceSize": 5,
             "scoreTransfer": 0.5,

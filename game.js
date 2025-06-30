@@ -6,6 +6,7 @@ import * as physics from './utils/physics.js'
 import * as lbd from './classes/leaderboard.js'
 
 import { readFile } from 'fs/promises';
+import { MockupTankoid } from './classes/gameobjects/gameobject.js';
 
 
 const mapPresets = JSON.parse(
@@ -65,7 +66,8 @@ export class Game { // Might actually extend this class for different game types
             spawnX = (Math.random() - 0.5) * (this.mapSize / 2)
             spawnY = (Math.random() - 0.5) * (this.mapSize / 2)
         }
-        this.playerDict[id] = new Player(id, spawnX, spawnY, 0, 'Basic', this.upgradeCurves);
+        this.playerDict[id] = new Player(id, spawnX, spawnY, 0, 'Basic', this.upgradeCurves, this.constants.startScore);
+        this.addScore(this.playerDict[id], 0)
     }
 
     removePlayer(id) {
@@ -99,8 +101,9 @@ export class Game { // Might actually extend this class for different game types
             if ((player.requestingFire == true || player.autofire == true) && player.hp > 0) {
                 let newProjectiles = player.scheduleFiring()
                 for (let projectile of newProjectiles) {
-
-                    this.projectileList.push(projectile)
+                    if (projectile != 'None') {
+                        this.projectileList.push(projectile)
+                    }
                 }
             }
 
@@ -108,8 +111,10 @@ export class Game { // Might actually extend this class for different game types
                 player.tickAutoTurretBehaviour(this.playerDict, this.polygonList)
                 let newProjectiles = player.scheduleAutoTurretFiring()
                 for (let projectile of newProjectiles) {
+                    if (projectile != 'None') {
+                        this.projectileList.push(projectile)
+                    }
 
-                    this.projectileList.push(projectile)
                 }
             }
             this.immovableCollision(player);
@@ -198,6 +203,13 @@ export class Game { // Might actually extend this class for different game types
                     this.projectileList.push(projectile)
                 }
             }
+
+            if (proj.constructor.name == 'Drone') {
+
+                proj.extras.toPos = this.playerDict[proj.id].mousePos;
+                proj.reversed = this.playerDict[proj.id].reverser;
+                proj.honing = (this.playerDict[proj.id].requestingFire || this.playerDict[proj.id].autofire);
+            }
         }
     }
 
@@ -256,13 +268,22 @@ export class Game { // Might actually extend this class for different game types
 
         for (let i = this.projectileList.length - 1; i >= 0; i--) {
             if (this.projectileList[i].fadeTimer <= 0) {
+                if (this.projectileList[i].constructor.name == 'Drone') {
+                    this.playerDict[this.projectileList[i].id].currentDrones += -1;
+                }
                 this.projectileList.splice(i, 1)
+
             }
         }
 
         for (let [id, player] of Object.entries(this.playerDict)) {
             if (player.fadeTimer <= 0) {
                 this.removePlayer(id)
+                for (let i in this.projectileList) {
+                    if (this.projectileList[this.projectileList.length - 1 - i].id == id) {
+                        this.projectileList[this.projectileList.length - 1 - i].hp = 0;
+                    }
+                }
                 this.addPlayer(id)
             }
         }
@@ -327,18 +348,20 @@ export class Game { // Might actually extend this class for different game types
             player.level += 1
 
         }
+        if (player.tier - 1 <= this.levellingInfo.tierThresholds.length) {
+            if (player.level >= this.levellingInfo.tierThresholds[player.tier - 1]) {
 
-        if (player.tier - 1 <= this.levellingInfo.tierThresholds.length)
-            if (player.level >= this.levellingInfo.tierThresholds[player.tier - 1]) { // MAGIC NUMBER ALERT, ONLY ACCOUNTING FOR TIER 1->2 UPGRADES, FIX LATER
                 let options = [];
                 for (let upgrade of player.upgradesTo) {
                     // options.push({ 'name': upgrade, 'mockup': new MockupPlayer(1, upgrade) })
-                    options.push({ 'name': upgrade })
+
+                    options.push({ 'name': upgrade, 'mockup': new MockupTankoid(upgrade, 2) })
                 }
                 this.emissions.push({ 'id': player.id, 'type': 'updateTankUpgrades', 'data': { 'options': options } })
                 player.allowedUpgrade = true;
 
             }
+        }
 
     }
 

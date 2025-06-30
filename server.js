@@ -87,6 +87,17 @@ io.on('connection', (socket) => {
         Game.playerDict[socket.id].requestingFire = true;
 
     });
+    socket.on('activateReverser', (data) => { // Add movement speeds for different tanks later
+
+        Game.playerDict[socket.id].reverser = true;
+
+    });
+
+    socket.on('cancelReverser', (data) => { // Add movement speeds for different tanks later
+
+        Game.playerDict[socket.id].reverser = false;
+
+    });
 
     socket.on('requestingCeaseFire', (data) => { // Add movement speeds for different tanks later
 
@@ -150,7 +161,7 @@ tickWorker.on('message', (now) => {
     //console.log(Date.now() - last)
     // last = Date.now()
     Game.messagesToBroadcast = [];
-    Game.emissions = [];
+
     Game.sectorLoop()
     Game.playerLoop()
     Game.projectileLoop()
@@ -159,11 +170,14 @@ tickWorker.on('message', (now) => {
     Game.updateLeaderboard()
 
 
-    for (let emission of Game.emissions) {
+    for (let i in Game.emissions) {
+        let emission = Game.emissions[i]
         if (emission.id in sockets) {
             //console.log(emission)
             sockets[emission.id].emit(emission.type, emission.data)
+
         }
+        Game.emissions.splice(i, 1)
 
     }
     for (let message of Game.messagesToBroadcast) {

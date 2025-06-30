@@ -1,4 +1,4 @@
-//import { MockupPlayer } from "./gameobjects/players.js";
+import { MockupTankoid } from "./gameobjects/gameobject.js";
 
 export class LeaderboardEntry {
     constructor(id, name, score, tank) {
@@ -6,7 +6,7 @@ export class LeaderboardEntry {
         this.name = name;
         this.score = score;
         this.tank = tank;
-        //this.mockup = new MockupPlayer(0.8, tank);
+        this.mockup = new MockupTankoid(tank, 0.6)
     }
 }
 export class Leaderboard {
