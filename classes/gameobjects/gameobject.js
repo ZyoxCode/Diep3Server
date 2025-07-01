@@ -303,23 +303,28 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
             }
 
             if (this.firingPoints[this.firingOrder[this.positionInFiringOrder][0]].cooldown == 0) {
-                let firingData;
-                for (let i in this.firingOrder[this.positionInFiringOrder]) {
-                    firingData = this.firingPoints[this.firingOrder[this.positionInFiringOrder][i]]
-                    newProjectiles.push(this.summonProjectile(firingData))
-                }
 
-                if (this.positionInFiringOrder >= this.firingOrder.length - 1) {
-                    for (let j in this.firingOrder[0]) {
-                        this.firingPoints[this.firingOrder[0][j]].cooldown = firingData.delay;
+                if (!('maxDrones' in this && (tankoids[this.firingPoints[this.firingOrder[this.positionInFiringOrder][0]].Summons].Behaviour == 'drone' && this.currentDrones >= this.maxDrones))) {
+                    console.log("Pos", this.positionInFiringOrder)
+                    let firingData;
+                    for (let i in this.firingOrder[this.positionInFiringOrder]) {
+                        firingData = this.firingPoints[this.firingOrder[this.positionInFiringOrder][i]]
+                        newProjectiles.push(this.summonProjectile(firingData))
                     }
 
-                } else {
-                    for (let j in this.firingOrder[this.positionInFiringOrder + 1]) {
-                        this.firingPoints[this.firingOrder[this.positionInFiringOrder + 1][j]].cooldown = firingData.delay;
+                    if (this.positionInFiringOrder >= this.firingOrder.length - 1) {
+                        for (let j in this.firingOrder[0]) {
+                            this.firingPoints[this.firingOrder[0][j]].cooldown = firingData.delay;
+                        }
+
+                    } else {
+                        for (let j in this.firingOrder[this.positionInFiringOrder + 1]) {
+                            this.firingPoints[this.firingOrder[this.positionInFiringOrder + 1][j]].cooldown = firingData.delay;
+                        }
                     }
+
+                    this.positionInFiringOrder += 1
                 }
-                this.positionInFiringOrder += 1
             }
         }
         return newProjectiles
@@ -594,6 +599,41 @@ export class Drone extends Projectile {
         this.reversed = false;
         this.honing = false;
 
+        this.idleHoming = { "active": false, "vector": { "x": 0, "y": 0 } }
+
+        this.targetingDistance = 20;
+        this.strayDistance = 40;
+
+        this.idleDistance = 20;
+        this.idleAngle = Math.random() * 2 * Math.PI
+
+        this.parentPosition = new Vector(0, 0)
+
+
+    }
+    tracker(polygons, players) {
+        let targetingVector = 'None';
+        let lowestDistance = this.targetingDistance
+
+        for (let poly of polygons) {
+            //console.log(poly.position, centerPos)
+            let vectorTo = getVectorFromTo(this.position, poly.position)
+            //console.log(lowestDistance)
+
+            if (vectorTo.modulus() < lowestDistance && vectorAddition(getVectorFromTo(this.position, this.parentPosition), vectorTo).modulus() < this.strayDistance) {
+
+                targetingVector = vectorTo
+                lowestDistance = vectorTo.modulus()
+
+            }
+        }
+
+        if (targetingVector == 'None') {
+            this.idleHoming.active = false;
+        } else {
+            this.idleHoming.active = true;
+            this.idleHoming.vector = targetingVector
+        }
 
     }
 
@@ -648,6 +688,32 @@ export class Drone extends Projectile {
             this.velocity.x -= newVel.x;
             this.velocity.y -= newVel.y;
 
+        } else if (this.idleHoming.active) {
+            let newVel = new Vector(-this.idleHoming.vector.x, -this.idleHoming.vector.y)
+
+            newVel.makeUnit()
+
+            newVel.scalarMultiply(this.stats.startSpeed / this.stats.cruiseDivisor)
+            this.rotation = -newVel.getAngle() + (Math.PI / 2)
+
+
+            this.velocity.x += newVel.x;
+            this.velocity.y += newVel.y;
+
+        } else {
+            let idlePos = new Vector(0, this.idleDistance);
+            idlePos.rotateAround(this.idleAngle)
+            let newVel = getVectorFromTo(vectorAddition(idlePos, this.parentPosition), this.position)
+            newVel.makeUnit()
+
+            newVel.scalarMultiply(this.stats.startSpeed / (this.stats.cruiseDivisor * 3))
+            this.rotation = -newVel.getAngle() + (Math.PI / 2)
+
+            this.velocity.x += newVel.x;
+            this.velocity.y += newVel.y;
+
+            this.idleAngle += 0.01
+            this.idleAngle = this.idleAngle % (Math.PI * 2)
         }
 
         this.velocity.scalarMultiply(0.97)

@@ -209,6 +209,8 @@ export class Game { // Might actually extend this class for different game types
                 proj.extras.toPos = this.playerDict[proj.id].mousePos;
                 proj.reversed = this.playerDict[proj.id].reverser;
                 proj.honing = (this.playerDict[proj.id].requestingFire || this.playerDict[proj.id].autofire);
+                proj.parentPosition = (this.playerDict[proj.id].position)
+                proj.tracker(this.polygonList, this.playerDict)
             }
         }
     }
@@ -216,7 +218,9 @@ export class Game { // Might actually extend this class for different game types
     projectileProjectileCollision(i1, proj1) {
         for (const [i2, proj2] of this.projectileList.entries()) {
             if (i1 != i2 && proj1.stats.lifespan > 0 && proj2.stats.lifespan > 0) {
-                if (proj1.constructor.name == proj2.constructor.name) {
+                if (proj1.id != proj2.id) {
+                    let collided = this.collisionEngine.collisionHandler(proj1, proj2)
+                } else if (proj1.constructor.name == proj2.constructor.name) {
                     let collided = this.collisionEngine.collisionHandler(proj1, proj2)
                 }
             }

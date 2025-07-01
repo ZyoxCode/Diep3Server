@@ -6458,6 +6458,342 @@
             "Triple Guard"
         ]
     },
+    "Overlord": {
+        "Base Stats": {
+            "hp": 30,
+            "dmg": 3,
+            "Max Drones": 8
+        },
+        "Skill Upgrades": [
+            {
+                "Name": "Max Health",
+                "Color": "squareYellow"
+            },
+            {
+                "Name": "Bullet Damage",
+                "Color": "triangleRed"
+            },
+            {
+                "Name": "Bullet Speed",
+                "Color": "pentagonBlue"
+            },
+            {
+                "Name": "Reload Speed",
+                "Color": "green1"
+            }
+        ],
+        "Joints": [
+            [
+                4,
+                0,
+                90,
+                [
+                    [
+                        3,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                0,
+                270,
+                [
+                    [
+                        3,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                0,
+                0,
+                [
+                    [
+                        3,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                0,
+                180,
+                [
+                    [
+                        3,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "Firing Points": [
+            {
+                "Joint Path": [
+                    0,
+                    0
+                ],
+                "Summons": "Basic Triangular Drone",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        0
+                    ]
+                ],
+                "baseDelay": 80,
+                "Recoil Multiplier": 0.5
+            },
+            {
+                "Joint Path": [
+                    1,
+                    0
+                ],
+                "Summons": "Basic Triangular Drone",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        1
+                    ]
+                ],
+                "baseDelay": 80,
+                "Recoil Multiplier": 0.5
+            },
+            {
+                "Joint Path": [
+                    2,
+                    0
+                ],
+                "Summons": "Basic Triangular Drone",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        2
+                    ]
+                ],
+                "baseDelay": 80,
+                "Recoil Multiplier": 0.5
+            },
+            {
+                "Joint Path": [
+                    3,
+                    0
+                ],
+                "Summons": "Basic Triangular Drone",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        3
+                    ]
+                ],
+                "baseDelay": 80,
+                "Recoil Multiplier": 0.5
+            }
+        ],
+        "Firing Order": [
+            [
+                0,
+                1
+            ],
+            [
+                2,
+                3
+            ]
+        ],
+        "tier": 3,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder",
+            "Triple Guard"
+        ]
+    },
+    "Foreman": {
+        "Base Stats": {
+            "hp": 30,
+            "dmg": 3,
+            "Max Drones": 2
+        },
+        "Skill Upgrades": [
+            {
+                "Name": "Max Health",
+                "Color": "squareYellow"
+            },
+            {
+                "Name": "Bullet Damage",
+                "Color": "triangleRed"
+            },
+            {
+                "Name": "Bullet Speed",
+                "Color": "pentagonBlue"
+            },
+            {
+                "Name": "Reload Speed",
+                "Color": "green1"
+            }
+        ],
+        "Joints": [
+            [
+                4,
+                0,
+                90,
+                [
+                    [
+                        3,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ],
+            [
+                4,
+                0,
+                270,
+                [
+                    [
+                        3,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "Firing Points": [
+            {
+                "Joint Path": [
+                    0,
+                    0
+                ],
+                "Summons": "Basic Triangular Drone",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        0
+                    ]
+                ],
+                "baseDelay": 120,
+                "Recoil Multiplier": 0.5,
+                "Multipliers": {
+                    "size": 2,
+                    "hp": 2,
+                    "speed": 0.6
+                }
+            },
+            {
+                "Joint Path": [
+                    1,
+                    0
+                ],
+                "Summons": "Basic Triangular Drone",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        1
+                    ]
+                ],
+                "baseDelay": 120,
+                "Recoil Multiplier": 0.5,
+                "Multipliers": {
+                    "size": 2,
+                    "hp": 2,
+                    "speed": 0.6
+                }
+            }
+        ],
+        "Firing Order": [
+            [
+                0,
+                1
+            ]
+        ],
+        "tier": 4,
+        "upgradesTo": [
+            "Twin",
+            "Machine Gun",
+            "Trapper",
+            "Sniper",
+            "Pounder",
+            "Triple Guard"
+        ]
+    },
     "Headman": {
         "Base Stats": {
             "hp": 30,
