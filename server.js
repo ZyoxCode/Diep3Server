@@ -3,6 +3,7 @@ import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
 import { Worker } from 'worker_threads';
+import { cors } from 'cors'
 
 import * as games from './game.js'
 
@@ -12,6 +13,7 @@ const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
 // Set up Express app
 const app = express();
+app.use(cors())
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
