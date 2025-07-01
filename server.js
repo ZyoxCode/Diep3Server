@@ -6,8 +6,6 @@ import { Worker } from 'worker_threads';
 
 import * as games from './game.js'
 
-
-
 const Game = new games.Game('sandbox', 'tiny')
 const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
@@ -17,7 +15,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*",
+        origin: "https://diep3.oggyp.com",
         methods: ["GET", "POST"]
     }
 });
