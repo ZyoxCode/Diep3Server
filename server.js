@@ -200,7 +200,7 @@ setInterval(() => {
         sockets[message.id].emit('addBroadcast', { 'text': message.message })
     }
     let transmitPlayers = {};
-    for (let player of Game.playerDict) {
+    for (let player of Object.entries(Game.playerDict)) {
         transmitPlayers[player.id] = { 'id': player.id, 'username': player.username, 'rotation': player.rotation, 'position': player.position, 'joints': player.joints, 'hp': player.hp, 'stats': { 'maxHp': player.stats.maxHp }, 'upgradesTo': player.upgradesTo, 'level': player.level, 'score': player.score, 'tankoidPreset': tankoidPreset, 'allocatablePoints': player.allocatablePoints, 'fadeTimer': player.fadeTimer, 'flashTimer': player.flashTimer, 'size': player.size }
     }
 
