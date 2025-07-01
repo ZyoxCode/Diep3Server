@@ -186,29 +186,28 @@ setInterval(() => {
     Game.updateLeaderboard()
 
 
-    for (let i in Game.emissions) {
-        let emission = Game.emissions[i]
-        if (emission.id in sockets) {
-            //console.log(emission)
-            sockets[emission.id].emit(emission.type, emission.data)
-
-        }
-        Game.emissions.splice(i, 1)
-
-    }
-    for (let message of Game.messagesToBroadcast) {
-        sockets[message.id].emit('addBroadcast', { 'text': message.message })
-    }
     let transmitPlayers = {};
     for (let id in Game.playerDict) {
         let player = Game.playerDict[id]
 
-        transmitPlayers[player.id] = { 'id': player.id, 'username': player.username, 'rotation': player.rotation, 'position': player.position, 'joints': player.joints, 'hp': player.hp, 'stats': { 'maxHp': player.maxHp }, 'upgradesTo': player.upgradesTo, 'level': player.level, 'score': player.score, 'tankoidPreset': player.tankoidPreset, 'allocatablePoints': player.allocatablePoints, 'fadeTimer': player.fadeTimer, 'flashTimer': player.flashTimer, 'size': player.size }
+        transmitPlayers[player.id] = { 'id': player.id, 'username': player.username, 'rotation': player.rotation, 'position': player.position, 'joints': player.joints, 'hp': player.hp, 'stats': { 'maxHp': player.maxHp }, 'upgradesTo': player.upgradesTo, 'level': player.level, 'score': player.score, 'tankoidPreset': player.tankoidPreset, 'allocatablePoints': player.allocatablePoints, 'fadeTimer': player.fadeTimer, 'flashTimer': player.flashTimer, 'size': player.size, 'allowedUpgrade': player.allowedUpgrade, 'skillUpgrades': player.skillUpgrades }
+
+    }
+    let transmitProjectiles = [];
+    for (let proj of Game.projectileList) {
+
+        transmitProjectiles.push({ 'position': proj.position, 'id': proj.id, 'rotation': proj.rotation, 'joints': proj.joints, 'tankoidPreset': proj.tankoidPreset, 'flashTimer': proj.flashTimer, 'fadeTimer': proj.fadeTimer, 'size': proj.size })
+    }
+
+    let transmitPolys = [];
+    for (let poly of Game.polygonList) {
+        transmitPolys.push({ 'position': poly.position, 'maxHp': poly.maxHp, 'hp': poly.hp, 'rotation': poly.rotation, 'size': poly.size, 'flashTimer': poly.flashTimer, 'fadeTimer': poly.fadeTimer, 'sides': poly.sides, 'polygonType': poly.polygonType })
 
     }
 
-    io.emit('gameState', { 'players': transmitPlayers, 'projectiles': Game.projectileList, 'polygons': Game.polygonList, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList });
-}, 1000 / 70);
+
+    io.emit('gameState', { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList });
+}, 1000 / 60);
 //console.log(Date.now() - last)
 // last = Date.now()
 
