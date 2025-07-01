@@ -185,6 +185,19 @@ setInterval(() => {
     Game.cullObjects()
     Game.updateLeaderboard()
 
+    for (let i in Game.emissions) {
+        let emission = Game.emissions[i]
+        if (emission.id in sockets) {
+            //console.log(emission)
+            sockets[emission.id].emit(emission.type, emission.data)
+
+        }
+        Game.emissions.splice(i, 1)
+
+    }
+    for (let message of Game.messagesToBroadcast) {
+        sockets[message.id].emit('addBroadcast', { 'text': message.message })
+    }
 
     let transmitPlayers = {};
     for (let id in Game.playerDict) {

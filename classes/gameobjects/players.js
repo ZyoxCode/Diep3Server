@@ -3,6 +3,7 @@ import { readFile } from 'fs/promises';
 import { Vector } from "../../utils/vectors.js";
 import { Joint } from "./joints.js";
 import { AutoTurret } from "./autoturret.js";
+import { roundToDecimalPlaces } from "../../utils/utils.js";
 
 
 const tankoids = JSON.parse(
@@ -103,6 +104,8 @@ export class Player extends Tankoid {
 
     }
     buildTankoid(tankoidPreset) {
+
+
         this.baseStats = tankoids[tankoidPreset]['Base Stats'];
         this.baseStats['maxHp'] = this.baseStats.hp
         this.stats = {};
@@ -117,8 +120,9 @@ export class Player extends Tankoid {
 
         this.tankoidPreset = tankoidPreset
 
+
         for (const [stat, value] of Object.entries(tankoids[tankoidPreset]['Base Stats'])) {
-            this.stats[stat] = value;
+            this.stats[stat] = [...[value]][0];
         }
 
         this.maxDrones = 0;
@@ -140,7 +144,9 @@ export class Player extends Tankoid {
 
         for (let point of tankoids[tankoidPreset]['Firing Points']) {
 
-            let newPoint = { ...point };
+            let newPoint = [{ ...{ ...point } }][0];
+            newPoint.Multipliers = { ...point.Multipliers }
+
             if (!('Multipliers' in newPoint)) {
                 newPoint['Multipliers'] = {};
             }
@@ -154,7 +160,8 @@ export class Player extends Tankoid {
             newPoint['Base Multipliers'] = { ...newPoint['Multipliers'] }
 
             newPoint['cooldown'] = 0;
-            this.firingPoints.push(newPoint);
+            this.firingPoints.push({ ...newPoint });
+
 
         }
         //console.log(Object.keys(tankoids[tankoidPreset]))
@@ -169,5 +176,35 @@ export class Player extends Tankoid {
         this.dmg = this.stats.dmg;
         this.hp = this.stats.hp;
 
+    }
+    updateStatsOnUpgrade() {
+        // HP
+
+        let newMaxHp = this.upgradeCurves[this.upgradePreset]['Max Health'][this.skillUpgrades['Max Health'].level];
+
+        this.hp = this.hp * (newMaxHp / this.stats.maxHp);
+        this.stats.maxHp = newMaxHp;
+        this.maxHp = newMaxHp
+
+        for (let firingPoint of this.firingPoints) {
+            //console.log(firingPoint['Base Multipliers'])
+            if (!('speed' in firingPoint['Multipliers'])) {
+                firingPoint['Multipliers'].speed = 1
+            }
+            if (!('speed' in firingPoint['Base Multipliers'])) {
+                firingPoint['Base Multipliers'].speed = 1
+            }
+            if (!('dmg' in firingPoint['Multipliers'])) {
+                firingPoint['Multipliers'].dmg = 1
+            }
+            if (!('dmg' in firingPoint['Base Multipliers'])) {
+                firingPoint['Base Multipliers'].dmg = 1
+            }
+
+            firingPoint['Multipliers'].speed = roundToDecimalPlaces(this.upgradeCurves[this.upgradePreset]['Bullet Speed'][this.skillUpgrades['Bullet Speed'].level] * firingPoint['Base Multipliers'].speed, 2)
+            firingPoint['Multipliers'].dmg = roundToDecimalPlaces(this.upgradeCurves[this.upgradePreset]['Bullet Damage'][this.skillUpgrades['Bullet Damage'].level] * firingPoint['Base Multipliers'].dmg, 0)
+            firingPoint.delay = roundToDecimalPlaces(firingPoint.baseDelay * this.upgradeCurves[this.upgradePreset]['Reload Speed'][this.skillUpgrades['Reload Speed'].level], 0)
+
+        }
     }
 }

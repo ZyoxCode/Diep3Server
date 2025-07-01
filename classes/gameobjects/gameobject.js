@@ -78,8 +78,10 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
         this.tankoidPreset = tankoidPreset
 
         for (const [stat, value] of Object.entries(tankoids[tankoidPreset]['Base Stats'])) {
-            this.stats[stat] = value;
+            this.stats[stat] = value; // this is not the problem
         }
+
+        this.baseStats['maxHp'] = this.stats.hp
 
         for (let joint of tankoids[tankoidPreset]['Joints']) {
             this.joints.push(new Joint(...joint))
@@ -91,7 +93,6 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
         }
 
         for (let point of tankoids[tankoidPreset]['Firing Points']) {
-
             let newPoint = { ...point };
             if (!('Multipliers' in newPoint)) {
                 newPoint['Multipliers'] = {};
@@ -102,7 +103,6 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
             if (!('Delay' in newPoint) && ('baseDelay' in newPoint)) {
                 newPoint.delay = newPoint['baseDelay'];
             }
-
             newPoint['Base Multipliers'] = { ...newPoint['Multipliers'] }
 
             newPoint['cooldown'] = 0;
@@ -129,6 +129,7 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
 
         this.hp = this.hp * (newMaxHp / this.stats.maxHp);
         this.stats.maxHp = newMaxHp;
+        this.maxHp = newMaxHp
 
         for (let firingPoint of this.firingPoints) {
             if (!('speed' in firingPoint['Multipliers'])) {
@@ -143,6 +144,7 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
             if (!('dmg' in firingPoint['Base Multipliers'])) {
                 firingPoint['Base Multipliers'].dmg = 1
             }
+
             firingPoint['Multipliers'].speed = roundToDecimalPlaces(this.upgradeCurves[this.upgradePreset]['Bullet Speed'][this.skillUpgrades['Bullet Speed'].level] * firingPoint['Base Multipliers'].speed, 2)
             firingPoint['Multipliers'].dmg = roundToDecimalPlaces(this.upgradeCurves[this.upgradePreset]['Bullet Damage'][this.skillUpgrades['Bullet Damage'].level] * firingPoint['Base Multipliers'].dmg, 0)
             firingPoint.delay = roundToDecimalPlaces(firingPoint.baseDelay * this.upgradeCurves[this.upgradePreset]['Reload Speed'][this.skillUpgrades['Reload Speed'].level], 0)

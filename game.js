@@ -59,14 +59,14 @@ export class Game { // Might actually extend this class for different game types
 
     }
 
-    addPlayer(id, x = 'random', y = 'random') {
+    addPlayer(id, x = 'random', y = 'random', name = 'Unnamed Tank') {
         let spawnX = x;
         let spawnY = y;
         if (x == 'random' && y == 'random') {
             spawnX = (Math.random() - 0.5) * (this.mapSize / 2)
             spawnY = (Math.random() - 0.5) * (this.mapSize / 2)
         }
-        this.playerDict[id] = new Player(id, "Unnamed Tank", spawnX, spawnY, 0, 'Basic', this.upgradeCurves, this.constants.startScore);
+        this.playerDict[id] = new Player(id, name, spawnX, spawnY, 0, 'Basic', this.upgradeCurves, this.constants.startScore);
         this.addScore(this.playerDict[id], 0)
     }
 
@@ -282,13 +282,14 @@ export class Game { // Might actually extend this class for different game types
 
         for (let [id, player] of Object.entries(this.playerDict)) {
             if (player.fadeTimer <= 0) {
+                let oldName = player.username
                 this.removePlayer(id)
                 for (let i in this.projectileList) {
                     if (this.projectileList[this.projectileList.length - 1 - i].id == id) {
                         this.projectileList[this.projectileList.length - 1 - i].hp = 0;
                     }
                 }
-                this.addPlayer(id)
+                this.addPlayer(id, 'random', 'random', oldName)
             }
         }
     }
