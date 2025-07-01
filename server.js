@@ -13,7 +13,7 @@ const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
 // Set up Express app
 const app = express();
-app.use(cors())
+app.use(cors({ origin: 'https://diep3.oggyp.com' }));
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
