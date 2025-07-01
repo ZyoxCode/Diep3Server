@@ -2,13 +2,13 @@
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-import { Worker } from 'worker_threads';
+//import { Worker } from 'worker_threads';
 import cors from 'cors'
 
 import * as games from './game.js'
 
 const Game = new games.Game('sandbox', 'tiny')
-const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
+//const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
 
 // Set up Express app
@@ -173,9 +173,9 @@ io.on('connection', (socket) => {
 });
 
 // let last = Date.now()
-tickWorker.on('message', (now) => {
-    //console.log(Date.now() - last)
-    // last = Date.now()
+// tickWorker.on('message', (now) => {
+
+setInterval(() => {
     Game.messagesToBroadcast = [];
 
     Game.sectorLoop()
@@ -201,8 +201,12 @@ tickWorker.on('message', (now) => {
     }
 
     io.emit('gameState', { 'players': Game.playerDict, 'projectiles': Game.projectileList, 'polygons': Game.polygonList, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList });
+}, 1000 / 70);
+//console.log(Date.now() - last)
+// last = Date.now()
 
-});
+
+// });
 
 
 // Start the server
