@@ -199,8 +199,12 @@ setInterval(() => {
     for (let message of Game.messagesToBroadcast) {
         sockets[message.id].emit('addBroadcast', { 'text': message.message })
     }
+    let transmitPlayers = {};
+    for (let player of Game.playerDict) {
+        transmitPlayers[player.id] = { 'id': player.id, 'username': player.username, 'rotation': player.rotation, 'position': player.position, 'joints': player.joints, 'hp': player.hp, 'stats': { 'maxHp': player.stats.maxHp }, 'upgradesTo': player.upgradesTo, 'level': player.level, 'score': player.score, 'tankoidPreset': tankoidPreset, 'allocatablePoints': player.allocatablePoints, 'fadeTimer': player.fadeTimer, 'flashTimer': player.flashTimer, 'size': player.size }
+    }
 
-    io.emit('gameState', { 'players': Game.playerDict, 'projectiles': Game.projectileList, 'polygons': Game.polygonList, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList });
+    io.emit('gameState', { 'players': transmitPlayers, 'projectiles': Game.projectileList, 'polygons': Game.polygonList, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList });
 }, 1000 / 70);
 //console.log(Date.now() - last)
 // last = Date.now()
