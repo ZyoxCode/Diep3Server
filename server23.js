@@ -2,27 +2,22 @@
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-//import { Worker } from 'worker_threads';
-import cors from 'cors'
+import { Worker } from 'worker_threads';
+//import cors from 'cors'
 
 import * as games from './game.js'
 
 const Game = new games.Game('sandbox', 'tiny')
-//const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
+const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
 
 // Set up Express app
 const app = express();
-app.use(cors({
-    origin: 'https://diep3.oggyp.com',
-    credentials: true
-}));
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "https://diep3.oggyp.com",
-        methods: ["GET", "POST"],
-        credentials: true
+        origin: "*",
+        methods: ["GET", "POST"]
     }
 });
 
@@ -175,7 +170,7 @@ io.on('connection', (socket) => {
 // let last = Date.now()
 // tickWorker.on('message', (now) => {
 
-setInterval(() => {
+tickWorker.on('message', (now) => {
     Game.messagesToBroadcast = [];
 
     Game.sectorLoop()
@@ -207,8 +202,10 @@ setInterval(() => {
 
     }
 
+
+
     io.emit('gameState', { 'players': transmitPlayers, 'projectiles': Game.projectileList, 'polygons': Game.polygonList, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList });
-}, 1000 / 70);
+});
 //console.log(Date.now() - last)
 // last = Date.now()
 
