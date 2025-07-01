@@ -149,7 +149,7 @@
             "attachmentReferenceSize": 5,
             "scoreTransfer": 0.5,
             "globalDefaultSpawnRate": 0.002,
-            "globalDefaultSpawnCapacity": 10
+            "globalDefaultSpawnCapacity": 4
         }
     }
 }
