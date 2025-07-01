@@ -15,13 +15,14 @@ const FORCED_AUTOSPIN_SPEED = -0.01;
 
 
 export class Player extends Tankoid {
-    constructor(id, x, y, r, tankoidPreset = 'Basic', upgradeCurves = {}, score = 10000, size = 4, dx = 0, dy = 0, dr = 0) {
+    constructor(id, username, x, y, r, tankoidPreset = 'Basic', upgradeCurves = {}, score = 10000, size = 4, dx = 0, dy = 0, dr = 0) {
         super(x, y, r, dx, dy, dr, tankoidPreset);
 
 
         this.mousePos = new Vector(x, y)
         this.superType = 'player';
         this.id = id;
+        this.username = username
 
         // UPGRADES
         this.upgradeCurves = upgradeCurves // Move to game

@@ -116,6 +116,17 @@ io.on('connection', (socket) => {
 
 
         Game.playerDict[socket.id].switchPreset(data.name)
+        Game.upgradeCull(socket.id);
+        // if (success == false) {
+        //     socket.emit('addBroadcast', { 'text': `Invalid tank name: ${data.name}` })
+        // }
+
+    });
+
+    socket.on('setUsername', (data) => {
+
+
+        Game.playerDict[socket.id].username = data.username
         // if (success == false) {
         //     socket.emit('addBroadcast', { 'text': `Invalid tank name: ${data.name}` })
         // }
@@ -124,6 +135,7 @@ io.on('connection', (socket) => {
 
     socket.on('tankUpgradeRequest', (data) => {
         Game.playerDict[socket.id].switchPreset(data);
+        Game.upgradeCull(socket.id);
     });
 
     socket.on('upgradeRequest', (data) => {

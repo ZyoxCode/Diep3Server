@@ -239,7 +239,7 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
 
 
         if (tankoids[firingData['Summons']]['Behaviour'] == 'drone') {
-            console.log(this.currentDrones, this.maxDrones)
+
             if (this.currentDrones < this.maxDrones) {
 
                 for (let animatedPath of firingData['Animation Joint Paths']) {
@@ -305,7 +305,7 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
             if (this.firingPoints[this.firingOrder[this.positionInFiringOrder][0]].cooldown == 0) {
 
                 if (!('maxDrones' in this && (tankoids[this.firingPoints[this.firingOrder[this.positionInFiringOrder][0]].Summons].Behaviour == 'drone' && this.currentDrones >= this.maxDrones))) {
-                    console.log("Pos", this.positionInFiringOrder)
+
                     let firingData;
                     for (let i in this.firingOrder[this.positionInFiringOrder]) {
                         firingData = this.firingPoints[this.firingOrder[this.positionInFiringOrder][i]]

@@ -1,7 +1,7 @@
 {
     "Basic": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -77,12 +77,13 @@
             "Trapper",
             "Sniper",
             "Pounder",
-            "Triple Guard"
+            "Triple Guard",
+            "Director"
         ]
     },
     "Twin": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -198,7 +199,7 @@
     },
     "Sniper": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -277,7 +278,7 @@
     },
     "Machine Gun": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -350,13 +351,11 @@
             ]
         ],
         "tier": 2,
-        "upgradesTo": [
-            "Machine Gun"
-        ]
+        "upgradesTo": []
     },
     "Pounder": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -438,7 +437,7 @@
     },
     "Trapper": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -518,7 +517,7 @@
     },
     "Destroyer": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -594,14 +593,11 @@
             ]
         ],
         "tier": 3,
-        "upgradesTo": [
-            "Builder",
-            "Launcher"
-        ]
+        "upgradesTo": []
     },
     "Tri-Trapper": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -764,7 +760,7 @@
     },
     "Hexa-Trapper": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -1138,7 +1134,7 @@
     },
     "Builder": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -1211,16 +1207,13 @@
         ],
         "tier": 3,
         "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder"
+            "Architect",
+            "Engineer"
         ]
     },
     "Pen": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -1341,7 +1334,7 @@
     },
     "Tri-Pen": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -1621,18 +1614,14 @@
                 5
             ]
         ],
-        "tier": 3,
+        "tier": 4,
         "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder"
+            "Coop"
         ]
     },
     "Coop": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -2095,14 +2084,8 @@
                 8
             ]
         ],
-        "tier": 3,
-        "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder"
-        ],
+        "tier": 5,
+        "upgradesTo": [],
         "Auto Turrets": [
             {
                 "firingPointIndexes": [
@@ -2128,7 +2111,7 @@
     },
     "Triple Guard": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -2284,7 +2267,7 @@
     },
     "Tri-Angle": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -2444,7 +2427,7 @@
     },
     "Booster": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -2689,7 +2672,7 @@
     },
     "Fighter": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -2928,7 +2911,7 @@
     },
     "Triple Shot": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -3081,12 +3064,13 @@
         ],
         "tier": 3,
         "upgradesTo": [
-            "Penta Shot"
+            "Penta Shot",
+            "Ordnance"
         ]
     },
     "Penta Shot": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -3330,7 +3314,7 @@
     },
     "Ordnance": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -3548,7 +3532,7 @@
     },
     "Finger": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -3624,17 +3608,11 @@
             ]
         ],
         "tier": 3,
-        "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder"
-        ]
+        "upgradesTo": []
     },
     "Hexa Guard": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -3901,17 +3879,13 @@
         ],
         "tier": 3,
         "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder"
+            "Hexa-Trapper"
         ]
     },
     "Auto-3": {
         "Forced Auto Spin": true,
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -4140,7 +4114,7 @@
     "Auto-4": {
         "Forced Auto Spin": true,
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -4619,7 +4593,7 @@
     },
     "Wrench": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -4893,7 +4867,7 @@
     },
     "send help": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -5464,7 +5438,7 @@
     },
     "Spanner": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -5782,7 +5756,7 @@
     },
     "Engineer": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -5854,17 +5828,11 @@
             ]
         ],
         "tier": 4,
-        "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder"
-        ]
+        "upgradesTo": []
     },
     "Launcher": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -5945,7 +5913,7 @@
     "Architect": {
         "Forced Auto Spin": true,
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3
         },
         "Skill Upgrades": [
@@ -6167,7 +6135,7 @@
     },
     "Director": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3,
             "Max Drones": 6
         },
@@ -6239,17 +6207,14 @@
         ],
         "tier": 2,
         "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder",
-            "Triple Guard"
+            "Director-Drive",
+            "Overseer",
+            "Foreman"
         ]
     },
     "Director-Drive": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3,
             "Max Drones": 6
         },
@@ -6326,19 +6291,12 @@
                 0
             ]
         ],
-        "tier": 2,
-        "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder",
-            "Triple Guard"
-        ]
+        "tier": 3,
+        "upgradesTo": []
     },
     "Overseer": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3,
             "Max Drones": 8
         },
@@ -6450,17 +6408,13 @@
         ],
         "tier": 3,
         "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder",
-            "Triple Guard"
+            "Foreman",
+            "Overlord"
         ]
     },
     "Overlord": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3,
             "Max Drones": 8
         },
@@ -6652,19 +6606,14 @@
                 3
             ]
         ],
-        "tier": 3,
+        "tier": 4,
         "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder",
-            "Triple Guard"
+            "Headman"
         ]
     },
     "Foreman": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3,
             "Max Drones": 2
         },
@@ -6786,17 +6735,12 @@
         ],
         "tier": 4,
         "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder",
-            "Triple Guard"
+            "Headman"
         ]
     },
     "Headman": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3,
             "Max Drones": 5
         },
@@ -7009,18 +6953,11 @@
             ]
         ],
         "tier": 5,
-        "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder",
-            "Triple Guard"
-        ]
+        "upgradesTo": []
     },
     "Giga Cheese": {
         "Base Stats": {
-            "hp": 30,
+            "hp": 50,
             "dmg": 3,
             "Max Drones": 1
         },

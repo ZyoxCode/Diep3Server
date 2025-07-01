@@ -66,7 +66,7 @@ export class Game { // Might actually extend this class for different game types
             spawnX = (Math.random() - 0.5) * (this.mapSize / 2)
             spawnY = (Math.random() - 0.5) * (this.mapSize / 2)
         }
-        this.playerDict[id] = new Player(id, spawnX, spawnY, 0, 'Basic', this.upgradeCurves, this.constants.startScore);
+        this.playerDict[id] = new Player(id, "Unnamed Tank", spawnX, spawnY, 0, 'Basic', this.upgradeCurves, this.constants.startScore);
         this.addScore(this.playerDict[id], 0)
     }
 
@@ -300,7 +300,7 @@ export class Game { // Might actually extend this class for different game types
         this.messagesToBroadcast.push({ 'id': id, 'message': `You killed ${prefix} ${poly.polygonType}` })
     }
     makePlayerKillMessage(id1, id2) {
-        this.messagesToBroadcast.push({ 'id': id1, 'message': `You killed ${this.playerDict[id2].id}'s ${this.playerDict[id2].tankoidPreset}!` })
+        this.messagesToBroadcast.push({ 'id': id1, 'message': `You killed ${this.playerDict[id2].username}'s ${this.playerDict[id2].tankoidPreset}!` })
     }
     scoreTransfer(object1, object2) {
 
@@ -367,6 +367,20 @@ export class Game { // Might actually extend this class for different game types
             }
         }
 
+    }
+
+    upgradeCull(id) {
+        let player = this.playerDict[id];
+        player.currentDrones = 0;
+
+        for (let i = this.projectileList.length - 1; i >= 0; i--) {
+            {
+                if (this.projectileList[i].id == id && this.projectileList[i].constructor.name == 'Drone') {
+
+                    this.projectileList.splice(i, 1)
+                }
+            }
+        }
     }
 
     updateLeaderboard() {
