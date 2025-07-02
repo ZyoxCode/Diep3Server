@@ -97,7 +97,7 @@ export class Player extends Tankoid {
         }
 
 
-        if (this.hp < this.stats.maxHp) {
+        if (this.hp < this.stats.maxHp && this.hp > 0) {
             this.hp += HEAL_RATE
         }
 
