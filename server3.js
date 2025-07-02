@@ -2,27 +2,23 @@
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-//import { Worker } from 'worker_threads';
-import cors from 'cors'
+import { Worker } from 'worker_threads';
+//import cors from 'cors'
 
 import * as games from './game.js'
+import { Vector } from './utils/vectors.js';
 
 const Game = new games.Game('sandbox', 'tiny')
-//const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
+const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
 
 // Set up Express app
 const app = express();
-app.use(cors({
-    origin: 'https://diep3.oggyp.com',
-    credentials: true
-}));
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "https://diep3.oggyp.com",
-        methods: ["GET", "POST"],
-        credentials: true
+        origin: "*",
+        methods: ["GET", "POST"]
     }
 });
 
@@ -175,7 +171,7 @@ io.on('connection', (socket) => {
 // let last = Date.now()
 // tickWorker.on('message', (now) => {
 
-setInterval(() => {
+tickWorker.on('message', (now) => {
     Game.messagesToBroadcast = [];
     Game.sectorLoop()
     Game.playerLoop()
@@ -329,13 +325,38 @@ setInterval(() => {
     let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList }
 
     Game.lastState = structuredClone(json)
-}, 1000 / 60);
+
+
+});
 //console.log(Date.now() - last)
 // last = Date.now()
 
 
 // });
 
+// function test2() {
+//     let transmitPlayers = {};
+//     for (let id in Game.playerDict) {
+//         let player = Game.playerDict[id]
+
+//         transmitPlayers[player.id] = { 'id': player.id, 'username': player.username, 'rotation': player.rotation, 'position': player.position, 'joints': player.joints, 'hp': player.hp, 'stats': { 'maxHp': player.maxHp }, 'upgradesTo': player.upgradesTo, 'level': player.level, 'score': player.score, 'tankoidPreset': player.tankoidPreset, 'allocatablePoints': player.allocatablePoints, 'fadeTimer': player.fadeTimer, 'flashTimer': player.flashTimer, 'size': player.size, 'allowedUpgrade': player.allowedUpgrade, 'skillUpgrades': player.skillUpgrades }
+
+//     }
+//     let transmitProjectiles = [];
+//     for (let proj of Game.projectileList) {
+
+//         transmitProjectiles.push({ 'position': proj.position, 'id': proj.id, 'rotation': proj.rotation, 'joints': proj.joints, 'tankoidPreset': proj.tankoidPreset, 'flashTimer': proj.flashTimer, 'fadeTimer': proj.fadeTimer, 'size': proj.size })
+//     }
+
+//     let transmitPolys = [];
+//     for (let poly of Game.polygonList) {
+//         transmitPolys.push({ 'position': poly.position, 'maxHp': poly.maxHp, 'hp': poly.hp, 'rotation': poly.rotation, 'size': poly.size, 'flashTimer': poly.flashTimer, 'fadeTimer': poly.fadeTimer, 'sides': poly.sides, 'polygonType': poly.polygonType })
+
+//     }
+
+//     //console.log(Buffer.byteLength(JSON.stringify(transmitPlayers), 'utf8'))
+//     io.emit('gameState', { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList });
+// }
 
 
 // Start the server

@@ -5,6 +5,7 @@ import { Joint } from "./joints.js";
 import { AutoTurret } from "./autoturret.js";
 import { roundToDecimalPlaces } from "../../utils/utils.js";
 
+const HEAL_RATE = 0.05;
 
 const tankoids = JSON.parse(
     await readFile(
@@ -19,7 +20,7 @@ export class Player extends Tankoid {
     constructor(id, username, x, y, r, tankoidPreset = 'Basic', upgradeCurves = {}, score = 10000, size = 4, dx = 0, dy = 0, dr = 0) {
         super(x, y, r, dx, dy, dr, tankoidPreset);
 
-
+        this.firstTransmit = true;
         this.mousePos = new Vector(x, y)
         this.superType = 'player';
         this.id = id;
@@ -93,6 +94,11 @@ export class Player extends Tankoid {
 
         if (this.flashTimer > 0) {
             this.flashTimer += -1
+        }
+
+
+        if (this.hp < this.stats.maxHp) {
+            this.hp += HEAL_RATE
         }
 
         if (this.hp == 0) {

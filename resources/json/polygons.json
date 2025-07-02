@@ -104,7 +104,7 @@
         ],
         "stats": {
             "score": 100,
-            "maxHp": 225,
+            "maxHp": 100,
             "size": 2.5,
             "damagePerTick": 1
         },

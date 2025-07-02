@@ -45,7 +45,7 @@ export class Game { // Might actually extend this class for different game types
         }
 
         this.playerDict = {};
-        this.lastPlayerDict = {};
+        this.lastState = {};
         this.projectileList = [];
         this.polygonList = [];
         this.immovableObjectList = [];
