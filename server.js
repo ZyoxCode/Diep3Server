@@ -205,17 +205,11 @@ setInterval(() => {
         transmitProjectiles.push({ 'position': proj.position, 'id': proj.id, 'rotation': proj.rotation, 'joints': proj.joints, 'tankoidPreset': proj.tankoidPreset, 'flashTimer': proj.flashTimer, 'fadeTimer': proj.fadeTimer, 'size': proj.size })
     }
 
-    let transmitPolys = [];
-    for (let poly of Game.polygonList) {
-        transmitPolys.push({ 'position': poly.position, 'maxHp': poly.maxHp, 'hp': poly.hp, 'rotation': poly.rotation, 'size': poly.size, 'flashTimer': poly.flashTimer, 'fadeTimer': poly.fadeTimer, 'sides': poly.sides, 'polygonType': poly.polygonType })
-
-    }
 
     for (let idSelf in sockets) {
         let transmitPlayers = {};
         for (let id in Game.playerDict) {
             let player = Game.playerDict[id]
-
 
             let transmitStats = [];
             if (id == idSelf) {
@@ -261,10 +255,7 @@ setInterval(() => {
                 if (Game.playerDict[idSelf].firstTransmit == true) {
                     //console.log('ello')
                     for (let stat of transmitStats) {
-
-
                         transmitDict[stat] = player[stat];
-
                     }
                 } else {
                     for (let stat of transmitStats) {
@@ -289,8 +280,54 @@ setInterval(() => {
             transmitPlayers[player.id] = transmitDict
         }
 
-        let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList }
-        //console.log(Buffer.byteLength(JSON.stringify(transmitPlayers), 'utf8'))
+        let transmitPolys = {};
+        for (let id in Game.polygonList) {
+            let poly = Game.polygonList[id]
+
+            let transmitStats = [
+                'position',
+                'maxHp',
+                'polygonType',
+                'hp',
+                'rotation',
+                'size',
+                'flashTimer',
+                'fadeTimer',
+                'sides'
+            ];
+
+            let transmitDict = {};
+
+            if ('polygons' in Game.lastState && id in Game.lastState.polygons) {
+                if (Game.playerDict[idSelf].firstTransmit == true) {
+                    //console.log('ello')
+                    for (let stat of transmitStats) {
+                        transmitDict[stat] = poly[stat];
+                    }
+                } else {
+                    for (let stat of transmitStats) {
+
+                        const stat1 = Game.polygonList[id][stat]
+                        const stat2 = Game.lastState.polygons[id][stat]
+
+                        if (!(JSON.stringify(stat1) === JSON.stringify(stat2))) {
+                            transmitDict[stat] = poly[stat];
+                        }
+                    }
+                }
+            } else {
+                for (let stat of transmitStats) {
+                    transmitDict[stat] = poly[stat];
+                }
+            }
+
+            transmitPolys[id] = transmitDict;
+
+        }
+
+
+        let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList, 'fullPlayerList': Object.keys(Game.playerDict), 'fullPolygonList': Object.keys(Game.polygonList) }
+        //console.log(Buffer.byteLength(JSON.stringify(transmitPlayers), 'utf8'), Buffer.byteLength(JSON.stringify(transmitProjectiles), 'utf8'), Buffer.byteLength(JSON.stringify(transmitPolys), 'utf8'))
         Game.playerDict[idSelf].firstTransmit = false;
         sockets[idSelf].emit('gameState', json);
     }
@@ -316,14 +353,30 @@ setInterval(() => {
     ]
     for (let id in Game.playerDict) {
 
-
-
         //console.log(id)
         transmitPlayers[id] = {}
         for (let stat of transmitStats) {
-
             transmitPlayers[id][stat] = Game.playerDict[id][stat];
+        }
+    }
 
+    let transmitPolys = {};
+    transmitStats = [
+        'position',
+        'maxHp',
+        'polygonType',
+        'hp',
+        'rotation',
+        'size',
+        'flashTimer',
+        'fadeTimer',
+        'sides'
+    ];
+
+    for (let id in Game.polygonList) {
+        transmitPolys[id] = {}
+        for (let stat of transmitStats) {
+            transmitPolys[id][stat] = Game.polygonList[id][stat];
         }
     }
     let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList }

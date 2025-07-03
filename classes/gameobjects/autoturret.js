@@ -35,7 +35,8 @@ export class AutoTurret {
         let lowestDistance = this.baseTargetingRange
 
         if (this.targetingMode == 'default') {
-            for (let poly of polygons) {
+            for (let id in polygons) {
+                let poly = polygons[id]
                 //console.log(poly.position, centerPos)
                 let vectorTo = getVectorFromTo(centerPos, poly.position)
                 //console.log(lowestDistance)

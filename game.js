@@ -47,7 +47,7 @@ export class Game { // Might actually extend this class for different game types
         this.playerDict = {};
         this.lastState = {};
         this.projectileList = [];
-        this.polygonList = [];
+        this.polygonList = {};
         this.immovableObjectList = [];
         this.emissions = [];
 
@@ -89,7 +89,7 @@ export class Game { // Might actually extend this class for different game types
                     }
                 }
                 if (collided == false) {
-                    this.polygonList.push(polygon)
+                    this.polygonList[Date.now()] = polygon
                 }
             }
         }
@@ -155,7 +155,7 @@ export class Game { // Might actually extend this class for different game types
     }
 
     playerPolyCollision(player) {
-        for (let poly of this.polygonList) {
+        for (const [id, poly] of Object.entries(this.polygonList)) {
             if (poly.hp > 0 && player.hp > 0) {
                 let collided = this.collisionEngine.collisionHandler(player, poly)
                 if (collided == true) {
@@ -229,7 +229,7 @@ export class Game { // Might actually extend this class for different game types
     }
 
     projectilePolyCollision(proj) {
-        for (let poly of this.polygonList) {
+        for (const [id, poly] of Object.entries(this.polygonList)) {
             if (poly.hp > 0 && proj.stats.lifespan > 0) {
                 let collided = this.collisionEngine.collisionHandler(proj, poly)
                 if (collided == true) {
@@ -243,16 +243,16 @@ export class Game { // Might actually extend this class for different game types
     }
 
     polyLoop() {
-        for (const [i, poly] of this.polygonList.entries()) {
+        for (const [id, poly] of Object.entries(this.polygonList)) {
             poly.tickCalc()
             this.immovableCollision(poly);
-            this.polyPolyCollision(i, poly)
+            this.polyPolyCollision(id, poly)
         }
     }
 
-    polyPolyCollision(i1, poly1) {
-        for (const [i2, poly2] of this.polygonList.entries()) {
-            if (i1 != i2 && poly1.hp > 0 && poly2.hp > 0) {
+    polyPolyCollision(id1, poly1) {
+        for (const [id2, poly2] of Object.entries(this.polygonList)) {
+            if (id1 != id2 && poly1.hp > 0 && poly2.hp > 0) {
                 let collided = this.collisionEngine.collisionHandler(poly1, poly2)
                 if (collided == true) {
                     if (poly1.hp <= 0 || poly2.hp <= 0) {
@@ -264,10 +264,12 @@ export class Game { // Might actually extend this class for different game types
     }
 
     cullObjects() {
-        for (let i = this.polygonList.length - 1; i >= 0; i--) {
-            if (this.polygonList[i].fadeTimer <= 0) {
-                this.mapSectors[this.polygonList[i].sectorId].spawnCount += -1;
-                this.polygonList.splice(i, 1)
+        for (let [id, poly] of Object.entries(this.polygonList)) {
+
+            if (poly.fadeTimer <= 0) {
+                console.log(poly.fadeTimer)
+                this.mapSectors[this.polygonList[id].sectorId].spawnCount += -1;
+                delete this.polygonList[id]
             }
         }
 

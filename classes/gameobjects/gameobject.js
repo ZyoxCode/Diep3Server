@@ -617,7 +617,8 @@ export class Drone extends Projectile {
         let targetingVector = 'None';
         let lowestDistance = this.targetingDistance
 
-        for (let poly of polygons) {
+        for (let id in polygons) {
+            let poly = polygons[id]
             //console.log(poly.position, centerPos)
             let vectorTo = getVectorFromTo(this.position, poly.position)
             //console.log(lowestDistance)
