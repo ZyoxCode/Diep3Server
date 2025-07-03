@@ -2,27 +2,23 @@
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-//import { Worker } from 'worker_threads';
-import cors from 'cors'
+import { Worker } from 'worker_threads';
+//import cors from 'cors'
 
 import * as games from './game.js'
+import { Vector } from './utils/vectors.js';
 
 const Game = new games.Game('sandbox', 'tiny')
-//const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
+const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
 
 // Set up Express app
 const app = express();
-app.use(cors({
-    origin: 'https://diep3.oggyp.com',
-    credentials: true
-}));
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "https://diep3.oggyp.com",
-        methods: ["GET", "POST"],
-        credentials: true
+        origin: "*",
+        methods: ["GET", "POST"]
     }
 });
 
@@ -172,8 +168,10 @@ io.on('connection', (socket) => {
     });
 });
 
+// let last = Date.now()
+// tickWorker.on('message', (now) => {
 
-setInterval(() => {
+tickWorker.on('message', (now) => {
     Game.messagesToBroadcast = [];
     Game.sectorLoop()
     Game.playerLoop()
@@ -222,7 +220,8 @@ setInterval(() => {
                         const stat2 = Game.lastState.leaderboard.entries[id][stat]
 
                         if (!(JSON.stringify(stat1) === JSON.stringify(stat2))) {
-                            transmitDict[stat] = Game.lb.entries[id][stat];
+                            console.log(stat, stat1)
+                            transmitDict[stat] = stat1;
                         }
                     }
                 }
@@ -350,10 +349,7 @@ setInterval(() => {
             transmitPolys[id] = transmitDict;
 
         }
-
-
-
-
+        //console.log(transmitLb)
         let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': transmitLb, 'immovables': Game.immovableObjectList, 'fullPlayerList': Object.keys(Game.playerDict), 'fullPolygonList': Object.keys(Game.polygonList) }
         //console.log(Buffer.byteLength(JSON.stringify(transmitPlayers), 'utf8'), Buffer.byteLength(JSON.stringify(transmitProjectiles), 'utf8'), Buffer.byteLength(JSON.stringify(transmitPolys), 'utf8'), Buffer.byteLength(JSON.stringify(transmitLb), 'utf8'))
         Game.playerDict[idSelf].firstTransmit = false;
@@ -410,14 +406,9 @@ setInterval(() => {
     let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList }
 
     Game.lastState = structuredClone(json)
-}, 1000 / 60);
-//console.log(Date.now() - last)
-// last = Date.now()
 
 
-// });
-
-
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;

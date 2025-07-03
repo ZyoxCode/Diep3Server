@@ -2,23 +2,27 @@
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-import { Worker } from 'worker_threads';
-//import cors from 'cors'
+//import { Worker } from 'worker_threads';
+import cors from 'cors'
 
 import * as games from './game.js'
-import { Vector } from './utils/vectors.js';
 
 const Game = new games.Game('sandbox', 'tiny')
-const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
+//const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
 
 // Set up Express app
 const app = express();
+app.use(cors({
+    origin: 'https://diep3.oggyp.com',
+    credentials: true
+}));
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
+        origin: "https://diep3.oggyp.com",
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
@@ -168,10 +172,8 @@ io.on('connection', (socket) => {
     });
 });
 
-// let last = Date.now()
-// tickWorker.on('message', (now) => {
 
-tickWorker.on('message', (now) => {
+setInterval(() => {
     Game.messagesToBroadcast = [];
     Game.sectorLoop()
     Game.playerLoop()
@@ -201,26 +203,36 @@ tickWorker.on('message', (now) => {
         transmitProjectiles.push({ 'position': proj.position, 'id': proj.id, 'rotation': proj.rotation, 'joints': proj.joints, 'tankoidPreset': proj.tankoidPreset, 'flashTimer': proj.flashTimer, 'fadeTimer': proj.fadeTimer, 'size': proj.size })
     }
 
-    let transmitLb = {}
-    for (let id in Game.lb.entries) {
-        let transmitDict = {}
-        if ('leaderboard' in Game.lastState && id in Game.lastState.leaderboard.entries) {
-            for (let stat in Game.lb.entries[id]) {
-                const stat1 = Game.lb.entries[id][stat]
-                const stat2 = Game.lastState.leaderboard.entries[id][stat]
 
-                if (!(JSON.stringify(stat1) === JSON.stringify(stat2))) {
-                    transmitDict[stat] = Game.lb.entries[id][stat];
-                }
-            }
-        } else {
-            transmitDict = Game.lb.entries[id]
-        }
-        transmitLb[id] = transmitDict
-    }
 
 
     for (let idSelf in sockets) {
+        let transmitLb = {}
+        for (let id in Game.lb.entries) {
+            let transmitDict = {}
+            if ('leaderboard' in Game.lastState && id in Game.lastState.leaderboard.entries) {
+                if (Game.playerDict[idSelf].firstTransmit == true) {
+
+                    for (let stat in Game.lb.entries[id]) {
+                        transmitDict[stat] = Game.lb.entries[id][stat];
+                    }
+                } else {
+                    for (let stat in Game.lb.entries[id]) {
+                        const stat1 = Game.lb.entries[id][stat]
+                        const stat2 = Game.lastState.leaderboard.entries[id][stat]
+
+                        if (!(JSON.stringify(stat1) === JSON.stringify(stat2))) {
+                            transmitDict[stat] = Game.lb.entries[id][stat];
+                        }
+                    }
+                }
+
+            } else {
+                transmitDict = Game.lb.entries[id]
+            }
+            transmitLb[id] = transmitDict
+        }
+
         let transmitPlayers = {};
         for (let id in Game.playerDict) {
             let player = Game.playerDict[id]
@@ -398,9 +410,14 @@ tickWorker.on('message', (now) => {
     let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList }
 
     Game.lastState = structuredClone(json)
+}, 1000 / 60);
+//console.log(Date.now() - last)
+// last = Date.now()
 
 
-});
+// });
+
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

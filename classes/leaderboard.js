@@ -14,10 +14,10 @@ export class Leaderboard {
         this.topN = topN
         this.entryMaxWidth = entryMaxWidth;
         this.entryMaxHeight = entryMaxHeight;
-        this.entries = []
+        this.entries = {};
     }
     buildLeaderboard(players) {
-        this.scoreToId = []
+        this.scoreToId = [];
         for (let id in players) {
             this.scoreToId.push({ 'id': id, 'score': players[id].score })
         }
@@ -26,6 +26,7 @@ export class Leaderboard {
         for (let i in this.scoreToId) {
             this.entries[this.scoreToId[i].id] = new LeaderboardEntry(players[this.scoreToId[i].id].username, players[this.scoreToId[i].id].score, players[this.scoreToId[i].id].tankoidPreset, parseInt(i))
         }
+        // console.log(this.entries)
 
     }
 }
