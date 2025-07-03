@@ -6,10 +6,9 @@ import { Worker } from 'worker_threads';
 //import cors from 'cors'
 
 import * as games from './game.js'
-import { Vector } from './utils/vectors.js';
 
 const Game = new games.Game('sandbox', 'tiny')
-const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
+//const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
 
 // Set up Express app

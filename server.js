@@ -179,7 +179,7 @@ io.on('connection', (socket) => {
 // let last = Date.now()
 // tickWorker.on('message', (now) => {
 
-tickWorker.on('message', (now) => {
+setInterval(() => {
     Game.messagesToBroadcast = [];
     Game.sectorLoop()
     Game.playerLoop()
@@ -415,7 +415,7 @@ tickWorker.on('message', (now) => {
     Game.lastState = structuredClone(json)
 
 
-});
+}, 1000 / 60);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
