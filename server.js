@@ -176,9 +176,10 @@ io.on('connection', (socket) => {
     });
 });
 
+// let last = Date.now()
+// tickWorker.on('message', (now) => {
 
-
-setInterval(() => {
+tickWorker.on('message', (now) => {
     Game.messagesToBroadcast = [];
     Game.sectorLoop()
     Game.playerLoop()
@@ -412,14 +413,9 @@ setInterval(() => {
     let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList }
 
     Game.lastState = structuredClone(json)
-}, 1000 / 60);
-//console.log(Date.now() - last)
-// last = Date.now()
 
 
-// });
-
-
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;
