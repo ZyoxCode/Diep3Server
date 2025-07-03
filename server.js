@@ -203,26 +203,36 @@ setInterval(() => {
         transmitProjectiles.push({ 'position': proj.position, 'id': proj.id, 'rotation': proj.rotation, 'joints': proj.joints, 'tankoidPreset': proj.tankoidPreset, 'flashTimer': proj.flashTimer, 'fadeTimer': proj.fadeTimer, 'size': proj.size })
     }
 
-    let transmitLb = {}
-    for (let id in Game.lb.entries) {
-        let transmitDict = {}
-        if ('leaderboard' in Game.lastState && id in Game.lastState.leaderboard.entries) {
-            for (let stat in Game.lb.entries[id]) {
-                const stat1 = Game.lb.entries[id][stat]
-                const stat2 = Game.lastState.leaderboard.entries[id][stat]
 
-                if (!(JSON.stringify(stat1) === JSON.stringify(stat2))) {
-                    transmitDict[stat] = Game.lb.entries[id][stat];
-                }
-            }
-        } else {
-            transmitDict = Game.lb.entries[id]
-        }
-        transmitLb[id] = transmitDict
-    }
 
 
     for (let idSelf in sockets) {
+        let transmitLb = {}
+        for (let id in Game.lb.entries) {
+            let transmitDict = {}
+            if ('leaderboard' in Game.lastState && id in Game.lastState.leaderboard.entries) {
+                if (Game.playerDict[idSelf].firstTransmit == true) {
+
+                    for (let stat in Game.lb.entries[id]) {
+                        transmitDict[stat] = player[stat];
+                    }
+                } else {
+                    for (let stat in Game.lb.entries[id]) {
+                        const stat1 = Game.lb.entries[id][stat]
+                        const stat2 = Game.lastState.leaderboard.entries[id][stat]
+
+                        if (!(JSON.stringify(stat1) === JSON.stringify(stat2))) {
+                            transmitDict[stat] = Game.lb.entries[id][stat];
+                        }
+                    }
+                }
+
+            } else {
+                transmitDict = Game.lb.entries[id]
+            }
+            transmitLb[id] = transmitDict
+        }
+
         let transmitPlayers = {};
         for (let id in Game.playerDict) {
             let player = Game.playerDict[id]
