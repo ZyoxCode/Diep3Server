@@ -172,8 +172,6 @@ io.on('connection', (socket) => {
     });
 });
 
-// let last = Date.now()
-// tickWorker.on('message', (now) => {
 
 setInterval(() => {
     Game.messagesToBroadcast = [];
@@ -203,6 +201,24 @@ setInterval(() => {
     for (let proj of Game.projectileList) {
 
         transmitProjectiles.push({ 'position': proj.position, 'id': proj.id, 'rotation': proj.rotation, 'joints': proj.joints, 'tankoidPreset': proj.tankoidPreset, 'flashTimer': proj.flashTimer, 'fadeTimer': proj.fadeTimer, 'size': proj.size })
+    }
+
+    let transmitLb = {}
+    for (let id in Game.lb.entries) {
+        let transmitDict = {}
+        if ('leaderboard' in Game.lastState && id in Game.lastState.leaderboard.entries) {
+            for (let stat in Game.lb.entries[id]) {
+                const stat1 = Game.lb.entries[id][stat]
+                const stat2 = Game.lastState.leaderboard.entries[id][stat]
+
+                if (!(JSON.stringify(stat1) === JSON.stringify(stat2))) {
+                    transmitDict[stat] = Game.lb.entries[id][stat];
+                }
+            }
+        } else {
+            transmitDict = Game.lb.entries[id]
+        }
+        transmitLb[id] = transmitDict
     }
 
 
@@ -326,8 +342,10 @@ setInterval(() => {
         }
 
 
-        let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList, 'fullPlayerList': Object.keys(Game.playerDict), 'fullPolygonList': Object.keys(Game.polygonList) }
-        //console.log(Buffer.byteLength(JSON.stringify(transmitPlayers), 'utf8'), Buffer.byteLength(JSON.stringify(transmitProjectiles), 'utf8'), Buffer.byteLength(JSON.stringify(transmitPolys), 'utf8'))
+
+
+        let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': transmitLb, 'immovables': Game.immovableObjectList, 'fullPlayerList': Object.keys(Game.playerDict), 'fullPolygonList': Object.keys(Game.polygonList) }
+        //console.log(Buffer.byteLength(JSON.stringify(transmitPlayers), 'utf8'), Buffer.byteLength(JSON.stringify(transmitProjectiles), 'utf8'), Buffer.byteLength(JSON.stringify(transmitPolys), 'utf8'), Buffer.byteLength(JSON.stringify(transmitLb), 'utf8'))
         Game.playerDict[idSelf].firstTransmit = false;
         sockets[idSelf].emit('gameState', json);
     }

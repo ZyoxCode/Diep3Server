@@ -267,7 +267,7 @@ export class Game { // Might actually extend this class for different game types
         for (let [id, poly] of Object.entries(this.polygonList)) {
 
             if (poly.fadeTimer <= 0) {
-                console.log(poly.fadeTimer)
+                //console.log(poly.fadeTimer)
                 this.mapSectors[this.polygonList[id].sectorId].spawnCount += -1;
                 delete this.polygonList[id]
             }

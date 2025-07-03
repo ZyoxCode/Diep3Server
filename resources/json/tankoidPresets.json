@@ -5599,7 +5599,8 @@
                 "baseDelay": 50,
                 "Multipliers": {
                     "size": 0.4
-                }
+                },
+                "Recoil Multiplier": 0.1
             },
             {
                 "Joint Path": [
@@ -5623,7 +5624,8 @@
                 "baseDelay": 50,
                 "Multipliers": {
                     "size": 0.4
-                }
+                },
+                "Recoil Multiplier": 0.1
             },
             {
                 "Joint Path": [
@@ -5647,7 +5649,8 @@
                 "baseDelay": 50,
                 "Multipliers": {
                     "size": 0.4
-                }
+                },
+                "Recoil Multiplier": 0.1
             },
             {
                 "Joint Path": [
@@ -5669,7 +5672,8 @@
                 "baseDelay": 50,
                 "Multipliers": {
                     "size": 0.8
-                }
+                },
+                "Recoil Multiplier": 0.1
             }
         ],
         "Firing Order": [
