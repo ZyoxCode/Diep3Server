@@ -6426,7 +6426,7 @@
         "Firing Points": [],
         "Firing Order": [],
         "Base Stats": {
-            "hp": 9,
+            "hp": 5,
             "dmg": 2,
             "size": 0.8,
             "speed": 0.6,
@@ -6439,10 +6439,10 @@
         "Firing Points": [],
         "Firing Order": [],
         "Base Stats": {
-            "hp": 8,
+            "hp": 4,
             "dmg": 3,
             "size": 1.6,
-            "speed": 1,
+            "speed": 0.6,
             "lifespan": 600
         }
     },
@@ -6510,10 +6510,10 @@
         ],
         "Firing Order": [],
         "Base Stats": {
-            "hp": 8,
+            "hp": 4,
             "dmg": 3,
             "size": 1.9,
-            "speed": 0.8,
+            "speed": 0.6,
             "lifespan": 600
         },
         "Auto Turrets": [

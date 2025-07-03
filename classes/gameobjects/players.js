@@ -87,12 +87,12 @@ export class Player extends Tankoid {
         }
 
         if (this.moveReq == true) {
-            this.velocity.x += Math.cos(this.moveReqAngle) * 0.03 * this.playerSpeedLambda;
-            this.velocity.y += Math.sin(this.moveReqAngle) * 0.03 * this.playerSpeedLambda;
+            this.velocity.x += Math.cos(this.moveReqAngle) * 0.025 * this.playerSpeedLambda;
+            this.velocity.y += Math.sin(this.moveReqAngle) * 0.025 * this.playerSpeedLambda;
         }
 
-        this.velocity.x = this.velocity.x * 0.9
-        this.velocity.y = this.velocity.y * 0.9
+        this.velocity.x = this.velocity.x * 0.92
+        this.velocity.y = this.velocity.y * 0.92
 
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
