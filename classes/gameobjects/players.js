@@ -37,9 +37,16 @@ export class Player extends Tankoid {
         this.skillUpgrades = {};
         this.score = score;
 
-        for (let skill of tankoids[tankoidPreset]['Skill Upgrades']) {
-            this.skillUpgrades[skill.Name] = { 'level': 0, 'color': skill.Color }
+        if (!('Skill Upgrades' in tankoids[tankoidPreset])) {
+            for (let skill of tankoids['Default']['Skill Upgrades']) {
+                this.skillUpgrades[skill.Name] = { 'level': 0, 'color': skill.Color }
+            }
+        } else {
+            for (let skill of tankoids[tankoidPreset]['Skill Upgrades']) {
+                this.skillUpgrades[skill.Name] = { 'level': 0, 'color': skill.Color }
+            }
         }
+
 
         this.level = 1;
         this.allowedUpgrade = false;
@@ -67,9 +74,7 @@ export class Player extends Tankoid {
         this.hitBoxRadius = this.size; // fix for apothem
 
         this.reverser = false;
-
-
-
+        this.playerSpeedLambda = 1;
 
         this.updateStatsOnUpgrade()
 
@@ -82,12 +87,12 @@ export class Player extends Tankoid {
         }
 
         if (this.moveReq == true) {
-            this.velocity.x += Math.cos(this.moveReqAngle) * 0.02;
-            this.velocity.y += Math.sin(this.moveReqAngle) * 0.02;
+            this.velocity.x += Math.cos(this.moveReqAngle) * 0.03 * this.playerSpeedLambda;
+            this.velocity.y += Math.sin(this.moveReqAngle) * 0.03 * this.playerSpeedLambda;
         }
 
-        this.velocity.x = this.velocity.x * 0.95
-        this.velocity.y = this.velocity.y * 0.95
+        this.velocity.x = this.velocity.x * 0.9
+        this.velocity.y = this.velocity.y * 0.9
 
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
@@ -187,13 +192,13 @@ export class Player extends Tankoid {
         // HP
 
         let newMaxHp = this.upgradeCurves[this.upgradePreset]['Max Health'][this.skillUpgrades['Max Health'].level];
+        this.playerSpeedLambda = this.upgradeCurves[this.upgradePreset]['Movement Speed'][this.skillUpgrades['Movement Speed'].level];
 
         this.hp = this.hp * (newMaxHp / this.stats.maxHp);
         this.stats.maxHp = newMaxHp;
         this.maxHp = newMaxHp
 
         for (let firingPoint of this.firingPoints) {
-            //console.log(firingPoint['Base Multipliers'])
             if (!('speed' in firingPoint['Multipliers'])) {
                 firingPoint['Multipliers'].speed = 1
             }
@@ -206,11 +211,17 @@ export class Player extends Tankoid {
             if (!('dmg' in firingPoint['Base Multipliers'])) {
                 firingPoint['Base Multipliers'].dmg = 1
             }
+            if (!('hp' in firingPoint['Multipliers'])) {
+                firingPoint['Multipliers'].hp = 1
+            }
+            if (!('hp' in firingPoint['Base Multipliers'])) {
+                firingPoint['Base Multipliers'].hp = 1
+            }
 
             firingPoint['Multipliers'].speed = roundToDecimalPlaces(this.upgradeCurves[this.upgradePreset]['Bullet Speed'][this.skillUpgrades['Bullet Speed'].level] * firingPoint['Base Multipliers'].speed, 2)
             firingPoint['Multipliers'].dmg = roundToDecimalPlaces(this.upgradeCurves[this.upgradePreset]['Bullet Damage'][this.skillUpgrades['Bullet Damage'].level] * firingPoint['Base Multipliers'].dmg, 0)
+            firingPoint['Multipliers'].hp = roundToDecimalPlaces(this.upgradeCurves[this.upgradePreset]['Bullet Health'][this.skillUpgrades['Bullet Health'].level] * firingPoint['Base Multipliers'].hp, 0)
             firingPoint.delay = roundToDecimalPlaces(firingPoint.baseDelay * this.upgradeCurves[this.upgradePreset]['Reload Speed'][this.skillUpgrades['Reload Speed'].level], 0)
-
         }
     }
 }

@@ -144,9 +144,16 @@ export class Tankoid extends GameObject { // tankoid means basically anything th
             if (!('dmg' in firingPoint['Base Multipliers'])) {
                 firingPoint['Base Multipliers'].dmg = 1
             }
+            if (!('hp' in firingPoint['Multipliers'])) {
+                firingPoint['Multipliers'].hp = 1
+            }
+            if (!('hp' in firingPoint['Base Multipliers'])) {
+                firingPoint['Base Multipliers'].hp = 1
+            }
 
             firingPoint['Multipliers'].speed = roundToDecimalPlaces(this.upgradeCurves[this.upgradePreset]['Bullet Speed'][this.skillUpgrades['Bullet Speed'].level] * firingPoint['Base Multipliers'].speed, 2)
             firingPoint['Multipliers'].dmg = roundToDecimalPlaces(this.upgradeCurves[this.upgradePreset]['Bullet Damage'][this.skillUpgrades['Bullet Damage'].level] * firingPoint['Base Multipliers'].dmg, 0)
+            firingPoint['Multipliers'].hp = roundToDecimalPlaces(this.upgradeCurves[this.upgradePreset]['Bullet Health'][this.skillUpgrades['Bullet Health'].level] * firingPoint['Base Multipliers'].hp, 0)
             firingPoint.delay = roundToDecimalPlaces(firingPoint.baseDelay * this.upgradeCurves[this.upgradePreset]['Reload Speed'][this.skillUpgrades['Reload Speed'].level], 0)
 
         }
@@ -420,6 +427,8 @@ export class Projectile extends Tankoid {
         // SIZE
         this.size = this.stats.size;
         this.hp = this.stats.hp
+
+        //console.log(this.hp)
 
 
         // HITBOX

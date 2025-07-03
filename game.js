@@ -50,6 +50,7 @@ export class Game { // Might actually extend this class for different game types
         this.polygonList = {};
         this.immovableObjectList = [];
         this.emissions = [];
+        this.chatMessagesToAdd = [];
 
         this.collisionEngine = new physics.Collider()
         this.lb = new lbd.Leaderboard(10, 100, 10)
@@ -207,11 +208,13 @@ export class Game { // Might actually extend this class for different game types
 
             if (proj.constructor.name == 'Drone') {
 
-                proj.extras.toPos = this.playerDict[proj.id].mousePos;
-                proj.reversed = this.playerDict[proj.id].reverser;
-                proj.honing = (this.playerDict[proj.id].requestingFire || this.playerDict[proj.id].autofire);
-                proj.parentPosition = (this.playerDict[proj.id].position)
-                proj.tracker(this.polygonList, this.playerDict)
+                if (Object.keys(this.playerDict).includes(proj.id)) {
+                    proj.extras.toPos = this.playerDict[proj.id].mousePos;
+                    proj.reversed = this.playerDict[proj.id].reverser;
+                    proj.honing = (this.playerDict[proj.id].requestingFire || this.playerDict[proj.id].autofire);
+                    proj.parentPosition = (this.playerDict[proj.id].position)
+                    proj.tracker(this.polygonList, this.playerDict)
+                }
             }
         }
     }

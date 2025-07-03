@@ -137,6 +137,10 @@ io.on('connection', (socket) => {
 
     });
 
+    socket.on('sendChatMessage', (data) => {
+        Game.chatMessagesToAdd.push({ 'id': socket.id, 'message': data })
+    });
+
     socket.on('tankUpgradeRequest', (data) => {
         Game.playerDict[socket.id].switchPreset(data);
         Game.upgradeCull(socket.id);
@@ -173,6 +177,7 @@ io.on('connection', (socket) => {
 });
 
 
+
 setInterval(() => {
     Game.messagesToBroadcast = [];
     Game.sectorLoop()
@@ -203,9 +208,6 @@ setInterval(() => {
         transmitProjectiles.push({ 'position': proj.position, 'id': proj.id, 'rotation': proj.rotation, 'joints': proj.joints, 'tankoidPreset': proj.tankoidPreset, 'flashTimer': proj.flashTimer, 'fadeTimer': proj.fadeTimer, 'size': proj.size })
     }
 
-
-
-
     for (let idSelf in sockets) {
         let transmitLb = {}
         for (let id in Game.lb.entries) {
@@ -222,7 +224,8 @@ setInterval(() => {
                         const stat2 = Game.lastState.leaderboard.entries[id][stat]
 
                         if (!(JSON.stringify(stat1) === JSON.stringify(stat2))) {
-                            transmitDict[stat] = Game.lb.entries[id][stat];
+                            //console.log(stat, stat1)
+                            transmitDict[stat] = stat1;
                         }
                     }
                 }
@@ -326,7 +329,7 @@ setInterval(() => {
 
             if ('polygons' in Game.lastState && id in Game.lastState.polygons) {
                 if (Game.playerDict[idSelf].firstTransmit == true) {
-                    //console.log('ello')
+
                     for (let stat of transmitStats) {
                         transmitDict[stat] = poly[stat];
                     }
@@ -350,15 +353,14 @@ setInterval(() => {
             transmitPolys[id] = transmitDict;
 
         }
+        //console.log(transmitLb)
 
-
-
-
-        let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': transmitLb, 'immovables': Game.immovableObjectList, 'fullPlayerList': Object.keys(Game.playerDict), 'fullPolygonList': Object.keys(Game.polygonList) }
+        let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': transmitLb, 'immovables': Game.immovableObjectList, 'fullPlayerList': Object.keys(Game.playerDict), 'fullPolygonList': Object.keys(Game.polygonList), 'chatMessages': Game.chatMessagesToAdd }
         //console.log(Buffer.byteLength(JSON.stringify(transmitPlayers), 'utf8'), Buffer.byteLength(JSON.stringify(transmitProjectiles), 'utf8'), Buffer.byteLength(JSON.stringify(transmitPolys), 'utf8'), Buffer.byteLength(JSON.stringify(transmitLb), 'utf8'))
         Game.playerDict[idSelf].firstTransmit = false;
         sockets[idSelf].emit('gameState', json);
     }
+    Game.chatMessagesToAdd = [];
     let transmitPlayers = {};
     let transmitStats = [
         'id',

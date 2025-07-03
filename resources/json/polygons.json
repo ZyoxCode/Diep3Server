@@ -44,7 +44,7 @@
         ],
         "stats": {
             "score": 100,
-            "maxHp": 80,
+            "maxHp": 70,
             "size": 3.5,
             "damagePerTick": 1
         },
@@ -83,7 +83,7 @@
         ],
         "stats": {
             "score": 500,
-            "maxHp": 150,
+            "maxHp": 125,
             "size": 5,
             "damagePerTick": 1
         },
@@ -134,7 +134,7 @@
         ],
         "stats": {
             "score": 250,
-            "maxHp": 75,
+            "maxHp": 150,
             "size": 3.5,
             "damagePerTick": 1
         },
@@ -194,7 +194,7 @@
         ],
         "stats": {
             "score": 500,
-            "maxHp": 75,
+            "maxHp": 150,
             "size": 4,
             "damagePerTick": 1
         },
@@ -224,7 +224,7 @@
         ],
         "stats": {
             "score": 1000,
-            "maxHp": 150,
+            "maxHp": 250,
             "size": 5,
             "damagePerTick": 1
         },

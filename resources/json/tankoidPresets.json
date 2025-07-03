@@ -1,13 +1,17 @@
 {
-    "Basic": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
+    "Default": {
         "Skill Upgrades": [
             {
-                "Name": "Max Health",
-                "Color": "squareYellow"
+                "Name": "Movement Speed",
+                "Color": "hexagonBlue"
+            },
+            {
+                "Name": "Reload Speed",
+                "Color": "green1"
+            },
+            {
+                "Name": "Bullet Health",
+                "Color": "green2"
             },
             {
                 "Name": "Bullet Damage",
@@ -18,10 +22,16 @@
                 "Color": "pentagonBlue"
             },
             {
-                "Name": "Reload Speed",
-                "Color": "green1"
+                "Name": "Max Health",
+                "Color": "squareYellow"
             }
-        ],
+        ]
+    },
+    "Basic": {
+        "Base Stats": {
+            "hp": 50,
+            "dmg": 3
+        },
         "Joints": [
             [
                 4,
@@ -86,24 +96,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 2.7,
@@ -202,24 +194,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -281,24 +255,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4.4,
@@ -358,24 +314,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -440,24 +378,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -520,24 +440,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -600,24 +502,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -763,24 +647,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -1137,24 +1003,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -1216,24 +1064,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -1337,24 +1167,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -1624,24 +1436,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -2114,24 +1908,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -2270,24 +2046,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -2430,24 +2188,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -2675,24 +2415,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -2914,24 +2636,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -3073,24 +2777,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -3317,24 +3003,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -3535,24 +3203,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -3615,24 +3265,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -3888,24 +3520,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 3.5,
@@ -4117,24 +3731,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 3.5,
@@ -4596,24 +4192,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -4870,24 +4448,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -5441,24 +5001,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -5763,24 +5305,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -5839,24 +5363,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -5920,24 +5426,6 @@
             "hp": 50,
             "dmg": 3
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 3.5,
@@ -6143,24 +5631,6 @@
             "dmg": 3,
             "Max Drones": 6
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -6222,24 +5692,6 @@
             "dmg": 3,
             "Max Drones": 6
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -6304,24 +5756,6 @@
             "dmg": 3,
             "Max Drones": 8
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -6422,24 +5856,6 @@
             "dmg": 3,
             "Max Drones": 8
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -6621,24 +6037,6 @@
             "dmg": 3,
             "Max Drones": 2
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -6704,7 +6102,7 @@
                 "Multipliers": {
                     "size": 2,
                     "hp": 2,
-                    "speed": 0.6
+                    "speed": 0.8
                 }
             },
             {
@@ -6727,7 +6125,7 @@
                 "Multipliers": {
                     "size": 2,
                     "hp": 2,
-                    "speed": 0.6
+                    "speed": 0.8
                 }
             }
         ],
@@ -6748,24 +6146,6 @@
             "dmg": 3,
             "Max Drones": 5
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -6873,7 +6253,7 @@
                 "Multipliers": {
                     "size": 2,
                     "hp": 2,
-                    "speed": 0.6
+                    "speed": 0.8
                 }
             },
             {
@@ -6896,7 +6276,7 @@
                 "Multipliers": {
                     "size": 2,
                     "hp": 2,
-                    "speed": 0.6
+                    "speed": 0.8
                 }
             },
             {
@@ -6919,7 +6299,7 @@
                 "Multipliers": {
                     "size": 2,
                     "hp": 2,
-                    "speed": 0.6
+                    "speed": 0.8
                 }
             },
             {
@@ -6942,7 +6322,7 @@
                 "Multipliers": {
                     "size": 2,
                     "hp": 2,
-                    "speed": 0.6
+                    "speed": 0.8
                 }
             }
         ],
@@ -6965,24 +6345,6 @@
             "dmg": 3,
             "Max Drones": 1
         },
-        "Skill Upgrades": [
-            {
-                "Name": "Max Health",
-                "Color": "squareYellow"
-            },
-            {
-                "Name": "Bullet Damage",
-                "Color": "triangleRed"
-            },
-            {
-                "Name": "Bullet Speed",
-                "Color": "pentagonBlue"
-            },
-            {
-                "Name": "Reload Speed",
-                "Color": "green1"
-            }
-        ],
         "Joints": [
             [
                 4,
@@ -7244,7 +6606,7 @@
             "hp": 9,
             "dmg": 2,
             "size": 2.3,
-            "speed": 0.6,
+            "speed": 0.4,
             "lifespan": 600
         }
     },
