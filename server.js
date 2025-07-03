@@ -214,7 +214,7 @@ setInterval(() => {
                 if (Game.playerDict[idSelf].firstTransmit == true) {
 
                     for (let stat in Game.lb.entries[id]) {
-                        transmitDict[stat] = player[stat];
+                        transmitDict[stat] = Game.lb.entries[id][stat];
                     }
                 } else {
                     for (let stat in Game.lb.entries[id]) {
