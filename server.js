@@ -12,11 +12,16 @@ const Game = new games.Game('sandbox', 'tiny')
 
 
 const app = express();
+app.use(cors({
+    origin: 'https://diep3.oggyp.com',
+    credentials: true
+}));
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
+        origin: "https://diep3.oggyp.com",
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
