@@ -7,7 +7,7 @@ import cors from 'cors'
 
 import * as games from './game.js'
 
-const Game = new games.Game('sandbox', 'tiny')
+const Game = new games.Game('sandbox', 'small')
 //const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
 
