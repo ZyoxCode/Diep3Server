@@ -11,18 +11,12 @@ const Game = new games.Game('sandbox', 'tiny')
 //const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
 
-// Set up Express app
 const app = express();
-app.use(cors({
-    origin: 'https://diep3.oggyp.com',
-    credentials: true
-}));
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "https://diep3.oggyp.com",
-        methods: ["GET", "POST"],
-        credentials: true
+        origin: "*",
+        methods: ["GET", "POST"]
     }
 });
 
@@ -30,13 +24,14 @@ const io = new Server(server, {
 let sockets = {};
 
 
-const MAP_SIZE = 200;
+const MAP_SIZE = 300;
 const GRID_INTERVAL = 5;
-const globalMoveSpeed = 0.02;
 
 
 const STARTING_SCORE = 100;
 const STARTING_SIZE = 5;
+
+const adminKey = 'adminKey'; // yes i know very secure only temporary
 
 
 // Handle new socket connections
@@ -49,6 +44,7 @@ io.on('connection', (socket) => {
         grid_interval: GRID_INTERVAL,
         starting_score: STARTING_SCORE,
         starting_size: STARTING_SIZE,
+        'immovables': Game.immovableObjectList,
         x: 0,
         y: 0,
     });
@@ -109,36 +105,41 @@ io.on('connection', (socket) => {
 
     });
 
-
     socket.on('moveStop', (moveInfo) => {
 
         Game.playerDict[socket.id].moveReq = false;
 
     });
 
-    socket.on('changeTankRequest', (data) => {
-
-
-        Game.playerDict[socket.id].switchPreset(data.name)
-        Game.upgradeCull(socket.id);
-        // if (success == false) {
-        //     socket.emit('addBroadcast', { 'text': `Invalid tank name: ${data.name}` })
-        // }
-
-    });
-
     socket.on('setUsername', (data) => {
 
-
         Game.playerDict[socket.id].username = data.username
-        // if (success == false) {
-        //     socket.emit('addBroadcast', { 'text': `Invalid tank name: ${data.name}` })
-        // }
 
     });
 
     socket.on('sendChatMessage', (data) => {
-        Game.chatMessagesToAdd.push({ 'id': socket.id, 'message': data })
+
+        let message = data;
+        if (message.startsWith('$')) {
+            if (message.startsWith('auth', 1)) {
+                if (message.startsWith(adminKey, 6)) {
+                    socket.emit('addBroadcast', { 'text': 'Admin Granted' })
+                    Game.playerDict[socket.id].isAdmin = true;
+                } else {
+                    socket.emit('addBroadcast', { 'text': 'Incorrect Authorisation Key' })
+                }
+            } else if (message.startsWith('change', 1)) {
+                if (Game.playerDict[socket.id].isAdmin = true) {
+                    Game.playerDict[socket.id].switchPreset(message.slice(8))
+                    Game.upgradeCull(socket.id);
+                } else {
+                    socket.emit('addBroadcast', { 'text': 'Insufficient Privileges' })
+                }
+            }
+        } else {
+            Game.chatMessagesToAdd.push({ 'id': socket.id, 'message': data })
+        }
+
     });
 
     socket.on('tankUpgradeRequest', (data) => {
@@ -176,8 +177,6 @@ io.on('connection', (socket) => {
     });
 });
 
-// let last = Date.now()
-// tickWorker.on('message', (now) => {
 
 setInterval(() => {
     Game.messagesToBroadcast = [];
@@ -186,6 +185,7 @@ setInterval(() => {
     Game.projectileLoop()
     Game.polyLoop()
     Game.cullObjects()
+    Game.restrictAllObjects()
     Game.updateLeaderboard()
 
 
@@ -203,13 +203,54 @@ setInterval(() => {
         sockets[message.id].emit('addBroadcast', { 'text': message.message })
     }
 
-    let transmitProjectiles = [];
-    for (let proj of Game.projectileList) {
-
-        transmitProjectiles.push({ 'position': proj.position, 'id': proj.id, 'rotation': proj.rotation, 'joints': proj.joints, 'tankoidPreset': proj.tankoidPreset, 'flashTimer': proj.flashTimer, 'fadeTimer': proj.fadeTimer, 'size': proj.size })
-    }
 
     for (let idSelf in sockets) {
+
+
+        let transmitProjectiles = {}
+        for (let id in Game.projectileList) {
+            let transmitStats = [
+                'position',
+                'id',
+                'tankoidPreset',
+                'joints',
+                'rotation',
+                'size',
+                'flashTimer',
+                'fadeTimer'
+            ];
+
+            let transmitDict = {}
+            if ('projectiles' in Game.lastState && id in Game.lastState.projectiles) {
+
+
+                if (Game.playerDict[idSelf].firstTransmit == true) {
+
+                    for (let stat of transmitStats) {
+
+                        transmitDict[stat] = Game.projectileList[id][stat];
+                    }
+                } else {
+                    for (let stat of transmitStats) {
+
+                        const stat1 = Game.projectileList[id][stat]
+                        const stat2 = Game.lastState.projectiles[id][stat]
+
+                        if (!(JSON.stringify(stat1) === JSON.stringify(stat2))) {
+                            //console.log(stat, stat1)
+                            transmitDict[stat] = stat1;
+
+                        }
+                    }
+                }
+
+            } else {
+                transmitDict = Game.projectileList[id]
+            }
+            transmitProjectiles[id] = transmitDict
+        }
+
+
         let transmitLb = {}
         for (let id in Game.lb.entries) {
             let transmitDict = {}
@@ -217,6 +258,7 @@ setInterval(() => {
                 if (Game.playerDict[idSelf].firstTransmit == true) {
 
                     for (let stat in Game.lb.entries[id]) {
+                        //console.log(stat)
                         transmitDict[stat] = Game.lb.entries[id][stat];
                     }
                 } else {
@@ -286,6 +328,7 @@ setInterval(() => {
                     //console.log('ello')
                     for (let stat of transmitStats) {
                         transmitDict[stat] = player[stat];
+
                     }
                 } else {
                     for (let stat of transmitStats) {
@@ -294,6 +337,7 @@ setInterval(() => {
                         const stat2 = Game.lastState.players[id][stat]
 
                         if (!(JSON.stringify(stat1) === JSON.stringify(stat2))) {
+
                             transmitDict[stat] = player[stat];
                         }
                     }
@@ -303,11 +347,14 @@ setInterval(() => {
             } else {
                 for (let stat of transmitStats) {
                     transmitDict[stat] = player[stat];
+
                 }
             }
 
 
             transmitPlayers[player.id] = transmitDict
+
+
         }
 
         let transmitPolys = {};
@@ -327,6 +374,7 @@ setInterval(() => {
             ];
 
             let transmitDict = {};
+
 
             if ('polygons' in Game.lastState && id in Game.lastState.polygons) {
                 if (Game.playerDict[idSelf].firstTransmit == true) {
@@ -356,8 +404,8 @@ setInterval(() => {
         }
         //console.log(transmitLb)
 
-        let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': transmitLb, 'immovables': Game.immovableObjectList, 'fullPlayerList': Object.keys(Game.playerDict), 'fullPolygonList': Object.keys(Game.polygonList), 'chatMessages': Game.chatMessagesToAdd }
-        //console.log(Buffer.byteLength(JSON.stringify(transmitPlayers), 'utf8'), Buffer.byteLength(JSON.stringify(transmitProjectiles), 'utf8'), Buffer.byteLength(JSON.stringify(transmitPolys), 'utf8'), Buffer.byteLength(JSON.stringify(transmitLb), 'utf8'))
+        let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': transmitLb, 'chatMessages': Game.chatMessagesToAdd }
+        //console.log("Total bytes sent this tick:", Buffer.byteLength(JSON.stringify(json), 'utf8'))
         Game.playerDict[idSelf].firstTransmit = false;
         sockets[idSelf].emit('gameState', json);
     }
@@ -410,7 +458,26 @@ setInterval(() => {
             transmitPolys[id][stat] = Game.polygonList[id][stat];
         }
     }
-    let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb, 'immovables': Game.immovableObjectList }
+
+    let transmitProjectiles = {};
+    transmitStats = [
+        'position',
+        'id',
+        'tankoidPreset',
+        'joints',
+        'rotation',
+        'size',
+        'flashTimer',
+        'fadeTimer'
+    ];
+
+    for (let id in Game.projectileList) {
+        transmitProjectiles[id] = {}
+        for (let stat of transmitStats) {
+            transmitProjectiles[id][stat] = Game.projectileList[id][stat];
+        }
+    }
+    let json = { 'players': transmitPlayers, 'projectiles': transmitProjectiles, 'polygons': transmitPolys, 'leaderboard': Game.lb }
 
     Game.lastState = structuredClone(json)
 

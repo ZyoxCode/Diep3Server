@@ -46,7 +46,7 @@ export class Game { // Might actually extend this class for different game types
 
         this.playerDict = {};
         this.lastState = {};
-        this.projectileList = [];
+        this.projectileList = {};
         this.polygonList = {};
         this.immovableObjectList = [];
         this.emissions = [];
@@ -56,8 +56,18 @@ export class Game { // Might actually extend this class for different game types
         this.lb = new lbd.Leaderboard(10, 100, 10)
         this.messagesToBroadcast = [];
 
-        this.immovableObjectList.push(new ImmovableObject(50, 50, 0, 10, 8))
-        this.immovableObjectList.push(new ImmovableObject(0, 50, 45, 10, 4))
+        this.immovableObjectList.push(new ImmovableObject(0, 111, 0, 10, 12))
+        this.immovableObjectList.push(new ImmovableObject(40, 128, 42, 8, 8))
+        this.immovableObjectList.push(new ImmovableObject(-45, 122, -10, 7, 7))
+        this.immovableObjectList.push(new ImmovableObject(-2, 140, -1, 9, 10))
+        this.immovableObjectList.push(new ImmovableObject(-34, 137, -1, 5, 7))
+
+        this.immovableObjectList.push(new ImmovableObject(0, -111, 0, 10, 12))
+        this.immovableObjectList.push(new ImmovableObject(-40, -128, 42, 8, 8))
+        this.immovableObjectList.push(new ImmovableObject(45, -122, -10, 7, 7))
+        this.immovableObjectList.push(new ImmovableObject(2, -140, -1, 9, 10))
+        this.immovableObjectList.push(new ImmovableObject(34, -137, -1, 5, 7))
+        //this.immovableObjectList.push(new ImmovableObject(0, 50, 45, 10, 4))
 
     }
 
@@ -65,21 +75,22 @@ export class Game { // Might actually extend this class for different game types
         let spawnX = x;
         let spawnY = y;
         if (x == 'random' && y == 'random') {
-            spawnX = (Math.random() - 0.5) * (this.mapSize / 2)
-            spawnY = (Math.random() - 0.5) * (this.mapSize / 2)
+            spawnX = (Math.random() - 0.5) * (this.mapSize / 2) * 2
+            spawnY = (Math.random() - 0.5) * (this.mapSize / 2) * 2
         }
         this.playerDict[id] = new Player(id, name, spawnX, spawnY, 0, 'Basic', this.upgradeCurves, this.constants.startScore);
         this.addScore(this.playerDict[id], 0)
     }
 
     removePlayer(id) {
+        this.upgradeCull(id)
         delete this.playerDict[id]
     }
 
     sectorLoop() {
         let spawnResult;
         for (const [i, sector] of this.mapSectors.entries()) {
-            //console.log(sector)
+
             spawnResult = sector.spawnTick();
             if (spawnResult != 'None') {
                 let polygon = new Polygon(i, ...spawnResult)
@@ -90,7 +101,7 @@ export class Game { // Might actually extend this class for different game types
                     }
                 }
                 if (collided == false) {
-                    this.polygonList[Date.now()] = polygon
+                    this.polygonList[Date.now().toString(36) + Math.random().toString(36).substring(2)] = polygon
                 }
             }
         }
@@ -104,7 +115,8 @@ export class Game { // Might actually extend this class for different game types
                 let newProjectiles = player.scheduleFiring()
                 for (let projectile of newProjectiles) {
                     if (projectile != 'None') {
-                        this.projectileList.push(projectile)
+
+                        this.projectileList[Date.now().toString(36) + Math.random().toString(36).substring(2)] = projectile
                     }
                 }
             }
@@ -114,7 +126,7 @@ export class Game { // Might actually extend this class for different game types
                 let newProjectiles = player.scheduleAutoTurretFiring()
                 for (let projectile of newProjectiles) {
                     if (projectile != 'None') {
-                        this.projectileList.push(projectile)
+                        this.projectileList[Date.now().toString(36) + Math.random().toString(36).substring(2)] = projectile
                     }
 
                 }
@@ -171,7 +183,8 @@ export class Game { // Might actually extend this class for different game types
     }
 
     playerProjectileCollision(player) {
-        for (let proj of this.projectileList) {
+        for (let id in this.projectileList) {
+            let proj = this.projectileList[id]
             if (player.hp > 0 && proj.stats.lifespan > 0 && player.id != proj.id) {
                 let collided = this.collisionEngine.collisionHandler(player, proj)
                 player.ticksSinceLastHit = 0;
@@ -183,8 +196,7 @@ export class Game { // Might actually extend this class for different game types
     }
 
     projectileLoop() {
-        for (const [i, proj] of this.projectileList.entries()) {
-            //console.log(proj)
+        for (const [i, proj] of Object.entries(this.projectileList)) {
             proj.tick()
             this.immovableCollision(proj);
             this.projectilePolyCollision(proj)
@@ -195,14 +207,14 @@ export class Game { // Might actually extend this class for different game types
                 let newProjectiles = proj.scheduleAutoTurretFiring()
                 for (let projectile of newProjectiles) {
 
-                    this.projectileList.push(projectile)
+                    this.projectileList[Date.now().toString(36) + Math.random().toString(36).substring(2)] = projectile
                 }
             }
             if (proj.hp > 0) {
                 let newProjectiles = proj.scheduleFiring()
                 for (let projectile of newProjectiles) {
 
-                    this.projectileList.push(projectile)
+                    this.projectileList[Date.now().toString(36) + Math.random().toString(36).substring(2)] = projectile
                 }
             }
 
@@ -220,11 +232,11 @@ export class Game { // Might actually extend this class for different game types
     }
 
     projectileProjectileCollision(i1, proj1) {
-        for (const [i2, proj2] of this.projectileList.entries()) {
+        for (const [i2, proj2] of Object.entries(this.projectileList)) {
             if (i1 != i2 && proj1.stats.lifespan > 0 && proj2.stats.lifespan > 0) {
                 if (proj1.id != proj2.id) {
                     let collided = this.collisionEngine.collisionHandler(proj1, proj2)
-                } else if (proj1.constructor.name == proj2.constructor.name) {
+                } else if (proj1.constructor.name == proj2.constructor.name && proj1.constructor.name != 'Bullet') {
                     let collided = this.collisionEngine.collisionHandler(proj1, proj2)
                 }
             }
@@ -265,7 +277,38 @@ export class Game { // Might actually extend this class for different game types
             }
         }
     }
+    restrictObjectToMapBoundaries(object) {
 
+        if (object.position.x > this.mapSize / 2) {
+            object.position.x = this.mapSize / 2 - 0.01
+            object.velocity.x = 0;
+        }
+        if (object.position.x < - this.mapSize / 2) {
+            object.position.x = -(this.mapSize / 2 - 0.01)
+            object.velocity.x = 0;
+        }
+        if (object.position.y > this.mapSize / 2) {
+            object.position.y = this.mapSize / 2 - 0.01
+            object.velocity.y = 0;
+        }
+        if (object.position.y < - this.mapSize / 2) {
+            object.position.y = -(this.mapSize / 2 - 0.01)
+            object.velocity.y = 0;
+        }
+
+
+    }
+    restrictAllObjects() {
+        for (let [id, player] of Object.entries(this.playerDict)) {
+            this.restrictObjectToMapBoundaries(player)
+        }
+        for (let [id, poly] of Object.entries(this.polygonList)) {
+            this.restrictObjectToMapBoundaries(poly)
+        }
+        for (let [id, proj] of Object.entries(this.projectileList)) {
+            this.restrictObjectToMapBoundaries(proj)
+        }
+    }
     cullObjects() {
         for (let [id, poly] of Object.entries(this.polygonList)) {
 
@@ -276,12 +319,12 @@ export class Game { // Might actually extend this class for different game types
             }
         }
 
-        for (let i = this.projectileList.length - 1; i >= 0; i--) {
-            if (this.projectileList[i].fadeTimer <= 0) {
-                if (this.projectileList[i].constructor.name == 'Drone') {
-                    this.playerDict[this.projectileList[i].id].currentDrones += -1;
+        for (let [id, proj] of Object.entries(this.projectileList)) {
+            if (proj.fadeTimer <= 0) {
+                if (proj.constructor.name == 'Drone') {
+                    this.playerDict[proj.id].currentDrones += -1;
                 }
-                this.projectileList.splice(i, 1)
+                delete this.projectileList[id]
 
             }
         }
@@ -290,9 +333,9 @@ export class Game { // Might actually extend this class for different game types
             if (player.fadeTimer <= 0) {
                 let oldName = player.username
                 this.removePlayer(id)
-                for (let i in this.projectileList) {
-                    if (this.projectileList[this.projectileList.length - 1 - i].id == id) {
-                        this.projectileList[this.projectileList.length - 1 - i].hp = 0;
+                for (let id1 in this.projectileList) {
+                    if (this.projectileList[id1].id == id) {
+                        this.projectileList[id1].hp = 0;
                     }
                 }
                 this.addPlayer(id, 'random', 'random', oldName)
@@ -380,11 +423,11 @@ export class Game { // Might actually extend this class for different game types
         let player = this.playerDict[id];
         player.currentDrones = 0;
 
-        for (let i = this.projectileList.length - 1; i >= 0; i--) {
+        for (let id1 in this.projectileList) {
             {
-                if (this.projectileList[i].id == id && this.projectileList[i].constructor.name == 'Drone') {
+                if (this.projectileList[id1].id == id && this.projectileList[id1].constructor.name == 'Drone') {
 
-                    this.projectileList.splice(i, 1)
+                    delete this.projectileList[id1]
                 }
             }
         }

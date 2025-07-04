@@ -3243,7 +3243,7 @@
                         0
                     ]
                 ],
-                "baseDelay": 200,
+                "baseDelay": 300,
                 "Multipliers": {
                     "speed": 2.5,
                     "hp": 1.2,
@@ -5616,14 +5616,8 @@
                 "targetingMode": "mouse"
             }
         ],
-        "tier": 3,
-        "upgradesTo": [
-            "Twin",
-            "Machine Gun",
-            "Trapper",
-            "Sniper",
-            "Pounder"
-        ]
+        "tier": 4,
+        "upgradesTo": []
     },
     "Director": {
         "Base Stats": {

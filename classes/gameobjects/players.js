@@ -20,6 +20,7 @@ export class Player extends Tankoid {
     constructor(id, username, x, y, r, tankoidPreset = 'Basic', upgradeCurves = {}, score = 10000, size = 4, dx = 0, dy = 0, dr = 0) {
         super(x, y, r, dx, dy, dr, tankoidPreset);
 
+        this.isAdmin = false;
         this.firstTransmit = true;
         this.mousePos = new Vector(x, y)
         this.superType = 'player';
