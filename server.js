@@ -134,7 +134,7 @@ io.on('connection', (socket) => {
                     socket.emit('addBroadcast', { 'text': 'Incorrect Authorisation Key' })
                 }
             } else if (message.startsWith('change', 1)) {
-                if (Game.playerDict[socket.id].isAdmin = true) {
+                if (Game.playerDict[socket.id].isAdmin == true) {
                     Game.playerDict[socket.id].switchPreset(message.slice(8))
                     Game.upgradeCull(socket.id);
                 } else {
