@@ -331,7 +331,8 @@ export class Game { // Might actually extend this class for different game types
 
         for (let [id, player] of Object.entries(this.playerDict)) {
             if (player.fadeTimer <= 0) {
-                let oldName = player.username
+                let oldName = player.username;
+                let hadAdmin = player.isAdmin;
                 this.removePlayer(id)
                 for (let id1 in this.projectileList) {
                     if (this.projectileList[id1].id == id) {
@@ -339,6 +340,7 @@ export class Game { // Might actually extend this class for different game types
                     }
                 }
                 this.addPlayer(id, 'random', 'random', oldName)
+                this.playerDict[id].isAdmin = hadAdmin;
             }
         }
     }
