@@ -6,10 +6,7 @@ import { Server } from 'socket.io'
 import cors from 'cors'
 
 import * as games from './game.js'
-
-const Game = new games.Game('sandbox', 'small')
 //const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
-
 
 const app = express();
 app.use(cors({
@@ -24,6 +21,9 @@ const io = new Server(server, {
         credentials: true
     }
 });
+
+// REPLACE BELOW THIS
+const Game = new games.Game('sandbox', 'small')
 
 // Track connected players
 let sockets = {};
