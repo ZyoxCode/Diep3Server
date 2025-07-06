@@ -67,7 +67,6 @@ export class Game { // Might actually extend this class for different game types
         this.immovableObjectList.push(new ImmovableObject(45, -122, -10, 7, 7))
         this.immovableObjectList.push(new ImmovableObject(2, -140, -1, 9, 10))
         this.immovableObjectList.push(new ImmovableObject(34, -137, -1, 5, 7))
-        //this.immovableObjectList.push(new ImmovableObject(0, 50, 45, 10, 4))
 
     }
 
@@ -158,10 +157,6 @@ export class Game { // Might actually extend this class for different game types
                     player1.ticksSinceLastHit = 0;
                     player2.ticksSinceLastHit = 0;
                 }
-                // I also think the health transfer should be done outside the collider object
-                // I think score transfer should be done at the end and tracked by some idLastHitBy variable or something
-                // if (collided)
-                // Going to leave score transfer for the moment because it should be specific to mode rules
             }
 
         }
@@ -418,7 +413,16 @@ export class Game { // Might actually extend this class for different game types
 
             }
         }
-
+        if (player.level - 1 in this.levellingInfo.scoreThresholds) {
+            player.lastLevelScore = this.levellingInfo.scoreThresholds[player.level - 1]
+        } else {
+            player.lastLevelScore = 'None'
+        }
+        if (player.level in this.levellingInfo.scoreThresholds) {
+            player.nextLevelScore = this.levellingInfo.scoreThresholds[player.level]
+        } else {
+            player.nextLevelScore = 'None'
+        }
     }
 
     upgradeCull(id) {

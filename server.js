@@ -2,28 +2,26 @@
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-//import { Worker } from 'worker_threads';
-import cors from 'cors'
+import { Worker } from 'worker_threads';
+
+//import cors from 'cors'
 
 import * as games from './game.js'
-//const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
+import { kickHammer } from './utils/commands.js';
 
+const Game = new games.Game('sandbox', 'small')
+const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
+
+
+// Set up Express app
 const app = express();
-app.use(cors({
-    origin: 'https://diep3.oggyp.com',
-    credentials: true
-}));
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "https://diep3.oggyp.com",
-        methods: ["GET", "POST"],
-        credentials: true
+        origin: "*",
+        methods: ["GET", "POST"]
     }
 });
-
-// REPLACE BELOW THIS
-const Game = new games.Game('sandbox', 'small')
 
 // Track connected players
 let sockets = {};
@@ -60,6 +58,7 @@ io.on('connection', (socket) => {
     socket.on('moveReq', (moveInfo) => { // Add movement speeds for different tanks later
 
         Game.playerDict[socket.id].moveReq = true;
+        Game.playerDict[socket.id].invulnerable = false;
         Game.playerDict[socket.id].moveReqAngle = moveInfo.moveReqAngle
 
     });
@@ -75,6 +74,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('autoFireToggle', (data) => {
+        Game.playerDict[socket.id].invulnerable = false;
 
         if (Game.playerDict[socket.id].autofire == true) {
             Game.playerDict[socket.id].autofire = false;
@@ -89,12 +89,28 @@ io.on('connection', (socket) => {
 
     socket.on('requestingFire', (data) => { // Add movement speeds for different tanks later
 
-        Game.playerDict[socket.id].requestingFire = true;
+
+        if (Game.playerDict[socket.id].tools.kickHammer == true) {
+            if (Game.playerDict[socket.id].isAdmin == true) {
+                let result = kickHammer(Game, Game.playerDict[socket.id].mousePos, sockets)
+                if (result != false) {
+                    socket.emit('addBroadcast', { 'text': `Kicked player: ${result}` })
+                } else {
+                    socket.emit('addBroadcast', { 'text': 'No player there to kick' })
+                }
+            } else {
+                Game.playerDict[socket.id].tools.kickHammer = false
+            }
+        } else {
+            Game.playerDict[socket.id].requestingFire = true;
+            Game.playerDict[socket.id].invulnerable = false;
+        }
 
     });
     socket.on('activateReverser', (data) => { // Add movement speeds for different tanks later
 
         Game.playerDict[socket.id].reverser = true;
+        Game.playerDict[socket.id].invulnerable = false;
 
     });
 
@@ -125,7 +141,8 @@ io.on('connection', (socket) => {
     socket.on('sendChatMessage', (data) => {
 
         let message = data;
-        if (message.startsWith('$')) {
+
+        if (message.startsWith('$')) { // will update this a lot, this is just temporary
             if (message.startsWith('auth', 1)) {
                 if (message.startsWith(adminKey, 6)) {
                     socket.emit('addBroadcast', { 'text': 'Admin Granted' })
@@ -137,6 +154,19 @@ io.on('connection', (socket) => {
                 if (Game.playerDict[socket.id].isAdmin == true) {
                     Game.playerDict[socket.id].switchPreset(message.slice(8))
                     Game.upgradeCull(socket.id);
+                } else {
+                    socket.emit('addBroadcast', { 'text': 'Insufficient Privileges' })
+                }
+            } else if (message.startsWith('kh', 1)) { // kick hammer
+                if (Game.playerDict[socket.id].isAdmin == true) {
+                    if (message.startsWith('a', 4)) { // activate 
+                        Game.playerDict[socket.id].tools.kickHammer = true;
+                        socket.emit('addBroadcast', { 'text': 'Kick Hammer On' })
+
+                    } else if (message.startsWith('d', 4)) {
+                        Game.playerDict[socket.id].tools.kickHammer = false;
+                        socket.emit('addBroadcast', { 'text': 'Kick Hammer Off' })
+                    }
                 } else {
                     socket.emit('addBroadcast', { 'text': 'Insufficient Privileges' })
                 }
@@ -182,8 +212,7 @@ io.on('connection', (socket) => {
     });
 });
 
-
-setInterval(() => {
+tickWorker.on('message', (now) => {
     Game.messagesToBroadcast = [];
     Game.sectorLoop()
     Game.playerLoop()
@@ -198,7 +227,6 @@ setInterval(() => {
         let emission = Game.emissions[i]
         if (emission.id in sockets) {
             sockets[emission.id].emit(emission.type, emission.data)
-
         }
         Game.emissions.splice(i, 1)
 
@@ -210,7 +238,6 @@ setInterval(() => {
 
 
     for (let idSelf in sockets) {
-
 
         let transmitProjectiles = {}
         for (let id in Game.projectileList) {
@@ -308,7 +335,9 @@ setInterval(() => {
                     'flashTimer',
                     'allowedUpgrade',
                     'size',
-                    'skillUpgrades'
+                    'skillUpgrades',
+                    'lastLevelScore',
+                    'nextLevelScore'
                 ]
             } else {
                 transmitStats = [
@@ -433,7 +462,9 @@ setInterval(() => {
         'flashTimer',
         'allowedUpgrade',
         'size',
-        'skillUpgrades'
+        'skillUpgrades',
+        'lastLevelScore',
+        'nextLevelScore'
     ]
     for (let id in Game.playerDict) {
 
@@ -487,7 +518,7 @@ setInterval(() => {
     Game.lastState = structuredClone(json)
 
 
-}, 1000 / 60);
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;

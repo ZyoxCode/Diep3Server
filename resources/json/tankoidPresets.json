@@ -25,13 +25,13 @@
                 "Name": "Max Health",
                 "Color": "squareYellow"
             }
-        ]
-    },
-    "Basic": {
+        ],
         "Base Stats": {
             "hp": 50,
             "dmg": 3
-        },
+        }
+    },
+    "Basic": {
         "Joints": [
             [
                 4,
@@ -92,10 +92,6 @@
         ]
     },
     "Twin": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 2.7,
@@ -190,10 +186,6 @@
         ]
     },
     "Sniper": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -251,10 +243,6 @@
         ]
     },
     "Machine Gun": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4.4,
@@ -310,10 +298,6 @@
         "upgradesTo": []
     },
     "Pounder": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -374,10 +358,6 @@
         ]
     },
     "Trapper": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -436,10 +416,6 @@
         ]
     },
     "Destroyer": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -498,10 +474,6 @@
         "upgradesTo": []
     },
     "Tri-Trapper": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -643,10 +615,6 @@
         ]
     },
     "Hexa-Trapper": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -999,10 +967,6 @@
         ]
     },
     "Builder": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -1059,11 +1023,68 @@
             "Engineer"
         ]
     },
+    "Constructor": {
+        "Joints": [
+            [
+                4,
+                0,
+                0,
+                [
+                    [
+                        4,
+                        0,
+                        0,
+                        []
+                    ]
+                ],
+                "inherets",
+                [
+                    {
+                        "bindsTo": [
+                            "distanceMultiplier"
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "Firing Points": [
+            {
+                "Joint Path": [
+                    0,
+                    0
+                ],
+                "Summons": "Square Set Trap",
+                "Variations": {
+                    "Speed": 0.07,
+                    "Angle": 0.03
+                },
+                "Animation Joint Paths": [
+                    [
+                        0
+                    ]
+                ],
+                "baseDelay": 100,
+                "Extras": {
+                    "Spawn RV": 0.3
+                },
+                "Multipliers": {
+                    "size": 2,
+                    "hp": 2
+                }
+            }
+        ],
+        "Firing Order": [
+            [
+                0
+            ]
+        ],
+        "tier": 3,
+        "upgradesTo": [
+            "Architect",
+            "Engineer"
+        ]
+    },
     "Pen": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -1163,10 +1184,6 @@
         ]
     },
     "Tri-Pen": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -1432,10 +1449,6 @@
         ]
     },
     "Coop": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -1904,10 +1917,6 @@
         ]
     },
     "Triple Guard": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -2042,10 +2051,6 @@
         ]
     },
     "Tri-Angle": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -2184,10 +2189,6 @@
         ]
     },
     "Booster": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -2411,10 +2412,6 @@
         ]
     },
     "Fighter": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -2632,10 +2629,6 @@
         "upgradesTo": []
     },
     "Triple Shot": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -2773,10 +2766,6 @@
         ]
     },
     "Penta Shot": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -2999,10 +2988,6 @@
         ]
     },
     "Ordnance": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -3199,10 +3184,6 @@
         ]
     },
     "Finger": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -3261,10 +3242,6 @@
         "upgradesTo": []
     },
     "Hexa Guard": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -3516,10 +3493,6 @@
     },
     "Auto-3": {
         "Forced Auto Spin": true,
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 3.5,
@@ -3727,10 +3700,6 @@
     },
     "Auto-4": {
         "Forced Auto Spin": true,
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 3.5,
@@ -4188,10 +4157,6 @@
         ]
     },
     "Wrench": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -4444,10 +4409,6 @@
         ]
     },
     "send help": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -4997,10 +4958,6 @@
         ]
     },
     "Spanner": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -5301,10 +5258,6 @@
         ]
     },
     "Engineer": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -5359,10 +5312,6 @@
         "upgradesTo": []
     },
     "Launcher": {
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 4,
@@ -5422,10 +5371,6 @@
     },
     "Architect": {
         "Forced Auto Spin": true,
-        "Base Stats": {
-            "hp": 50,
-            "dmg": 3
-        },
         "Joints": [
             [
                 3.5,
@@ -5848,7 +5793,7 @@
         "Base Stats": {
             "hp": 50,
             "dmg": 3,
-            "Max Drones": 8
+            "Max Drones": 10
         },
         "Joints": [
             [
@@ -6095,7 +6040,7 @@
                 "Recoil Multiplier": 0.5,
                 "Multipliers": {
                     "size": 2,
-                    "hp": 2,
+                    "hp": 3,
                     "speed": 0.8
                 }
             },
@@ -6118,7 +6063,7 @@
                 "Recoil Multiplier": 0.5,
                 "Multipliers": {
                     "size": 2,
-                    "hp": 2,
+                    "hp": 3,
                     "speed": 0.8
                 }
             }
@@ -6246,7 +6191,7 @@
                 "Recoil Multiplier": 0.5,
                 "Multipliers": {
                     "size": 2,
-                    "hp": 2,
+                    "hp": 3,
                     "speed": 0.8
                 }
             },
@@ -6269,7 +6214,7 @@
                 "Recoil Multiplier": 0.5,
                 "Multipliers": {
                     "size": 2,
-                    "hp": 2,
+                    "hp": 3,
                     "speed": 0.8
                 }
             },
@@ -6292,7 +6237,7 @@
                 "Recoil Multiplier": 0.5,
                 "Multipliers": {
                     "size": 2,
-                    "hp": 2,
+                    "hp": 3,
                     "speed": 0.8
                 }
             },
@@ -6315,7 +6260,7 @@
                 "Recoil Multiplier": 0.5,
                 "Multipliers": {
                     "size": 2,
-                    "hp": 2,
+                    "hp": 3,
                     "speed": 0.8
                 }
             }
@@ -6674,7 +6619,7 @@
             "hp": 9,
             "dmg": 2,
             "size": 2.3,
-            "speed": 0.6,
+            "speed": 0.4,
             "lifespan": 600
         },
         "Auto Turrets": [

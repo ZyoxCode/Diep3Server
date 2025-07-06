@@ -2,24 +2,29 @@
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-import { Worker } from 'worker_threads';
-//import cors from 'cors'
+//import { Worker } from 'worker_threads';
+import cors from 'cors'
+
 
 import * as games from './game.js'
+//const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
 
-const Game = new games.Game('sandbox', 'small')
-const tickWorker = new Worker('./utils/tickWorker.js', { type: 'module' });
-
-
-// Set up Express app
 const app = express();
+app.use(cors({
+    origin: 'https://diep3.oggyp.com',
+    credentials: true
+}));
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
+        origin: "https://diep3.oggyp.com",
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
+
+// REPLACE BELOW THIS
+const Game = new games.Game('sandbox', 'small')
 
 // Track connected players
 let sockets = {};
@@ -130,7 +135,7 @@ io.on('connection', (socket) => {
                     socket.emit('addBroadcast', { 'text': 'Incorrect Authorisation Key' })
                 }
             } else if (message.startsWith('change', 1)) {
-                if (Game.playerDict[socket.id].isAdmin = true) {
+                if (Game.playerDict[socket.id].isAdmin == true) {
                     Game.playerDict[socket.id].switchPreset(message.slice(8))
                     Game.upgradeCull(socket.id);
                 } else {
@@ -178,10 +183,8 @@ io.on('connection', (socket) => {
     });
 });
 
-// let last = Date.now()
-// tickWorker.on('message', (now) => {
 
-tickWorker.on('message', (now) => {
+setInterval(() => {
     Game.messagesToBroadcast = [];
     Game.sectorLoop()
     Game.playerLoop()
@@ -485,7 +488,7 @@ tickWorker.on('message', (now) => {
     Game.lastState = structuredClone(json)
 
 
-});
+}, 1000 / 60);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

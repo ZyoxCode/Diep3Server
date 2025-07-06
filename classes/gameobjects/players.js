@@ -21,7 +21,12 @@ export class Player extends Tankoid {
         super(x, y, r, dx, dy, dr, tankoidPreset);
 
         this.isAdmin = false;
-        this.firstTransmit = true;
+        this.tools = { 'kickHammer': false }
+
+        this.firstTransmit = true; // probably move this to the init thing
+        this.invulnerable = true
+
+
         this.mousePos = new Vector(x, y)
         this.superType = 'player';
         this.id = id;
@@ -48,8 +53,10 @@ export class Player extends Tankoid {
             }
         }
 
-
         this.level = 1;
+        this.lastLevelScore = 0;
+        this.nextLevelScore = 500
+
         this.allowedUpgrade = false;
 
         this.tier = tankoids[tankoidPreset].tier;
@@ -102,6 +109,10 @@ export class Player extends Tankoid {
             this.flashTimer += -1
         }
 
+        if (this.invulnerable & this.flashTimer == 0) {
+            this.flashTimer = 20;
+        }
+
 
         if (this.hp < this.stats.maxHp && this.hp > 0) {
             this.hp += HEAL_RATE
@@ -117,8 +128,12 @@ export class Player extends Tankoid {
     }
     buildTankoid(tankoidPreset) {
 
+        if ('Base Stats' in tankoids[tankoidPreset]) {
+            this.baseStats = tankoids[tankoidPreset]['Base Stats'];
+        } else {
+            this.baseStats = tankoids['Default']['Base Stats'];
+        }
 
-        this.baseStats = tankoids[tankoidPreset]['Base Stats'];
         this.baseStats['maxHp'] = this.baseStats.hp
         this.stats = {};
         this.firingOrder = tankoids[tankoidPreset]['Firing Order'];
@@ -132,10 +147,10 @@ export class Player extends Tankoid {
 
         this.tankoidPreset = tankoidPreset
 
-
-        for (const [stat, value] of Object.entries(tankoids[tankoidPreset]['Base Stats'])) {
+        for (const [stat, value] of Object.entries(this.baseStats)) {
             this.stats[stat] = [...[value]][0];
         }
+
 
         this.maxDrones = 0;
         this.currentDrones = 0;
@@ -183,7 +198,6 @@ export class Player extends Tankoid {
                 this.autoTurrets.push(new AutoTurret(auto))
             }
         }
-
 
         this.dmg = this.stats.dmg;
         this.hp = this.stats.hp;
